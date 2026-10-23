@@ -1,0 +1,294 @@
+{
+  "nav": {
+    "services": "Services",
+    "howItWorks": "How It Works",
+    "projects": "Projects",
+    "contractors": "For Contractors",
+    "verify": "Verify Worker",
+    "forWorkers": "For Workers",
+    "login": "Log in",
+    "bookService": "Book a service"
+  },
+  "hero": {
+    "taglineLine1": "Every Worker Matters.",
+    "taglineLine2": "Every Home Counts.",
+    "subcopy": "Book trusted, cooperative-verified professionals for your home, or bring together a complete team for repair and construction projects.",
+    "ctaBook": "Book a service",
+    "ctaTeam": "Hire a team for a project",
+    "searchPlaceholder": "Try: \"my kitchen tap is leaking\" or \"need 3 painters for 4 days\"",
+    "searchButton": "Understand my need",
+    "searchChips": ["Kitchen tap leaking", "Switchboard sparking", "AC gas refilling", "Full home painting", "Mason for boundary wall"],
+    "trustAadhaar": "Aadhaar eKYC",
+    "trustBackground": "Background checked",
+    "trustSkills": "Skill certified",
+    "trustCoop": "Cooperative backed"
+  },
+  "workerCard": {
+    "verifiedBadge": "Cooperative Verified",
+    "sampleName": "Ramesh K. Sharma",
+    "sampleTrade": "Master Electrician & Wireman",
+    "rating": "4.94",
+    "jobsCount": "320+ jobs",
+    "memberId": "COOP-DL-8821",
+    "federation": "Delhi Craftsperson Guild #04",
+    "ekycVerified": "Aadhaar eKYC Done",
+    "eshramLinked": "e-Shram Linked",
+    "scanQr": "Scan to verify live credentials"
+  },
+  "why": {
+    "badge": "Why SahkarSathi",
+    "title": "A Dignified, Democratic Model for Home & Project Services",
+    "subtitle": "Built on the timeless cooperative philosophy: when craftspeople thrive with security and pride, homeowners receive superior, reliable craftsmanship.",
+    "fairTitle": "Fair opportunities for workers",
+    "fairDesc": "Work is shared fairly across verified cooperative members, not only the top-rated few.",
+    "paymentsTitle": "Transparent payments",
+    "paymentsDesc": "See the full price breakdown upfront. Workers are paid on time, with milestone payments for larger jobs.",
+    "trustedTitle": "Trusted professionals for your home",
+    "trustedDesc": "Every worker has a verified digital ID you can check before they arrive.",
+    "contractorsTitle": "Contractors and skilled workers, connected",
+    "contractorsDesc": "Contractors find skilled teams for repair and construction projects, and workers find steady work through one cooperative platform.",
+    "statement": "We treat workers as partners in a cooperative, not as just another resource."
+  },
+  "services": {
+    "badge": "Standardized Cooperative Rates",
+    "title": "Popular Cooperative Services",
+    "subtitle": "Fair, predictable pricing governed democratically. No middleman surge commissions.",
+    "from": "from",
+    "pros": "pros",
+    "find": "Find",
+    "viewAll": "View all services",
+    "note": "Standard cooperative rates. No surge pricing. No hidden commission."
+  },
+  "hireModes": {
+    "badge": "Flexible Engagement",
+    "title": "Two Ways to Hire",
+    "subtitle": "Choose single-worker assistance for immediate fixes or supervisor-led multi-trade crews for comprehensive site renovations.",
+    "singleTab": "Single worker",
+    "teamTab": "Team / Bulk hiring",
+    "singleTitle": "Individual Craftsperson for Quick Visits",
+    "singleDesc": "Ideal for household repairs, maintenance visits, or specialized diagnostic tasks. Matched directly via cooperative dispatch.",
+    "teamTitle": "Supervisor-Led Multi-Trade Crews",
+    "teamDesc": "One unified project, many skilled trades, all coordinated through a single master supervisor. No homeowner headache managing disparate contractors.",
+    "supervisorMessage": "One project, many trades, one supervisor.",
+    "supervisorRole": "Site Supervisor (Master Craftsman)",
+    "supervisorNote": "Oversees site safety, quality checks, attendance, and milestone verification."
+  },
+  "howItWorks": {
+    "badge": "Step-by-step Transparency",
+    "title": "How SahkarSathi Works",
+    "subtitle": "From requirement scoping to verified milestone completion, guaranteed by cooperative standards.",
+    "steps": [
+      {
+        "num": "01",
+        "title": "Service requirement",
+        "desc": "Describe your household repair or project scope in plain Hindi, English, or voice note."
+      },
+      {
+        "num": "02",
+        "title": "Worker verification",
+        "desc": "System matches verified trade certificates, police clearance, and e-Shram cooperative status."
+      },
+      {
+        "num": "03",
+        "title": "AI matching",
+        "desc": "Fair rotation algorithm matches nearest available member without bias or unfair bidding wars."
+      },
+      {
+        "num": "04",
+        "title": "Worker assignment",
+        "desc": "Receive digital ID profile, contact card, estimated arrival time, and upfront transparent quote."
+      },
+      {
+        "num": "05",
+        "title": "Team formation",
+        "desc": "For large projects, a designated supervisor convenes verified multi-trade crew members."
+      },
+      {
+        "num": "06",
+        "title": "Completion & feedback",
+        "desc": "Inspect work, release escrow payment, and leave reciprocal cooperative community feedback."
+      }
+    ]
+  },
+  "projects": {
+    "badge": "Commercial & Residential Projects",
+    "title": "Supervisor-Led Projects Showcase",
+    "subtitle": "Milestone payments held in escrow and released only upon supervisor approval and homeowner satisfaction.",
+    "sampleTag": "Live Demo Preview",
+    "projectTitle": "House Construction G+2 • Model Town Site",
+    "progressLabel": "Overall Project Progress",
+    "supervisorLabel": "Chief Site Supervisor",
+    "supervisorName": "Er. Vikram Singh (22 yrs exp)",
+    "assignedTeam": "Assigned Trade Crew",
+    "milestoneTitle": "Milestone Escrow Schedule",
+    "released": "Released",
+    "pending": "Escrow Pending",
+    "milestones": [
+      { "name": "Foundation & Basement PCC", "amount": "₹1,80,000", "status": "released" },
+      { "name": "Ground & First Floor Masonry", "amount": "₹2,40,000", "status": "released" },
+      { "name": "Concealed Plumbing & Electrical", "amount": "₹1,20,000", "status": "pending" },
+      { "name": "Plastering, Flooring & Finishing", "amount": "₹1,60,000", "status": "pending" }
+    ]
+  },
+  "contractors": {
+    "badge": "For General Contractors & Builders",
+    "title": "Find skilled teams for repair and construction projects",
+    "subtitle": "Overcome labor shortages, unreliable subcontractors, and daily site headaches with dependable, cooperative-vetted trade crews.",
+    "p1Title": "Post your project specifications",
+    "p1Desc": "Specify required trades, duration, timeline, and material scope in minutes.",
+    "p2Title": "Get matched with verified multi-trade teams",
+    "p2Desc": "Receive coordinated crews with designated team supervisors who guarantee attendance.",
+    "p3Title": "Track progress and milestone payments",
+    "p3Desc": "Funds stay secure in project escrow until work passes supervisor and site engineer inspections.",
+    "cta": "Register as a contractor"
+  },
+  "rights": {
+    "badge": "Worker Dignity & Verification",
+    "title": "Verified Identity & Worker Rights",
+    "subtitle": "Protecting both homeowners and workers through digital proof of credentials and collective welfare empowerment.",
+    "card1Title": "Digital Worker ID",
+    "card1Desc": "Tamper-proof digital card equipped with QR verification, verified trades, and background check records. Inspect before letting anyone enter your home.",
+    "card2Title": "Cooperative Membership",
+    "card2Desc": "Every worker is a democratic co-owner with equal voting rights, fair work allocation, and dividend shares rather than extractive platform cuts.",
+    "card3Title": "Know Your Rights & Welfare",
+    "card3Desc": "Direct linkage with government e-Shram database, accident insurance, maternity benefits, pension schemes, and minimum fair wage guidelines."
+  },
+  "comparison": {
+    "badge": "Ethical Alternative",
+    "title": "How SahkarSathi is Different",
+    "subtitle": "See how a cooperative architecture transforms gig work for homeowners, contractors, and craftspeople alike.",
+    "colFeature": "Feature",
+    "colTypical": "Typical Gig Platforms",
+    "colSahkar": "SahkarSathi Cooperative",
+    "rows": [
+      {
+        "feature": "Booking Scope",
+        "typical": "Single-worker booking only; struggle to coordinate multi-trade jobs",
+        "sahkar": "Single worker & coordinated bulk multi-trade hiring"
+      },
+      {
+        "feature": "Project Coordination",
+        "typical": "Customer coordinates multiple strangers with zero accountability",
+        "sahkar": "Dedicated supervisor-led teams handle on-site quality"
+      },
+      {
+        "feature": "Skill Architecture",
+        "typical": "Rigid fixed categories with no multi-skill recognition",
+        "sahkar": "Dynamic verified skills matrix with apprenticeships"
+      },
+      {
+        "feature": "Worker Status",
+        "typical": "Worker treated as anonymous listing or interchangeable unit",
+        "sahkar": "Cooperative member with digital ID, voting rights & welfare"
+      },
+      {
+        "feature": "Pricing Model",
+        "typical": "High commission (20-35%) plus unpredictable surge pricing",
+        "sahkar": "Democratic cooperative rates: zero surge, transparent fee"
+      },
+      {
+        "feature": "Work Allocation",
+        "typical": "Winner-takes-all algorithmic bias favoring a tiny fraction",
+        "sahkar": "Fair work sharing guaranteeing steady livelihood for all members"
+      }
+    ]
+  },
+  "impact": {
+    "badge": "Cooperative Impact Target",
+    "title": "Measuring Real Progress",
+    "subtitle": "Transforming informal gig labor into a structured, dignified, and democratic cooperative economy."
+  },
+  "forWorkers": {
+    "badge": "Worker Empowerment",
+    "title": "Join as a worker, get your digital ID",
+    "subtitle": "Be an owner, not an algorithm's commodity. Join your local craft cooperative and access steady, dignified work with full social security.",
+    "b1Title": "Fair Work Sharing",
+    "b1Desc": "No algorithm favoritism. Steady, equitable distribution of residential and commercial project requests.",
+    "b2Title": "Transparent Timely Payments",
+    "b2Desc": "Direct bank transfer upon milestone sign-off. Cooperative escrow safeguards your hard-earned wages.",
+    "b3Title": "Worker Rights & Welfare Schemes",
+    "b3Desc": "Seamless linkage to e-Shram, medical coverage, accident insurance, and skill upskilling workshops.",
+    "cta": "Join the cooperative"
+  },
+  "faq": {
+    "badge": "Answers to Common Questions",
+    "title": "Frequently Asked Questions",
+    "subtitle": "Everything you need to know about our cooperative model, pricing, and safety standards.",
+    "items": [
+      {
+        "q": "How does SahkarSathi verify workers and ensure home safety?",
+        "a": "Every craftsperson completes 4-tier verification: Aadhaar-based eKYC, independent police background verification, practical skill trade certification evaluated by cooperative master craftspeople, and formal e-Shram government linkage."
+      },
+      {
+        "q": "How are prices calculated and why is there no surge pricing?",
+        "a": "Rates are established democratically by the regional trade cooperative councils based on fair living wages and material standards. Because we are a cooperative rather than a venture-backed middleman, we don't hike prices during peak hours or rainy days."
+      },
+      {
+        "q": "How does bulk hiring and team formation work for construction or renovation?",
+        "a": "When you choose 'Hire a team', our platform assembles the exact composition of verified masons, electricians, carpenters, plumbers, and painters required. A certified Chief Supervisor manages site coordination, timeline, and quality so you only interact with one leader."
+      },
+      {
+        "q": "How does escrow payment protection work?",
+        "a": "For larger and milestone-based projects, your advance payment is held in a cooperative-governed escrow account. Funds are released to workers only after each agreed project milestone is completed and certified by both the supervisor and the customer."
+      },
+      {
+        "q": "What happens if I have a complaint or the work needs correction?",
+        "a": "All cooperative services carry a 14-day SahkarSathi Cooperative Service Guarantee. If any repair does not meet standard trade quality, the cooperative dispatches a senior master inspector to resolve it at zero additional cost."
+      },
+      {
+        "q": "How is customer and worker personal data kept private?",
+        "a": "We strictly respect data privacy. Contact numbers and addresses are shared through masked tokens until a booking is accepted. Aadhaar details are processed via UIDAI-compliant OTP tokens and are never sold or used for advertising."
+      }
+    ]
+  },
+  "finalCta": {
+    "ready": "Ready to experience cooperative quality?",
+    "sub": "Join thousands of Indian households, contractors, and craftspeople building a more equitable gig economy."
+  },
+  "footer": {
+    "about": "SahkarSathi is India's pioneer cooperative gig-services platform, restoring dignity, fair wages, and collective ownership to skilled workers while delivering trusted craftsmanship to homes and contractors.",
+    "quickLinks": "Quick Links",
+    "forCustomers": "For Customers",
+    "forPartners": "For Partners",
+    "emergencyBook": "Book an Urgent Repair",
+    "postProject": "Post a Project Scope",
+    "pricingTable": "Transparent Price List",
+    "joinCoop": "Join Local Cooperative",
+    "contractorPortal": "Contractor Network",
+    "verifyId": "Verify Worker QR Card",
+    "welfare": "Worker Welfare & e-Shram",
+    "rightsPolicy": "Charter of Worker Rights",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "copyright": "All rights reserved.",
+    "hackathon": "Built for the Smart India Hackathon 2026",
+    "language": "Language"
+  },
+  "assistant": {
+    "title": "SahkarSathi Assistant",
+    "online": "Cooperative AI • Online",
+    "welcome": "Namaste! I am the SahkarSathi Assistant. How can I help you support workers or book services today?",
+    "placeholder": "Ask about services, pricing, or worker verification...",
+    "send": "Send",
+    "chips": [
+      "Book electrician",
+      "Book team / crew",
+      "Check price rates",
+      "Verify worker ID / QR",
+      "How it works"
+    ],
+    "sampleReplies": {
+      "Book electrician": "Our certified electricians are available starting at ₹249/visit. Would you like to schedule a visit or describe your electrical issue?",
+      "Book team / crew": "Great choice! For team projects (renovation, building, painting), we assign a Master Supervisor who coordinates all trades under one escrow schedule.",
+      "Check price rates": "SahkarSathi uses standard cooperative rates with zero surge pricing! Plumbing ₹299/visit, Electrical ₹249/visit, AC Repair ₹499/visit, Painting ₹14/sq ft.",
+      "Verify worker ID / QR": "You can scan the QR code on any partner's digital card or enter their 8-digit Cooperative ID at /verify to see their live Aadhaar eKYC badge.",
+      "How it works": "1. Post your need → 2. Cooperative AI matches verified partners fairly → 3. Get upfront quote → 4. Pay safely upon satisfaction."
+    }
+  },
+  "modal": {
+    "title": "Route Navigation Placeholder",
+    "description": "In this home page prototype, external routes link to dedicated portal sections.",
+    "path": "Target Route",
+    "action": "Close preview"
+  }
+}
