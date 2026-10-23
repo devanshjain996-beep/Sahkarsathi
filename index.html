@@ -3,455 +3,2149 @@
 <head>
   <meta charset="utf-8"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>SakharSathi • Supervisor Operations Command Center</title>
+  <meta content="web_dashboard" name="shell-type"/>
+  <title>SahkarSathi | Customer Portal - Active Bookings</title>
   
-  <!-- Fonts & Icons -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
   
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @layer base {
+      html, body { margin: 0; padding: 0; }
+      body { overscroll-behavior: none; }
+      main > :first-child { margin-top: 0 !important; }
+      main > :last-child { margin-bottom: 0 !important; }
+    }
+    ::-webkit-scrollbar { display: none; }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .material-symbols-fill {
+      font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    @keyframes pulse-ring {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.4); opacity: 0.2; }
+      100% { transform: scale(0.95); opacity: 0.8; }
+    }
+    .radar-pulse {
+      animation: pulse-ring 2.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+    }
+    @media print {
+      body * { visibility: hidden; }
+      #invoiceModal, #invoiceModal * { visibility: visible; }
+      #invoiceModal { position: absolute; left: 0; top: 0; width: 100%; background: white !important; color: black !important; }
+    }
+  </style>
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <script id="tailwind-config">
     tailwind.config = {
       darkMode: "class",
       theme: {
         extend: {
           colors: {
-            "surface": "#0c1323",
-            "surface-dim": "#0c1323",
-            "surface-bright": "#32394b",
-            "surface-container-lowest": "#070e1e",
-            "surface-container-low": "#151b2c",
-            "surface-container": "#191f30",
-            "surface-container-high": "#232a3b",
-            "surface-container-highest": "#2e3446",
-            "surface-border": "#243047",
-            "on-surface": "#dce2f9",
-            "on-surface-variant": "#bbcac1",
-            "primary": "#56f1bb",
-            "on-primary": "#003827",
-            "primary-container": "#2dd4a0",
-            "on-primary-container": "#00563e",
-            "primary-fixed": "#63fcc5",
-            "primary-fixed-dim": "#3edfaa",
-            "secondary": "#77daa1",
-            "on-secondary": "#003920",
-            "secondary-container": "#037d4d",
-            "on-secondary-container": "#bdffd4",
-            "secondary-fixed": "#93f7bc",
-            "tertiary": "#cfd7f1",
-            "on-tertiary": "#283044",
-            "tertiary-container": "#b4bbd5",
-            "text-primary": "#F8FAFC",
-            "text-muted": "#94A3B8",
-            "text-soft": "#CBD5E1",
-            "status-completed": "#059669",
-            "status-progress": "#0284C7",
-            "status-pending": "#F59E0B",
-            "status-blocked": "#EF4444",
-            "status-info": "#6366F1",
-            "error": "#ffb4ab",
-            "error-container": "#93000a",
-            "outline": "#85948c",
-            "outline-variant": "#3c4a43"
+            "on-primary": "#003822",
+            "outline-variant": "#223354",
+            "surface-tint": "#27e199",
+            "secondary-fixed-dim": "#b8c6e9",
+            "secondary-fixed": "#d8e2ff",
+            "on-surface": "#f8fafc",
+            "primary": "#00d68f",
+            "on-primary-fixed-variant": "#005234",
+            "on-tertiary-fixed-variant": "#005236",
+            "on-tertiary": "#003824",
+            "on-secondary": "#22304b",
+            "tertiary-container": "#172b3c",
+            "inverse-surface": "#f8fafc",
+            "on-tertiary-container": "#62f0b3",
+            "secondary-container": "#1e293b",
+            "on-error-container": "#ffdad6",
+            "tertiary-fixed-dim": "#4edea3",
+            "surface-container-low": "#0d1527",
+            "tertiary-fixed": "#6ffbbe",
+            "primary-fixed-dim": "#27e199",
+            "on-secondary-container": "#94a3b8",
+            "error": "#ff6b6b",
+            "surface-container-lowest": "#070b14",
+            "tertiary": "#38bdf8",
+            "on-primary-container": "#002b1b",
+            "secondary": "#94a3b8",
+            "background": "#0a0f1d",
+            "on-error": "#690005",
+            "surface-dim": "#0a0f1d",
+            "primary-container": "#00d68f",
+            "inverse-primary": "#006c46",
+            "surface": "#0a0f1d",
+            "on-surface-variant": "#94a3b8",
+            "surface-container-highest": "#1c2a44",
+            "error-container": "#3d1116",
+            "surface-bright": "#223354",
+            "primary-fixed": "#00d68f",
+            "on-secondary-fixed": "#0c1b35",
+            "inverse-on-surface": "#0a0f1d",
+            "outline": "#334155",
+            "on-secondary-fixed-variant": "#94a3b8",
+            "on-background": "#f8fafc",
+            "on-tertiary-fixed": "#002113",
+            "surface-container-high": "#17243d",
+            "on-primary-fixed": "#002b1b",
+            "surface-variant": "#17243d",
+            "surface-container": "#131e33"
           },
           borderRadius: {
-            "DEFAULT": "0.5rem",
-            "lg": "1rem",
-            "xl": "1.5rem",
-            "2xl": "1.75rem",
-            "full": "9999px"
+            DEFAULT: "0.25rem",
+            lg: "0.5rem",
+            xl: "0.75rem",
+            "2xl": "1rem",
+            full: "9999px"
           },
           spacing: {
-            "space-xs": "0.25rem",
-            "space-sm": "0.5rem",
-            "space-md": "0.75rem",
+            "space-2xl": "3rem",
+            "space-xl": "2rem",
             "space-lg": "1.25rem",
-            "space-xl": "2rem"
+            "space-xs": "0.25rem",
+            "space-md": "0.75rem",
+            gutter: "1rem",
+            margin: "1rem",
+            "gutter-lg": "1.5rem",
+            "margin-lg": "2rem",
+            "space-sm": "0.5rem"
           },
           fontFamily: {
-            "sans": ["Outfit", "sans-serif"],
-            "mono": ["JetBrains Mono", "monospace"]
+            "label-lg": ["Manrope", "sans-serif"],
+            "headline-xl-mobile": ["Space Grotesk", "sans-serif"],
+            "headline-xl": ["Space Grotesk", "sans-serif"],
+            "body-lg": ["Manrope", "sans-serif"],
+            "body-md": ["Manrope", "sans-serif"],
+            "headline-md": ["Space Grotesk", "sans-serif"],
+            "label-sm": ["Manrope", "sans-serif"],
+            "headline-sm": ["Space Grotesk", "sans-serif"],
+            "headline-lg": ["Space Grotesk", "sans-serif"],
+            "label-md": ["Manrope", "sans-serif"],
+            "headline-lg-mobile": ["Space Grotesk", "sans-serif"],
+            "body-sm": ["Manrope", "sans-serif"],
+            caption: ["Manrope", "sans-serif"]
+          },
+          fontSize: {
+            "label-lg": ["14px", { lineHeight: "20px", fontWeight: "600" }],
+            "headline-xl-mobile": ["30px", { lineHeight: "38px", letterSpacing: "-0.02em", fontWeight: "700" }],
+            "headline-xl": ["36px", { lineHeight: "44px", letterSpacing: "-0.03em", fontWeight: "700" }],
+            "body-lg": ["16px", { lineHeight: "26px", fontWeight: "400" }],
+            "body-md": ["14px", { lineHeight: "22px", fontWeight: "400" }],
+            "headline-md": ["20px", { lineHeight: "28px", letterSpacing: "-0.01em", fontWeight: "600" }],
+            "label-sm": ["11px", { lineHeight: "14px", letterSpacing: "0.05em", fontWeight: "700" }],
+            "headline-sm": ["16px", { lineHeight: "24px", fontWeight: "600" }],
+            "headline-lg": ["26px", { lineHeight: "34px", letterSpacing: "-0.02em", fontWeight: "600" }],
+            "label-md": ["12px", { lineHeight: "16px", letterSpacing: "0.02em", fontWeight: "600" }],
+            "headline-lg-mobile": ["22px", { lineHeight: "30px", letterSpacing: "-0.01em", fontWeight: "600" }],
+            "body-sm": ["12px", { lineHeight: "18px", fontWeight: "400" }],
+            caption: ["12px", { lineHeight: "16px", fontWeight: "400" }]
           }
         }
       }
     };
   </script>
-  
-  <link rel="stylesheet" href="styles.css"/>
 </head>
-<body class="bg-surface font-sans text-on-surface antialiased min-h-screen">
+<body class="bg-[#0a0f1d] font-body-md text-[#f8fafc] antialiased min-h-screen selection:bg-[#00d68f] selection:text-[#062d1d]">
 
-  <!-- Mobile Menu Backdrop & Drawer -->
-  <div id="mobile-sidebar-backdrop" class="fixed inset-0 bg-black/60 z-50 hidden lg:hidden transition-opacity" onclick="toggleMobileSidebar()"></div>
-
-  <!-- FIXED LEFT SIDEBAR -->
-  <aside id="main-sidebar" class="fixed left-0 top-0 h-full w-72 bg-surface-container-low z-50 flex flex-col justify-between shadow-[0_1px_12px_rgba(0,0,0,0.5)] border-r border-surface-border transition-transform duration-300 lg:translate-x-0 -translate-x-full">
-    <div class="flex flex-col h-full overflow-hidden">
-      <!-- App Header & Logo -->
-      <div class="p-space-lg flex items-center gap-space-md bg-surface-container-lowest border-b border-surface-border">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-primary-container to-secondary flex items-center justify-center text-on-primary shadow-lg shadow-primary-container/20 shrink-0">
-          <span class="material-symbols-outlined text-[24px] font-bold">handshake</span>
+  <!-- SIDEBAR NAVIGATION -->
+  <aside class="fixed left-0 top-0 h-screen w-72 bg-[#0e172a] text-[#f8fafc] z-50 flex flex-col justify-between border-r border-[#1e293b] shadow-2xl">
+    <div class="flex flex-col">
+      <!-- Brand Header -->
+      <div class="p-space-lg flex flex-col gap-space-xs">
+        <div class="flex items-center gap-space-sm cursor-pointer" onclick="navigateTo('active-bookings')">
+          <img alt="SahkarSathi Logo" class="h-8 w-auto object-contain brightness-110 filter" src="https://lh3.googleusercontent.com/aida/AEtjO1XRvo_eMaUL1E0qjwoORsqPpK7mP_PE4T0BSCOXj7UAa1PgrJy5anE2GiX9MxMq6XH8GTvulZxgs4yR-DTqDvBmGi0xDaCIrU7C1y2xTU4EG2tRLePg-6-uen4_fI6TmW14k7vlne7WbTPBDg5wCnpN-JCsOWLWAji0q1ODEgZWNb3sgGkxKlfUPdrC_ClFWM4OScSp6ShQrJAtTaYHtBlK8U93e_5PW4tLw0mpLaP8xmoaS-iPaKGXs64"/>
+          <span class="font-headline-sm text-headline-sm text-[#f8fafc] tracking-tight">SahkarSathi</span>
         </div>
-        <div class="flex flex-col min-w-0">
-          <div class="flex items-center gap-1.5">
-            <span class="font-headline-sm text-text-primary tracking-tight font-extrabold truncate">SakharSathi</span>
-            <span class="px-1.5 py-0.2 rounded bg-primary/20 text-primary font-mono text-[10px] font-bold">v2.4</span>
-          </div>
-          <span id="sidebar-subheading" class="text-[11px] text-primary tracking-normal truncate uppercase font-semibold">Supervisor Portal</span>
+        <p class="font-caption text-caption text-[#94a3b8] mt-space-xs leading-tight">Every Worker Matters. Every Home Counts.</p>
+        <div class="mt-space-md inline-flex items-center gap-space-xs px-3 py-1.5 bg-[#131e33] border border-[#223354] rounded-lg w-fit">
+          <span class="w-2 h-2 rounded-full bg-[#00d68f] shadow-[0_0_8px_#00d68f] animate-pulse"></span>
+          <span class="font-label-sm text-label-sm text-[#00d68f] font-semibold tracking-wide">Customer Portal (Demo Mode)</span>
         </div>
       </div>
 
-      <!-- Unit Badge -->
-      <div class="px-space-md py-space-sm">
-        <div class="bg-surface-container-high px-space-md py-2 rounded-xl flex items-center justify-between border border-surface-border">
-          <div class="flex items-center gap-2">
-            <span class="w-2.5 h-2.5 rounded-full bg-primary animate-pulse"></span>
-            <span class="font-label-sm text-label-sm text-text-muted">Co-op Unit</span>
-          </div>
-          <span class="font-label-sm text-label-sm text-primary font-mono font-bold">#DL-204</span>
-        </div>
-      </div>
-
-      <!-- Navigation Links -->
-      <nav class="flex-1 px-space-md py-space-xs overflow-y-auto space-y-1">
-        <a href="#overview" onclick="navigateTo('overview')" data-path="overview" class="flex items-center justify-between px-space-md py-2.5 rounded-xl transition-colors bg-primary-container text-on-primary-container font-headline-sm font-bold shadow-sm">
-          <div class="flex items-center gap-space-md min-w-0">
-            <span class="material-symbols-outlined text-[20px]">space_dashboard</span>
-            <span id="nav-text-overview" class="font-label-lg text-label-lg truncate">Overview</span>
+      <!-- Nav Links -->
+      <nav class="flex flex-col gap-1.5 px-space-md overflow-y-auto max-h-[calc(100vh-280px)]" id="sidebarNav">
+        <a class="nav-item flex items-center justify-between px-space-md py-2.5 rounded-lg text-[#94a3b8] hover:bg-[#131e33] hover:text-[#f8fafc] transition-colors" data-path="explore-services" href="javascript:void(0)" onclick="navigateTo('explore-services')">
+          <div class="flex items-center gap-space-sm">
+            <span class="material-symbols-outlined text-lg">explore</span>
+            <span class="font-label-md text-label-md">Explore Services</span>
           </div>
         </a>
 
-        <a href="#running-projects" onclick="navigateTo('running-projects')" data-path="running-projects" class="flex items-center justify-between px-space-md py-2.5 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-medium">
-          <div class="flex items-center gap-space-md min-w-0">
-            <span class="material-symbols-outlined text-[20px]">construction</span>
-            <span id="nav-text-running-projects" class="font-label-lg text-label-lg truncate">Running Projects</span>
+        <a aria-current="page" class="nav-item flex items-center justify-between px-space-md py-2.5 rounded-lg transition-all bg-[#00d68f] text-[#062d1d] font-bold shadow-[0_0_15px_rgba(0,214,143,0.3)]" data-path="active-bookings" href="javascript:void(0)" onclick="navigateTo('active-bookings')">
+          <div class="flex items-center gap-space-sm">
+            <span class="material-symbols-outlined text-lg">schedule</span>
+            <span class="font-label-md text-label-md tracking-tight">Active Bookings</span>
           </div>
-          <span class="bg-surface-container-highest text-primary font-label-sm text-label-sm px-2 py-0.5 rounded-full font-bold">8</span>
+          <span id="activeBadgeCount" class="px-2 py-0.5 rounded-full bg-[#062d1d]/20 text-[#062d1d] font-label-sm text-label-sm font-bold">2</span>
         </a>
 
-        <a href="#task-allocation" onclick="navigateTo('task-allocation')" data-path="task-allocation" class="flex items-center justify-between px-space-md py-2.5 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-medium">
-          <div class="flex items-center gap-space-md min-w-0">
-            <span class="material-symbols-outlined text-[20px]">assignment_turned_in</span>
-            <span id="nav-text-task-allocation" class="font-label-lg text-label-lg truncate">Task Allocation</span>
+        <a class="nav-item flex items-center justify-between px-space-md py-2.5 rounded-lg text-[#94a3b8] hover:bg-[#131e33] hover:text-[#f8fafc] transition-colors" data-path="previous-bookings" href="javascript:void(0)" onclick="navigateTo('previous-bookings')">
+          <div class="flex items-center gap-space-sm">
+            <span class="material-symbols-outlined text-lg">history</span>
+            <span class="font-label-md text-label-md">Previous Bookings</span>
           </div>
-          <span class="bg-surface-container-highest text-text-soft font-label-sm text-label-sm px-2 py-0.5 rounded-full font-mono">27</span>
         </a>
 
-        <a href="#worker-management" onclick="navigateTo('worker-management')" data-path="worker-management" class="flex items-center justify-between px-space-md py-2.5 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-medium">
-          <div class="flex items-center gap-space-md min-w-0">
-            <span class="material-symbols-outlined text-[20px]">badge</span>
-            <span id="nav-text-worker-management" class="font-label-lg text-label-lg truncate">Worker Directory</span>
+        <a class="nav-item flex items-center justify-between px-space-md py-2.5 rounded-lg text-[#94a3b8] hover:bg-[#131e33] hover:text-[#f8fafc] transition-colors" data-path="find-workers" href="javascript:void(0)" onclick="navigateTo('find-workers')">
+          <div class="flex items-center gap-space-sm">
+            <span class="material-symbols-outlined text-lg">badge</span>
+            <span class="font-label-md text-label-md">Find Workers</span>
           </div>
-          <span class="bg-surface-container-highest text-secondary font-label-sm text-label-sm px-2 py-0.5 rounded-full font-bold">42</span>
         </a>
 
-        <a href="#attendance" onclick="navigateTo('attendance')" data-path="attendance" class="flex items-center justify-between px-space-md py-2.5 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-medium">
-          <div class="flex items-center gap-space-md min-w-0">
-            <span class="material-symbols-outlined text-[20px]">how_to_reg</span>
-            <span id="nav-text-attendance" class="font-label-lg text-label-lg truncate">Attendance</span>
+        <a class="nav-item flex items-center justify-between px-space-md py-2.5 rounded-lg text-[#94a3b8] hover:bg-[#131e33] hover:text-[#f8fafc] transition-colors" data-path="team-and-project-booking" href="javascript:void(0)" onclick="navigateTo('team-and-project-booking')">
+          <div class="flex items-center gap-space-sm">
+            <span class="material-symbols-outlined text-lg">groups</span>
+            <span class="font-label-md text-label-md">Team &amp; Project Booking</span>
           </div>
-          <span class="bg-status-completed/20 text-secondary font-label-sm text-label-sm px-2 py-0.5 rounded-full font-bold">38 Pres</span>
         </a>
 
-        <a href="#issues-complaints" onclick="navigateTo('issues-complaints')" data-path="issues-complaints" class="flex items-center justify-between px-space-md py-2.5 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-medium">
-          <div class="flex items-center gap-space-md min-w-0">
-            <span class="material-symbols-outlined text-[20px]">report_problem</span>
-            <span id="nav-text-issues-complaints" class="font-label-lg text-label-lg truncate">Issues & Blockers</span>
+        <a class="nav-item flex items-center justify-between px-space-md py-2.5 rounded-lg text-[#94a3b8] hover:bg-[#131e33] hover:text-[#f8fafc] transition-colors" data-path="customer-support" href="javascript:void(0)" onclick="navigateTo('customer-support')">
+          <div class="flex items-center gap-space-sm">
+            <span class="material-symbols-outlined text-lg">support_agent</span>
+            <span class="font-label-md text-label-md">Customer Support</span>
           </div>
-          <span class="bg-error-container text-error font-label-sm text-label-sm px-2 py-0.5 rounded-full font-bold">2 Critical</span>
+          <span class="px-2 py-0.5 rounded-full bg-[#1e293b] text-[#94a3b8] border border-[#334155] font-label-sm text-label-sm">1 Open</span>
+        </a>
+
+        <a class="nav-item flex items-center justify-between px-space-md py-2.5 rounded-lg text-[#94a3b8] hover:bg-[#131e33] hover:text-[#f8fafc] transition-colors" data-path="notifications" href="javascript:void(0)" onclick="toggleNotificationsDrawer()">
+          <div class="flex items-center gap-space-sm">
+            <span class="material-symbols-outlined text-lg">notifications</span>
+            <span class="font-label-md text-label-md">Notifications</span>
+          </div>
+          <span id="sidebarNotifBadge" class="px-2 py-0.5 rounded-full bg-[#ff6b6b] text-[#3d1116] font-label-sm text-label-sm font-bold">3</span>
+        </a>
+
+        <a class="nav-item flex items-center justify-between px-space-md py-2.5 rounded-lg text-[#94a3b8] hover:bg-[#131e33] hover:text-[#f8fafc] transition-colors" data-path="my-profile" href="javascript:void(0)" onclick="navigateTo('my-profile')">
+          <div class="flex items-center gap-space-sm">
+            <span class="material-symbols-outlined text-lg">person</span>
+            <span class="font-label-md text-label-md">My Profile</span>
+          </div>
+        </a>
+
+        <a class="nav-item flex items-center justify-between px-space-md py-2.5 rounded-lg text-[#94a3b8] hover:bg-[#131e33] hover:text-[#f8fafc] transition-colors" data-path="settings" href="javascript:void(0)" onclick="navigateTo('settings')">
+          <div class="flex items-center gap-space-sm">
+            <span class="material-symbols-outlined text-lg">settings</span>
+            <span class="font-label-md text-label-md">Settings</span>
+          </div>
+        </a>
+
+        <a class="nav-item flex items-center justify-between px-space-md py-2.5 rounded-lg text-[#94a3b8] hover:bg-[#3d1116] hover:text-[#ff6b6b] transition-colors" data-path="logout" href="javascript:void(0)" onclick="handleLogout()">
+          <div class="flex items-center gap-space-sm">
+            <span class="material-symbols-outlined text-lg">logout</span>
+            <span class="font-label-md text-label-md">Logout</span>
+          </div>
         </a>
       </nav>
+    </div>
 
-      <!-- Sidebar Footer -->
-      <div class="p-space-md bg-surface-container-lowest flex flex-col gap-space-sm border-t border-surface-border">
-        <div class="bg-surface-container-low p-space-sm rounded-xl flex flex-col gap-1 border border-surface-border">
-          <div class="flex items-center justify-between">
-            <span class="font-label-sm text-label-sm text-text-muted truncate">Delhi Labour Co-op</span>
-            <span class="font-label-sm text-label-sm text-secondary font-bold">#DL-204</span>
-          </div>
-          <div class="flex items-center gap-1.5">
-            <span class="w-2 h-2 rounded-full bg-status-completed"></span>
-            <span class="text-[11px] text-text-muted">Biometric Gateway Active</span>
-          </div>
-        </div>
-        <button onclick="showToast('Secure session maintained with cooperative server')" class="flex items-center justify-center gap-space-sm px-space-md py-2 rounded-xl bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest hover:text-on-surface transition-colors font-semibold">
-          <span class="material-symbols-outlined text-[18px]">verified_user</span>
-          <span class="font-label-md text-label-md">Verified Node</span>
-        </button>
+    <!-- Cooperative Transparency Card -->
+    <div class="p-space-md m-space-md rounded-xl bg-[#131e33] border border-[#223354] flex flex-col gap-space-xs cursor-pointer hover:border-[#00d68f]/50 transition-colors" onclick="openCharterModal()">
+      <div class="flex items-center gap-space-xs text-[#00d68f]">
+        <span class="material-symbols-outlined text-base">handshake</span>
+        <span class="font-label-sm text-label-sm uppercase tracking-wide font-bold">Impact Transparency</span>
       </div>
+      <p class="font-caption text-caption text-[#94a3b8] leading-snug">
+        <strong class="text-[#f8fafc] font-semibold">Cooperative Model:</strong> 92% of fees go directly to verified workers.
+      </p>
     </div>
   </aside>
 
-  <!-- MAIN VIEWPORT (Offset by Sidebar) -->
-  <div class="lg:pl-72 flex flex-col min-h-screen">
-    
-    <!-- FIXED TOP HEADER -->
-    <header class="fixed top-0 left-0 lg:left-72 right-0 h-20 bg-surface/90 backdrop-blur-xl z-40 px-space-lg flex items-center justify-between gap-space-md border-b border-surface-border shadow-md">
-      <!-- Left: Mobile Menu Trigger & Title -->
-      <div class="flex items-center gap-3">
-        <button onclick="toggleMobileSidebar()" class="lg:hidden p-2 rounded-xl bg-surface-container-low text-text-soft hover:text-text-primary hover:bg-surface-container-high transition-colors">
-          <span class="material-symbols-outlined text-[24px]">menu</span>
-        </button>
-        <div class="flex flex-col">
-          <span class="font-headline-sm text-headline-sm text-text-primary tracking-tight font-extrabold">Supervisor Command Center</span>
-          <div class="flex items-center gap-1.5">
-            <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
-            <span class="font-label-sm text-label-sm text-text-muted">North Delhi Labour Cooperative • Sector 11 Base</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Center: Global Search -->
-      <div class="hidden xl:flex items-center bg-surface-container-low px-space-md py-2 rounded-xl flex-1 max-w-md justify-between gap-space-sm border border-surface-border">
-        <div class="flex items-center gap-2 flex-1">
-          <span class="material-symbols-outlined text-text-muted text-[20px]">search</span>
-          <input 
-            id="global-search-input"
-            oninput="handleGlobalSearch(this.value)"
-            class="bg-transparent text-text-primary font-body-sm text-body-sm placeholder-text-muted focus:outline-none w-full" 
-            placeholder="Search projects, site crew, tokens (Ctrl+K)..." 
-            type="text"
-          />
-        </div>
-        <span class="bg-surface-container-highest text-text-muted px-2 py-0.5 rounded font-mono text-[11px] font-bold">⌘K</span>
-      </div>
-
-      <!-- Right: Language, Notifications, Action & Profile -->
-      <div class="flex items-center gap-3">
-        <!-- Language Switcher -->
-        <div class="flex items-center bg-surface-container-low p-1 rounded-xl border border-surface-border">
-          <button id="lang-en-btn" onclick="state.setLang('en')" class="px-2.5 py-1 font-label-sm text-label-sm rounded-lg bg-primary-container text-on-primary-container font-bold" type="button">EN</button>
-          <button id="lang-hi-btn" onclick="state.setLang('hi')" class="px-2.5 py-1 font-label-sm text-label-sm rounded-lg text-text-muted hover:text-text-primary transition-colors font-bold" type="button">हिन्दी</button>
+  <!-- MAIN BODY LAYOUT -->
+  <div class="pl-72">
+    <!-- TOP HEADER -->
+    <header class="fixed top-0 left-72 right-0 h-16 bg-[#0e172a]/95 backdrop-blur-xl border-b border-[#1e293b] z-40 flex items-center justify-between px-space-xl">
+      <div class="flex items-center gap-space-md flex-1 max-w-xl">
+        <div class="relative w-full">
+          <span class="material-symbols-outlined absolute left-space-md top-1/2 -translate-y-1/2 text-[#94a3b8] text-lg">search</span>
+          <input id="searchInput" oninput="filterBySearch(this.value)" class="w-full h-10 pl-10 pr-10 bg-[#0c1322] border border-[#1e2b45] rounded-lg font-body-sm text-body-sm text-[#f8fafc] placeholder:text-[#64748b] focus:outline-none focus:ring-2 focus:ring-[#00d68f]" placeholder="Search for a service, skill, or worker (e.g., AC cleaning, electrician)..." type="text"/>
+          <kbd class="absolute right-space-md top-1/2 -translate-y-1/2 px-1.5 py-0.5 rounded bg-[#1e293b] border border-[#334155] font-label-sm text-label-sm text-[#94a3b8]">/</kbd>
         </div>
 
-        <!-- Notification Bell & Dropdown -->
+        <!-- Location Dropdown Trigger -->
         <div class="relative">
-          <button onclick="toggleNotifications()" class="relative flex items-center justify-center p-2.5 rounded-xl bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface border border-surface-border transition-colors">
-            <span class="material-symbols-outlined text-[20px]">notifications</span>
-            <span class="absolute -top-1 -right-1 bg-status-blocked text-white text-[10px] font-bold px-1.5 py-0.2 rounded-full leading-tight">5</span>
-          </button>
-
-          <!-- Popover Menu -->
-          <div id="notifications-popover" class="hidden absolute right-0 mt-3 w-80 sm:w-96 rounded-2xl bg-surface-container-low border border-surface-border shadow-2xl p-4 z-50 space-y-3">
-            <div class="flex items-center justify-between border-b border-surface-border pb-2">
-              <span class="font-headline-sm text-text-primary font-bold">Telemetry Alerts (5)</span>
-              <button onclick="showToast('All notifications marked as read'); toggleNotifications();" class="text-label-sm text-primary hover:underline font-semibold">Mark read</button>
-            </div>
-            <div class="space-y-2.5 max-h-80 overflow-y-auto">
-              <div class="p-2.5 rounded-xl bg-surface-container border border-error/30 flex items-start gap-2.5">
-                <span class="material-symbols-outlined text-status-blocked text-[18px] shrink-0 mt-0.5">warning</span>
-                <div>
-                  <div class="text-label-md text-text-primary font-bold">Material Deficit Alert</div>
-                  <div class="text-body-sm text-text-muted">Rohini Sector-9 Hall reported 40-bag cement shortfall.</div>
-                  <span class="text-[10px] text-text-muted">15m ago</span>
-                </div>
-              </div>
-              <div class="p-2.5 rounded-xl bg-surface-container border border-surface-border flex items-start gap-2.5">
-                <span class="material-symbols-outlined text-secondary text-[18px] shrink-0 mt-0.5">verified</span>
-                <div>
-                  <div class="text-label-md text-text-primary font-bold">Milestone Verified</div>
-                  <div class="text-body-sm text-text-muted">Ramesh Kumar completed Concreting Stage 2 photo upload.</div>
-                  <span class="text-[10px] text-text-muted">45m ago</span>
-                </div>
-              </div>
-              <div class="p-2.5 rounded-xl bg-surface-container border border-surface-border flex items-start gap-2.5">
-                <span class="material-symbols-outlined text-primary text-[18px] shrink-0 mt-0.5">fingerprint</span>
-                <div>
-                  <div class="text-label-md text-text-primary font-bold">Aadhaar Biometric Sync</div>
-                  <div class="text-body-sm text-text-muted">38 workers punched in before 08:15 AM cut-off.</div>
-                  <span class="text-[10px] text-text-muted">1h ago</span>
-                </div>
-              </div>
-            </div>
+          <div onclick="toggleLocationDropdown()" class="flex items-center gap-1.5 px-space-md h-10 bg-[#0c1322] border border-[#1e2b45] rounded-lg cursor-pointer hover:bg-[#131e33] transition-colors whitespace-nowrap">
+            <span class="material-symbols-outlined text-[#00d68f] text-base">location_on</span>
+            <span id="currentLocationText" class="font-label-sm text-label-sm text-[#cbd5e1] font-medium truncate max-w-[190px]">HSR Layout, Bengaluru, Sector 2</span>
+            <span class="material-symbols-outlined text-[#94a3b8] text-base">arrow_drop_down</span>
+          </div>
+          <!-- Location Menu -->
+          <div id="locationDropdown" class="hidden absolute top-12 left-0 w-64 bg-[#0e172a] border border-[#223354] rounded-xl shadow-2xl p-2 z-50 flex-col gap-1">
+            <span class="text-caption font-caption text-[#94a3b8] px-2 py-1 uppercase tracking-wider font-bold">Select Active Cluster</span>
+            <button onclick="setLocation('HSR Layout, Bengaluru, Sector 2')" class="text-left px-3 py-2 rounded-lg text-body-sm text-[#f8fafc] hover:bg-[#131e33] flex items-center justify-between">
+              <span>HSR Layout, Sector 2</span>
+              <span class="text-xs text-[#00d68f]">Active Hub</span>
+            </button>
+            <button onclick="setLocation('Koramangala 4th Block, Bengaluru')" class="text-left px-3 py-2 rounded-lg text-body-sm text-[#94a3b8] hover:bg-[#131e33] hover:text-[#f8fafc]">
+              <span>Koramangala 4th Block</span>
+            </button>
+            <button onclick="setLocation('Indiranagar 100ft Rd, Bengaluru')" class="text-left px-3 py-2 rounded-lg text-body-sm text-[#94a3b8] hover:bg-[#131e33] hover:text-[#f8fafc]">
+              <span>Indiranagar 100ft Rd</span>
+            </button>
+            <button onclick="setLocation('Whitefield EPIP Zone, Bengaluru')" class="text-left px-3 py-2 rounded-lg text-body-sm text-[#94a3b8] hover:bg-[#131e33] hover:text-[#f8fafc]">
+              <span>Whitefield EPIP Zone</span>
+            </button>
           </div>
         </div>
+      </div>
 
-        <!-- Create Task Quick Action -->
-        <button onclick="openTaskModal()" class="hidden sm:flex items-center gap-1.5 bg-primary-container text-on-primary-container hover:bg-primary px-space-md py-2 rounded-xl font-label-md text-label-md transition-all shadow-md font-bold">
-          <span class="material-symbols-outlined text-[18px]">add_task</span>
-          <span>+ New Task</span>
+      <div class="flex items-center gap-space-md">
+        <div class="inline-flex items-center px-3 py-1 rounded-full bg-[#131e33] border border-[#223354] text-[#00d68f] font-label-sm text-label-sm font-semibold">
+          <span class="material-symbols-outlined text-sm mr-1 text-[#00d68f]">bolt</span>Demo Environment
+        </div>
+
+        <a class="flex items-center gap-1 px-space-sm py-1.5 text-[#94a3b8] hover:text-[#f8fafc] transition-colors" href="javascript:void(0)" onclick="navigateTo('customer-support')">
+          <span class="material-symbols-outlined text-lg">support</span>
+          <span class="font-label-md text-label-md">Support</span>
+        </a>
+
+        <button onclick="toggleNotificationsDrawer()" class="relative p-2 text-[#94a3b8] hover:text-[#f8fafc] transition-colors focus:outline-none">
+          <span class="material-symbols-outlined text-xl">notifications</span>
+          <span id="topNotifBadge" class="absolute top-1 right-1 w-4 h-4 rounded-full bg-[#ff6b6b] text-[#3d1116] font-label-sm text-[10px] flex items-center justify-center font-bold">3</span>
         </button>
 
-        <!-- Supervisor Profile Chip -->
-        <div class="flex items-center gap-2.5 pl-1 border-l border-surface-border">
-          <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-primary to-secondary flex items-center justify-center text-on-primary font-bold shadow-md">
-            <span>RV</span>
+        <div class="h-6 w-px bg-[#1e293b]"></div>
+
+        <!-- Profile Widget -->
+        <div onclick="navigateTo('my-profile')" class="flex items-center gap-space-sm cursor-pointer hover:opacity-90 transition-opacity">
+          <img alt="Profile" class="w-8 h-8 rounded-full object-cover ring-2 ring-[#223354]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBM_86DGv5wSOBpjHIKyl0W_1ID4WdKomFgKGGvWs3NBbADOn-fOij6wDQIo-KQAdbZzZVsiFkpOxBY7CeXh7v_N00e6tUK1quwTfO1lh9nmQtxtHz0Ny330En3O8NcZBt2a2wqp3uNbn01CIuq9K9bj-q8u8V2tjQBHYkxYAYUSAIFeoRopDaW14EWa-9ubjsbcTfzAT_QG0jkYek0KbytdylXO5pqGwG-l-UyCkcVSGhnOhYcsEBPmA"/>
+          <div class="flex flex-col text-left">
+            <span class="font-label-md text-label-md text-[#f8fafc] font-semibold leading-tight">Rahul Sharma</span>
+            <span class="font-caption text-caption text-[#00d68f] leading-none">Verified Customer</span>
           </div>
-          <div class="hidden md:flex flex-col text-left">
-            <span class="font-label-md text-label-md text-text-primary leading-tight font-bold">Rajesh Varma</span>
-            <span class="font-label-sm text-label-sm text-text-muted leading-tight">Senior Supervisor</span>
-          </div>
+          <span class="material-symbols-outlined text-[#94a3b8] text-base">expand_more</span>
         </div>
       </div>
     </header>
 
-    <!-- MAIN VIEW CONTAINER -->
-    <main class="relative pt-24 px-space-md md:px-space-lg pb-16 flex-1 w-full max-w-[1720px] mx-auto">
-      <div id="view-overview" class="space-y-8"></div>
-      <div id="view-running-projects" class="hidden space-y-8"></div>
-      <div id="view-task-allocation" class="hidden space-y-8"></div>
-      <div id="view-worker-management" class="hidden space-y-8"></div>
-      <div id="view-attendance" class="hidden space-y-8"></div>
-      <div id="view-issues-complaints" class="hidden space-y-8"></div>
-    </main>
-  </div>
-
-  <!-- MODAL 1: Create New Task Modal (Slide-Over Drawer) -->
-  <div id="task-modal" class="fixed inset-0 z-50 hidden">
-    <div class="absolute inset-0 bg-black/70 backdrop-blur-sm transition-opacity" onclick="closeTaskModal()"></div>
-    <div class="absolute right-0 top-0 bottom-0 w-full max-w-lg bg-surface-container-low border-l border-surface-border shadow-2xl p-space-lg overflow-y-auto flex flex-col justify-between">
-      <div>
-        <div class="flex items-center justify-between border-b border-surface-border pb-space-sm mb-space-md">
-          <div class="flex items-center gap-2">
-            <span class="material-symbols-outlined text-primary text-[22px]">add_task</span>
-            <h2 class="font-headline-sm text-headline-sm text-text-primary font-bold">Dispatch New Work Ticket</h2>
+    <!-- MAIN PAGE CONTENT (Swappable Views) -->
+    <main class="w-full pt-16 bg-[#0a0f1d] px-space-xl min-h-screen">
+      
+      <!-- VIEW: ACTIVE BOOKINGS (DEFAULT) -->
+      <section id="view-active-bookings" class="flex flex-col w-full pb-space-2xl">
+        <!-- Top Banner: Demo Environment Notice with Fast Forward Trigger -->
+        <div class="w-full bg-[#131e33] border border-[#223354] px-space-lg py-space-sm rounded-xl flex flex-wrap items-center justify-between shadow-sm my-space-lg gap-2">
+          <div class="flex items-center gap-space-sm">
+            <span class="material-symbols-outlined text-[#00d68f] text-lg">info</span>
+            <span class="font-body-sm text-body-sm text-[#cbd5e1] font-medium">
+              <strong class="font-semibold text-[#f8fafc]">Demo Environment:</strong> Simulated live booking progress for demonstration purposes. Real-time updates every 30 seconds.
+            </span>
           </div>
-          <button onclick="closeTaskModal()" class="p-1.5 rounded-lg hover:bg-surface-container-high text-text-muted hover:text-text-primary">
-            <span class="material-symbols-outlined text-[20px]">close</span>
+          <div class="flex items-center gap-space-md">
+            <button onclick="advanceSimulation()" class="px-2.5 py-1 rounded bg-[#0e172a] border border-[#223354] hover:border-[#00d68f] text-[#cbd5e1] hover:text-[#00d68f] font-label-sm text-label-sm flex items-center gap-1 transition-colors">
+              <span class="material-symbols-outlined text-xs">fast_forward</span>
+              <span>Fast-Forward Step</span>
+            </button>
+            <div class="flex items-center gap-space-xs text-[#00d68f] font-label-sm text-label-sm">
+              <span class="material-symbols-outlined text-xs animate-spin">sync</span>
+              <span id="simStatusText">Live Simulation Active</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Header Area -->
+        <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-space-md mb-space-xl">
+          <div>
+            <div class="flex items-center gap-space-sm mb-1">
+              <span class="font-label-sm text-label-sm uppercase tracking-wider text-[#00d68f] font-bold">Customer Work Order Dispatch</span>
+              <span class="h-1.5 w-1.5 rounded-full bg-[#00d68f] shadow-[0_0_6px_#00d68f]"></span>
+              <span class="font-label-sm text-label-sm text-[#94a3b8]">HSR Sector 2 Hub</span>
+            </div>
+            <h1 class="font-headline-xl text-headline-xl text-[#f8fafc] font-bold tracking-tight">Active Bookings</h1>
+            <p class="font-body-md text-body-md text-[#94a3b8] mt-1 max-w-2xl">
+              Track, manage, and coordinate your ongoing household and community service requests in real time.
+            </p>
+          </div>
+
+          <!-- Empty State Switcher Demo Toggle -->
+          <div class="flex items-center gap-space-sm bg-[#0e172a] border border-[#1e293b] p-1.5 rounded-lg">
+            <span class="font-label-sm text-label-sm text-[#94a3b8] font-medium px-2">Preview Mode:</span>
+            <button class="px-space-md py-1 rounded-md font-label-sm text-label-sm font-bold bg-[#00d68f] text-[#062d1d] shadow-[0_0_12px_rgba(0,214,143,0.3)] transition-all" id="viewActiveBtn" onclick="switchView('active')">
+              Active Orders (2)
+            </button>
+            <button class="px-space-md py-1 rounded-md font-label-sm text-label-sm font-semibold text-[#94a3b8] hover:text-[#f8fafc] transition-all" id="viewEmptyBtn" onclick="switchView('empty')">
+              Empty State
+            </button>
+          </div>
+        </div>
+
+        <!-- Summary Metric Strip (4 Stat Cards) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md mb-space-xl">
+          <!-- Card 1 -->
+          <div class="bg-[#131e33] border border-[#223354] p-space-lg rounded-xl shadow-lg relative overflow-hidden flex flex-col justify-between">
+            <div class="absolute top-0 left-0 right-0 h-1 bg-[#00d68f] shadow-[0_0_8px_#00d68f]"></div>
+            <div class="flex items-start justify-between">
+              <span class="font-label-sm text-label-sm uppercase tracking-wider text-[#94a3b8] font-semibold">Active Bookings</span>
+              <div class="w-8 h-8 rounded-lg bg-[#0e172a] border border-[#223354] flex items-center justify-center text-[#00d68f]">
+                <span class="material-symbols-outlined text-lg">calendar_today</span>
+              </div>
+            </div>
+            <div class="mt-space-md">
+              <div class="flex items-baseline gap-2">
+                <span id="statActiveCount" class="font-headline-lg text-headline-lg font-bold text-[#f8fafc]">2</span>
+                <span class="font-label-sm text-label-sm text-[#00d68f] font-semibold flex items-center">
+                  <span class="material-symbols-outlined text-sm">trending_up</span> On schedule
+                </span>
+              </div>
+              <p class="font-caption text-caption text-[#94a3b8] mt-1">Both covered by Cooperative Shield</p>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="bg-[#131e33] border border-[#223354] p-space-lg rounded-xl shadow-lg relative overflow-hidden flex flex-col justify-between">
+            <div class="absolute top-0 left-0 right-0 h-1 bg-[#00d68f]"></div>
+            <div class="flex items-start justify-between">
+              <span class="font-label-sm text-label-sm uppercase tracking-wider text-[#94a3b8] font-semibold">Worker En Route</span>
+              <div class="w-8 h-8 rounded-lg bg-[#0e172a] border border-[#223354] flex items-center justify-center text-[#00d68f]">
+                <span class="material-symbols-outlined text-lg">near_me</span>
+              </div>
+            </div>
+            <div class="mt-space-md">
+              <div class="flex items-baseline gap-2">
+                <span id="statEnRouteCount" class="font-headline-lg text-headline-lg font-bold text-[#f8fafc]">1</span>
+                <span id="statEtaBadge" class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-[#00d68f]/15 text-[#00d68f] border border-[#00d68f]/30 font-semibold">ETA ~25 mins</span>
+              </div>
+              <p class="font-caption text-caption text-[#94a3b8] mt-1">AC Sterilization (#SS-BK-89421)</p>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="bg-[#131e33] border border-[#223354] p-space-lg rounded-xl shadow-lg relative overflow-hidden flex flex-col justify-between">
+            <div class="absolute top-0 left-0 right-0 h-1 bg-[#38bdf8]"></div>
+            <div class="flex items-start justify-between">
+              <span class="font-label-sm text-label-sm uppercase tracking-wider text-[#94a3b8] font-semibold">Scheduled Tomorrow</span>
+              <div class="w-8 h-8 rounded-lg bg-[#0e172a] border border-[#223354] flex items-center justify-center text-[#38bdf8]">
+                <span class="material-symbols-outlined text-lg">event_upcoming</span>
+              </div>
+            </div>
+            <div class="mt-space-md">
+              <div class="flex items-baseline gap-2">
+                <span class="font-headline-lg text-headline-lg font-bold text-[#f8fafc]">1</span>
+                <span class="font-label-sm text-label-sm text-[#38bdf8] font-medium">Tomorrow 10:00 AM</span>
+              </div>
+              <p class="font-caption text-caption text-[#94a3b8] mt-1">MCB Electric Diagnostic (#SS-BK-89310)</p>
+            </div>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="bg-[#131e33] border border-[#223354] p-space-lg rounded-xl shadow-lg relative overflow-hidden flex flex-col justify-between">
+            <div class="absolute top-0 left-0 right-0 h-1 bg-[#818cf8]"></div>
+            <div class="flex items-start justify-between">
+              <span class="font-label-sm text-label-sm uppercase tracking-wider text-[#94a3b8] font-semibold">Escrow Secured</span>
+              <div class="w-8 h-8 rounded-lg bg-[#0e172a] border border-[#223354] flex items-center justify-center text-[#818cf8]">
+                <span class="material-symbols-outlined text-lg">lock</span>
+              </div>
+            </div>
+            <div class="mt-space-md">
+              <div class="flex items-baseline gap-2">
+                <span class="font-headline-lg text-headline-lg font-bold text-[#f8fafc]">₹1,498</span>
+                <span class="font-label-sm text-label-sm text-[#00d68f]">Protected</span>
+              </div>
+              <p class="font-caption text-caption text-[#94a3b8] mt-1">Released only after completion PIN</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cooperative Promise & Safety Banner -->
+        <div class="bg-[#131e33] border border-[#223354] rounded-xl p-space-lg shadow-lg mb-space-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-space-md">
+          <div class="flex items-start gap-space-md">
+            <div class="w-10 h-10 rounded-full bg-[#00d68f]/10 border border-[#00d68f]/30 text-[#00d68f] flex items-center justify-center shrink-0 mt-0.5">
+              <span class="material-symbols-outlined text-xl">shield_person</span>
+            </div>
+            <div>
+              <div class="flex items-center gap-space-sm">
+                <h4 class="font-label-lg text-label-lg font-bold text-[#f8fafc]">Cooperative Member Promise</h4>
+                <span class="px-2 py-0.5 rounded-full bg-[#00d68f]/15 text-[#00d68f] border border-[#00d68f]/30 font-label-sm text-label-sm font-semibold flex items-center gap-1">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[#00d68f]"></span>Verified Safe
+                </span>
+              </div>
+              <p class="font-body-sm text-body-sm text-[#94a3b8] mt-0.5">
+                Share your 4-digit completion PIN only after the service is fully finished to your complete satisfaction. Zero surge fees, transparent pricing, and 92% of fees go directly to your service provider.
+              </p>
+            </div>
+          </div>
+          <div class="flex items-center gap-space-sm shrink-0">
+            <button onclick="openCharterModal()" class="font-label-sm text-label-sm text-[#00d68f] font-semibold flex items-center gap-1 hover:underline">
+              <span class="material-symbols-outlined text-sm">menu_book</span> Review Service Charter
+            </button>
+          </div>
+        </div>
+
+        <!-- Status Filter Tabs -->
+        <div class="w-full bg-[#0e172a] border border-[#1e293b] p-1.5 rounded-xl mb-space-lg flex items-center gap-1 overflow-x-auto" id="filterTabsContainer">
+          <button onclick="filterStatus('all', this)" class="filter-tab px-space-md py-2 rounded-lg font-label-md text-label-md font-bold bg-[#00d68f] text-[#062d1d] shadow-[0_0_12px_rgba(0,214,143,0.3)] whitespace-nowrap flex items-center gap-1.5 transition-all">
+            <span>All Active</span>
+            <span class="w-5 h-5 rounded-full bg-[#062d1d]/20 text-[#062d1d] font-label-sm text-label-sm flex items-center justify-center font-bold">2</span>
+          </button>
+          <button onclick="filterStatus('assigned', this)" class="filter-tab px-space-md py-2 rounded-lg font-label-md text-label-md text-[#cbd5e1] hover:text-[#f8fafc] hover:bg-[#131e33] whitespace-nowrap flex items-center gap-1.5 transition-all">
+            <span>Worker Assigned</span>
+            <span class="px-1.5 py-0.5 rounded-full bg-[#131e33] text-[#00d68f] border border-[#223354] font-label-sm text-label-sm font-semibold">1</span>
+          </button>
+          <button onclick="filterStatus('confirmed', this)" class="filter-tab px-space-md py-2 rounded-lg font-label-md text-label-md text-[#cbd5e1] hover:text-[#f8fafc] hover:bg-[#131e33] whitespace-nowrap flex items-center gap-1.5 transition-all">
+            <span>Confirmed</span>
+            <span class="px-1.5 py-0.5 rounded-full bg-[#131e33] text-[#38bdf8] border border-[#223354] font-label-sm text-label-sm font-semibold">1</span>
+          </button>
+          <button onclick="filterStatus('pending', this)" class="filter-tab px-space-md py-2 rounded-lg font-label-md text-label-md text-[#64748b] hover:text-[#cbd5e1] hover:bg-[#131e33] whitespace-nowrap flex items-center gap-1.5 transition-all">
+            <span>Pending Acceptance</span>
+            <span class="font-label-sm text-label-sm text-[#64748b]">0</span>
+          </button>
+          <button onclick="filterStatus('in-progress', this)" class="filter-tab px-space-md py-2 rounded-lg font-label-md text-label-md text-[#64748b] hover:text-[#cbd5e1] hover:bg-[#131e33] whitespace-nowrap flex items-center gap-1.5 transition-all">
+            <span>In Progress</span>
+            <span class="font-label-sm text-label-sm text-[#64748b]">0</span>
+          </button>
+          <button onclick="filterStatus('awaiting', this)" class="filter-tab px-space-md py-2 rounded-lg font-label-md text-label-md text-[#64748b] hover:text-[#cbd5e1] hover:bg-[#131e33] whitespace-nowrap flex items-center gap-1.5 transition-all">
+            <span>Awaiting Confirmation</span>
+            <span class="font-label-sm text-label-sm text-[#64748b]">0</span>
+          </button>
+          <button onclick="filterStatus('rescheduled', this)" class="filter-tab px-space-md py-2 rounded-lg font-label-md text-label-md text-[#64748b] hover:text-[#cbd5e1] hover:bg-[#131e33] whitespace-nowrap flex items-center gap-1.5 transition-all">
+            <span>Rescheduled</span>
+            <span class="font-label-sm text-label-sm text-[#64748b]">0</span>
           </button>
         </div>
 
-        <form id="new-task-form" onsubmit="submitNewTask(event)" class="space-y-4">
+        <!-- BOOKINGS CONTAINER (Controlled by toggle / filter) -->
+        <div class="flex flex-col gap-space-lg" id="bookingsContainer">
+          
+          <!-- CARD 1: Worker Assigned & En Route (Priority Highlight) -->
+          <div id="bookingCard-89421" data-status="assigned" data-keywords="ac deep jet cleaning sterilization suresh kumar hvac split" class="booking-card bg-[#131e33] border border-[#223354] rounded-xl shadow-xl overflow-hidden relative transition-all hover:border-[#00d68f]/50">
+            <div class="h-1.5 w-full bg-gradient-to-r from-[#00d68f] via-[#27e199] to-[#00d68f]"></div>
+            <div class="p-space-lg flex flex-col gap-space-lg">
+              
+              <!-- Top bar: Booking Ref, Status, Price -->
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm pb-space-md bg-[#0e172a] border-b border-[#1e293b] -mx-space-lg -mt-space-lg px-space-lg pt-space-md">
+                <div class="flex flex-wrap items-center gap-space-sm">
+                  <span class="font-label-lg text-label-lg font-bold text-[#f8fafc]">#SS-BK-89421</span>
+                  <span class="text-[#64748b] text-caption">•</span>
+                  <span class="font-caption text-caption text-[#94a3b8] font-medium">Booked 24 Oct, 09:15 AM</span>
+                  <span id="card1StatusBadge" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#131e33] border border-[#223354] text-[#00d68f] font-label-sm text-label-sm font-semibold">
+                    <span class="w-2 h-2 rounded-full bg-[#00d68f] animate-pulse shadow-[0_0_8px_#00d68f]"></span>
+                    Worker Assigned &amp; En Route
+                  </span>
+                </div>
+                <div class="flex items-center gap-space-sm">
+                  <div class="flex flex-col text-right">
+                    <span class="font-headline-sm text-headline-sm font-bold text-[#00d68f]">₹699</span>
+                    <span class="font-label-sm text-label-sm text-[#94a3b8] flex items-center justify-end gap-1">
+                      <span class="material-symbols-outlined text-xs text-[#00d68f]">verified</span> Escrow Secured
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Main Body: 2 Columns (Service & Live Tracking + Worker Detail) -->
+              <div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start">
+                
+                <!-- Left Col (7 cols): Service detail, Location & ETA Timeline -->
+                <div class="lg:col-span-7 flex flex-col gap-space-md">
+                  <div>
+                    <div class="inline-flex items-center gap-1 text-[#00d68f] font-label-sm text-label-sm font-semibold mb-1">
+                      <span class="material-symbols-outlined text-sm">ac_unit</span>
+                      <span>Home Climate &amp; Appliance Care</span>
+                    </div>
+                    <h3 class="font-headline-md text-headline-md font-bold text-[#f8fafc]">
+                      AC Deep Jet Cleaning &amp; Filter Sterilization (1.5 Ton Split AC)
+                    </h3>
+                    <p class="font-body-sm text-body-sm text-[#94a3b8] mt-1">
+                      High-pressure coil wash, antifungal blower sanitization, electrical point check &amp; temperature calibration.
+                    </p>
+                  </div>
+
+                  <!-- Logistics Specs Box -->
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-space-sm bg-[#0e172a] border border-[#1e293b] p-space-md rounded-xl">
+                    <div class="flex items-start gap-space-sm">
+                      <span class="material-symbols-outlined text-[#00d68f] text-lg mt-0.5">schedule</span>
+                      <div>
+                        <span class="font-label-sm text-label-sm uppercase font-bold text-[#94a3b8] block">Schedule &amp; ETA</span>
+                        <span class="font-body-sm text-body-sm text-[#f8fafc] font-semibold block">Today, 24 Oct • 2:30 PM - 3:30 PM</span>
+                        <span id="card1EtaNotice" class="font-caption text-caption text-[#00d68f] font-bold">Estimated Arrival in ~25 minutes</span>
+                      </div>
+                    </div>
+                    <div class="flex items-start gap-space-sm">
+                      <span class="material-symbols-outlined text-[#00d68f] text-lg mt-0.5">pin_drop</span>
+                      <div>
+                        <span class="font-label-sm text-label-sm uppercase font-bold text-[#94a3b8] block">Service Address</span>
+                        <span class="font-body-sm text-body-sm text-[#cbd5e1] leading-tight block">
+                          Flat 402, Green Glen Orchid Apts, 14th Main, HSR Sector 2, Bengaluru
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Customer Notes Quote -->
+                  <div class="flex items-start gap-space-sm bg-[#0c1322] border border-[#1e2b45] p-space-sm rounded-lg">
+                    <span class="material-symbols-outlined text-[#94a3b8] text-base mt-0.5">speaker_notes</span>
+                    <p class="font-caption text-caption text-[#cbd5e1]">
+                      <strong class="font-semibold text-[#00d68f]">Customer Note:</strong> "AC making slight whistling sound and airflow is weak before festive season. Please bring extension cord if possible."
+                    </p>
+                  </div>
+
+                  <!-- Dispatch Journey Bar (Mini Tracker) -->
+                  <div class="flex flex-col gap-2 mt-1">
+                    <div class="flex justify-between items-center font-label-sm text-label-sm">
+                      <span id="trackerProgressNote" class="text-[#f8fafc] font-semibold flex items-center gap-1.5">
+                        <span class="material-symbols-outlined text-base text-[#00d68f]">directions_bike</span>
+                        Suresh is 3.2 km away on 19th Main Road
+                      </span>
+                      <span id="trackerStepText" class="text-[#00d68f] font-bold">Step 3 of 5</span>
+                    </div>
+                    <div class="w-full bg-[#0e172a] border border-[#1e293b] h-2.5 rounded-full overflow-hidden flex">
+                      <div id="trackerProgressBar" class="bg-gradient-to-r from-[#00d68f] to-[#27e199] h-full w-[60%] rounded-full shadow-[0_0_10px_#00d68f] transition-all duration-700"></div>
+                    </div>
+                    <div class="flex justify-between text-caption font-caption text-[#94a3b8]">
+                      <span class="text-[#00d68f] font-semibold">Assigned</span>
+                      <span class="text-[#00d68f] font-semibold">Packed Tools</span>
+                      <span id="step3Label" class="text-[#00d68f] font-semibold">En Route</span>
+                      <span id="step4Label">In Service</span>
+                      <span id="step5Label">Complete</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Right Col (5 cols): Worker Profile Card -->
+                <div class="lg:col-span-5 bg-[#0e172a] border border-[#1e293b] p-space-md rounded-xl flex flex-col justify-between gap-space-md">
+                  <!-- Worker Header -->
+                  <div>
+                    <div class="flex items-center justify-between mb-space-sm">
+                      <span class="font-label-sm text-label-sm uppercase font-bold text-[#94a3b8]">Assigned Cooperative Lead</span>
+                      <div class="px-2.5 py-1 rounded-lg bg-[#131e33] border border-[#223354] flex items-center gap-1.5">
+                        <span class="w-1.5 h-1.5 rounded-full bg-[#00d68f]"></span>
+                        <span class="text-[#00d68f] font-label-sm text-label-sm font-semibold">Worker-Owner</span>
+                      </div>
+                    </div>
+                    <div class="flex items-center gap-space-md">
+                      <div class="relative">
+                        <img class="w-14 h-14 rounded-full object-cover ring-2 ring-[#00d68f]" alt="Portrait of Suresh Kumar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAB0H9vWcriqeMcKzt1qoWGvRHrVQeaNWqp85Mjpko5CqrqejR-CbXRqHYsTTPZ9k9o6UFhQeCogBsy6-FS7gGudNb1fy8ZW-_I3Pj5n0kfGR6ugWuivSIQZlGV4-YKu2kVgvjz4Qswd1Q_yiKimWon1Ko1VVnE5C6NLX3tM0gVgBV3nt9iDg5HeIEuacJe0sbDmKMIFbiH3LQXS6cKMaoUtyob-4I8zwuST2AtN37nPhwC9xAexmPwJA"/>
+                        <span class="absolute bottom-0 right-0 w-3.5 h-3.5 bg-[#00d68f] rounded-full border-2 border-[#0e172a]"></span>
+                      </div>
+                      <div class="flex flex-col">
+                        <div class="flex items-center gap-1.5">
+                          <h4 class="font-label-lg text-label-lg font-bold text-[#f8fafc]">Suresh Kumar</h4>
+                          <span class="px-2 py-0.5 rounded bg-[#131e33] border border-[#223354] text-[#00d68f] font-label-sm text-label-sm font-semibold">Worker #SK-402</span>
+                        </div>
+                        <div class="flex items-center gap-1 text-[#f8fafc] font-label-sm text-label-sm mt-0.5">
+                          <span class="material-symbols-outlined text-amber-400 text-sm material-symbols-fill">star</span>
+                          <strong class="font-bold">4.9</strong>
+                          <span class="text-[#94a3b8]">(380 completed services)</span>
+                        </div>
+                        <p class="font-caption text-caption text-[#00d68f] font-medium mt-0.5">
+                          Cooperative Member since 2021 • 0% cancellation
+                        </p>
+                      </div>
+                    </div>
+
+                    <!-- Trust Pills Reference -->
+                    <div class="mt-space-md pt-space-sm flex flex-col gap-1.5">
+                      <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#131e33] border border-[#223354] font-caption text-caption text-[#cbd5e1]">
+                        <span class="w-2 h-2 rounded-full bg-[#00d68f] shadow-[0_0_6px_#00d68f]"></span>
+                        <span class="font-medium">Verified Tradesperson &amp; Address Authenticated</span>
+                      </div>
+                      <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#131e33] border border-[#223354] font-caption text-caption text-[#cbd5e1]">
+                        <span class="material-symbols-outlined text-[#00d68f] text-base">workspace_premium</span>
+                        <span class="font-medium">NSDC Certified Master HVAC Specialist</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Communication Quick Actions -->
+                  <div class="grid grid-cols-2 gap-space-sm pt-space-xs">
+                    <button onclick="openMaskedCallModal('Suresh Kumar', '+91 80-4567-XXXX (Ext 402)')" class="flex items-center justify-center gap-1.5 px-space-sm py-2 rounded-lg bg-[#131e33] border border-[#223354] text-[#f8fafc] font-label-md text-label-md font-semibold hover:border-[#00d68f] transition-colors">
+                      <span class="material-symbols-outlined text-base text-[#00d68f]">call</span>
+                      <span>Call (Masked)</span>
+                    </button>
+                    <button onclick="openChatModal('Suresh Kumar', 'AC Master Technician', '#SS-BK-89421')" class="flex items-center justify-center gap-1.5 px-space-sm py-2 rounded-lg bg-[#131e33] border border-[#223354] text-[#f8fafc] font-label-md text-label-md font-semibold hover:border-[#00d68f] transition-colors">
+                      <span class="material-symbols-outlined text-base text-[#00d68f]">chat</span>
+                      <span>Live Chat</span>
+                    </button>
+                  </div>
+
+                  <!-- Completion PIN helper -->
+                  <div class="bg-[#0c1322] border border-[#1e2b45] rounded-lg p-space-sm flex items-center justify-between">
+                    <div>
+                      <span class="font-label-sm text-label-sm text-[#94a3b8] block">Completion OTP</span>
+                      <span class="font-headline-sm text-headline-sm font-bold text-[#00d68f] tracking-widest">4821</span>
+                    </div>
+                    <span class="font-caption text-caption text-[#94a3b8] max-w-[130px] text-right">
+                      Give to Suresh only after service check
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Action Bar: Operations & Dispatch -->
+              <div class="pt-space-md flex flex-wrap items-center justify-between gap-space-sm bg-[#0e172a] border-t border-[#1e293b] -mx-space-lg -mb-space-lg px-space-lg py-space-md">
+                <div class="flex flex-wrap items-center gap-space-sm">
+                  <button onclick="openTrackArrivalModal('89421')" class="flex items-center gap-2 px-space-lg py-2.5 rounded-lg bg-[#00d68f] text-[#062d1d] font-label-lg text-label-lg font-bold shadow-[0_0_15px_rgba(0,214,143,0.35)] hover:bg-[#05df96] transition-all">
+                    <span class="material-symbols-outlined text-base">map</span>
+                    <span>Track Arrival / Live Map</span>
+                  </button>
+                  <button onclick="openBookingDetailsModal('89421')" class="flex items-center gap-1.5 px-space-md py-2.5 rounded-lg bg-[#131e33] border border-[#223354] text-[#f8fafc] font-label-md text-label-md font-semibold hover:bg-[#17243d] transition-colors">
+                    <span class="material-symbols-outlined text-base text-[#94a3b8]">description</span>
+                    <span>View Full Details</span>
+                  </button>
+                </div>
+                <div class="flex items-center gap-space-sm">
+                  <button onclick="openRescheduleModal('89421', 'AC Deep Jet Cleaning')" class="px-space-md py-2 rounded-lg text-[#cbd5e1] font-label-md text-label-md hover:bg-[#131e33] transition-colors">
+                    Request Rescheduling
+                  </button>
+                  <button onclick="openCancelModal('89421', '₹699')" class="px-space-md py-2 rounded-lg text-[#ff6b6b] hover:bg-[#3d1116] font-label-md text-label-md transition-colors">
+                    Cancel Booking
+                  </button>
+                  <button onclick="navigateTo('customer-support')" class="p-2 text-[#94a3b8] hover:text-[#f8fafc] hover:bg-[#131e33] rounded-lg transition-colors" title="Contact Support">
+                    <span class="material-symbols-outlined text-lg">help_outline</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 2: Confirmed & Scheduled for Tomorrow -->
+          <div id="bookingCard-89310" data-status="confirmed" data-keywords="electrical short circuit main mcb tripping rajesh verma wireman inspection" class="booking-card bg-[#131e33] border border-[#223354] rounded-xl shadow-xl overflow-hidden relative transition-all hover:border-[#38bdf8]/50">
+            <div class="h-1.5 w-full bg-[#38bdf8]"></div>
+            <div class="p-space-lg flex flex-col gap-space-lg">
+              
+              <!-- Top bar: Booking Ref, Status, Price -->
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm pb-space-md bg-[#0e172a] border-b border-[#1e293b] -mx-space-lg -mt-space-lg px-space-lg pt-space-md">
+                <div class="flex flex-wrap items-center gap-space-sm">
+                  <span class="font-label-lg text-label-lg font-bold text-[#f8fafc]">#SS-BK-89310</span>
+                  <span class="text-[#64748b] text-caption">•</span>
+                  <span class="font-caption text-caption text-[#94a3b8] font-medium">Booked Yesterday, 04:40 PM</span>
+                  <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#131e33] border border-[#223354] text-[#38bdf8] font-label-sm text-label-sm font-semibold">
+                    <span class="w-2 h-2 rounded-full bg-[#38bdf8]"></span>
+                    Confirmed • Scheduled
+                  </span>
+                </div>
+                <div class="flex items-center gap-space-sm">
+                  <div class="flex flex-col text-right">
+                    <span class="font-headline-sm text-headline-sm font-bold text-[#f8fafc]">₹449</span>
+                    <span class="font-caption text-caption text-[#94a3b8]">Inspection &amp; Diagnostic Base</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Main Body: 2 Columns -->
+              <div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start">
+                <!-- Left Column (7 cols): Service details -->
+                <div class="lg:col-span-7 flex flex-col gap-space-md">
+                  <div>
+                    <div class="inline-flex items-center gap-1 text-[#38bdf8] font-label-sm text-label-sm font-semibold mb-1">
+                      <span class="material-symbols-outlined text-sm">bolt</span>
+                      <span>Electrical Engineering &amp; Safety Diagnostic</span>
+                    </div>
+                    <h3 class="font-headline-md text-headline-md font-bold text-[#f8fafc]">
+                      Electrical Short Circuit &amp; Main MCB Tripping Inspection
+                    </h3>
+                    <p class="font-body-sm text-body-sm text-[#94a3b8] mt-1">
+                      Comprehensive multimeter wire tracing, load balancing assessment for kitchen line, and MCB replacement inspection.
+                    </p>
+                  </div>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-space-sm bg-[#0e172a] border border-[#1e293b] p-space-md rounded-xl">
+                    <div class="flex items-start gap-space-sm">
+                      <span class="material-symbols-outlined text-[#38bdf8] text-lg mt-0.5">event</span>
+                      <div>
+                        <span class="font-label-sm text-label-sm uppercase font-bold text-[#94a3b8] block">Scheduled Slot</span>
+                        <span id="card2SlotText" class="font-body-sm text-body-sm text-[#f8fafc] font-semibold block">Tomorrow, 25 Oct</span>
+                        <span id="card2TimeText" class="font-caption text-caption text-[#94a3b8]">10:00 AM - 11:30 AM (Morning)</span>
+                      </div>
+                    </div>
+                    <div class="flex items-start gap-space-sm">
+                      <span class="material-symbols-outlined text-[#38bdf8] text-lg mt-0.5">location_on</span>
+                      <div>
+                        <span class="font-label-sm text-label-sm uppercase font-bold text-[#94a3b8] block">Service Address</span>
+                        <span class="font-body-sm text-body-sm text-[#cbd5e1] leading-tight block">
+                          Flat 402, Green Glen Orchid Apts, HSR Sector 2, Bengaluru
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Reschedule Free Window Reminder -->
+                  <div class="flex items-center gap-space-sm bg-[#0c1322] border border-[#1e2b45] px-space-md py-space-sm rounded-lg">
+                    <span class="material-symbols-outlined text-[#38bdf8] text-base">update</span>
+                    <span class="font-caption text-caption text-[#cbd5e1]">
+                      Free reschedule or penalty-free cancellation available until tomorrow at <strong class="text-[#f8fafc]">09:00 AM</strong> (1 hour prior to window).
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Right Column (5 cols): Assigned Electrician -->
+                <div class="lg:col-span-5 bg-[#0e172a] border border-[#1e293b] p-space-md rounded-xl flex flex-col justify-between gap-space-md">
+                  <div>
+                    <div class="flex items-center justify-between mb-space-sm">
+                      <span class="font-label-sm text-label-sm uppercase font-bold text-[#94a3b8]">Confirmed Electrician</span>
+                      <div class="px-2.5 py-1 rounded-lg bg-[#131e33] border border-[#223354] flex items-center gap-1.5">
+                        <span class="w-1.5 h-1.5 rounded-full bg-[#38bdf8]"></span>
+                        <span class="text-[#38bdf8] font-label-sm text-label-sm font-semibold">Coop Member</span>
+                      </div>
+                    </div>
+                    <div class="flex items-center gap-space-md">
+                      <div class="relative">
+                        <img class="w-14 h-14 rounded-full object-cover ring-2 ring-[#38bdf8]" alt="Portrait of Rajesh Verma" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCX0u36qk0GB4rSet3-Cet9S47QqOfUcD9AzO9ew_IdmVo46VKhbW71WalCFP-WrKVmyUaJDb55b4wCl9A9geY0FJsAlatEd7JUjcSeyAhjAHBo3LJtUNUEj_V9Wd5QsdEH7lIcP0xQe8jaAXpKg5Wob1rJWqmVLdll2p2ZpEWOnidIb1zUGQkN4mdIB8GnqbPupUFqi_1u8rFapoz-Y1oNNNNiyarX-iuX1MLhD77O3lcViRbnX-SKTw"/>
+                        <span class="absolute bottom-0 right-0 w-3.5 h-3.5 bg-[#38bdf8] rounded-full border-2 border-[#0e172a]"></span>
+                      </div>
+                      <div class="flex flex-col">
+                        <div class="flex items-center gap-1.5">
+                          <h4 class="font-label-lg text-label-lg font-bold text-[#f8fafc]">Rajesh Verma</h4>
+                          <span class="px-2 py-0.5 rounded bg-[#131e33] border border-[#223354] text-[#38bdf8] font-label-sm text-label-sm font-semibold">Worker #SK-109</span>
+                        </div>
+                        <div class="flex items-center gap-1 text-[#f8fafc] font-label-sm text-label-sm mt-0.5">
+                          <span class="material-symbols-outlined text-amber-400 text-sm material-symbols-fill">star</span>
+                          <strong class="font-bold">4.95</strong>
+                          <span class="text-[#94a3b8]">(620 jobs)</span>
+                        </div>
+                        <span class="font-caption text-caption text-[#94a3b8] mt-0.5">Master Electrician • 12+ Yrs Experience</span>
+                      </div>
+                    </div>
+
+                    <div class="mt-space-md pt-space-sm flex flex-col gap-1.5">
+                      <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#131e33] border border-[#223354] font-caption text-caption text-[#cbd5e1]">
+                        <span class="w-2 h-2 rounded-full bg-[#00d68f]"></span>
+                        <span class="font-medium">Licensed Wireman &amp; Government Certified</span>
+                      </div>
+                      <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#131e33] border border-[#223354] font-caption text-caption text-[#cbd5e1]">
+                        <span class="material-symbols-outlined text-[#00d68f] text-base">security</span>
+                        <span class="font-medium">₹25,000 Accidental Property Damage Guarantee</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="pt-space-xs">
+                    <button onclick="openChatModal('Rajesh Verma', 'Licensed Master Electrician', '#SS-BK-89310')" class="w-full flex items-center justify-center gap-1.5 px-space-sm py-2 rounded-lg bg-[#131e33] border border-[#223354] text-[#f8fafc] font-label-md text-label-md font-semibold hover:border-[#38bdf8] transition-colors">
+                      <span class="material-symbols-outlined text-base text-[#38bdf8]">message</span>
+                      <span>Send Instructions to Rajesh</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Action Bar: Card 2 -->
+              <div class="pt-space-md flex flex-wrap items-center justify-between gap-space-sm bg-[#0e172a] border-t border-[#1e293b] -mx-space-lg -mb-space-lg px-space-lg py-space-md">
+                <div class="flex items-center gap-space-sm">
+                  <button onclick="openBookingDetailsModal('89310')" class="flex items-center gap-1.5 px-space-lg py-2.5 rounded-lg bg-[#00d68f] text-[#062d1d] font-label-md text-label-md font-bold shadow-[0_0_15px_rgba(0,214,143,0.25)] hover:bg-[#05df96] transition-colors">
+                    <span class="material-symbols-outlined text-base">visibility</span>
+                    <span>View Booking Details</span>
+                  </button>
+                  <button onclick="downloadInvoiceReceipt('89310')" class="px-space-md py-2.5 rounded-lg text-[#00d68f] font-label-md text-label-md font-semibold hover:bg-[#00d68f]/10 transition-colors">
+                    Download Invoice Receipt
+                  </button>
+                </div>
+                <div class="flex items-center gap-space-sm">
+                  <button onclick="openRescheduleModal('89310', 'Electrical Short Circuit Inspection')" class="px-space-md py-2 rounded-lg text-[#cbd5e1] font-label-md text-label-md hover:bg-[#131e33] transition-colors">
+                    Request Rescheduling
+                  </button>
+                  <button onclick="openCancelModal('89310', '₹449')" class="px-space-md py-2 rounded-lg text-[#ff6b6b] hover:bg-[#3d1116] font-label-md text-label-md transition-colors">
+                    Cancel Booking
+                  </button>
+                  <button onclick="navigateTo('customer-support')" class="p-2 text-[#94a3b8] hover:text-[#f8fafc] hover:bg-[#131e33] rounded-lg transition-colors" title="Contact Support">
+                    <span class="material-symbols-outlined text-lg">support_agent</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FILTER EMPTY STATE CONTAINER (Shown if filter yields 0 cards) -->
+        <div id="filterZeroContainer" class="hidden flex-col items-center justify-center text-center p-space-2xl bg-[#131e33] border border-[#223354] rounded-2xl shadow-xl my-space-lg">
+          <div class="w-16 h-16 rounded-full bg-[#0e172a] border border-[#1e293b] flex items-center justify-center text-[#94a3b8] mb-space-md">
+            <span class="material-symbols-outlined text-3xl text-[#38bdf8]">filter_alt_off</span>
+          </div>
+          <h3 class="font-headline-md text-headline-md font-bold text-[#f8fafc]">No Bookings in this Category</h3>
+          <p class="font-body-md text-body-md text-[#94a3b8] max-w-md mt-2 mb-space-md">
+            There are currently no orders with this status. Check other status tabs or view all active orders.
+          </p>
+          <button onclick="filterStatus('all', document.querySelector('.filter-tab'))" class="px-space-lg py-2 rounded-lg bg-[#00d68f] text-[#062d1d] font-label-md text-label-md font-bold hover:bg-[#05df96] transition-colors">
+            Show All Active Bookings
+          </button>
+        </div>
+
+        <!-- EMPTY STATE CONTAINER (Controlled by toggle) -->
+        <div class="hidden flex-col items-center justify-center text-center p-space-2xl bg-[#131e33] border border-[#223354] rounded-2xl shadow-xl my-space-lg" id="emptyStateContainer">
+          <div class="w-20 h-20 rounded-full bg-[#0e172a] border border-[#1e293b] flex items-center justify-center text-[#94a3b8] mb-space-md">
+            <span class="material-symbols-outlined text-4xl text-[#00d68f]">event_busy</span>
+          </div>
+          <h3 class="font-headline-md text-headline-md font-bold text-[#f8fafc]">No Active Bookings Right Now</h3>
+          <p class="font-body-md text-body-md text-[#94a3b8] max-w-md mt-2 mb-space-lg">
+            You have no ongoing home services or pending worker arrivals scheduled. Need assistance with plumbing, cleaning, or electrical repairs?
+          </p>
+          <div class="flex flex-wrap items-center justify-center gap-space-md">
+            <a class="px-space-xl py-space-sm rounded-lg bg-[#00d68f] text-[#062d1d] font-label-lg text-label-lg font-bold shadow-[0_0_15px_rgba(0,214,143,0.35)] hover:bg-[#05df96] transition-all flex items-center gap-2" href="javascript:void(0)" onclick="navigateTo('explore-services')">
+              <span class="material-symbols-outlined text-lg">explore</span>
+              <span>Explore All 42+ Cooperative Services</span>
+            </a>
+            <a class="px-space-lg py-space-sm rounded-lg bg-[#0e172a] border border-[#1e293b] text-[#cbd5e1] font-label-lg text-label-lg font-semibold hover:bg-[#17243d] transition-colors" href="javascript:void(0)" onclick="navigateTo('previous-bookings')">
+              View Previous Bookings History
+            </a>
+          </div>
+
+          <!-- Recommended Quick Services Grid -->
+          <div class="w-full max-w-3xl mt-space-2xl pt-space-xl text-left">
+            <span class="font-label-sm text-label-sm uppercase font-bold text-[#94a3b8] tracking-wider block mb-space-md text-center">
+              Popular quick-dispatch services in HSR Sector 2
+            </span>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-space-md">
+              <div onclick="showQuickBookingNotice('Plumbing Emergency')" class="p-space-md bg-[#0e172a] border border-[#1e293b] rounded-xl cursor-pointer hover:border-[#00d68f] transition-colors flex items-center gap-space-sm">
+                <div class="w-10 h-10 rounded-lg bg-[#00d68f]/10 border border-[#00d68f]/30 text-[#00d68f] flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-xl">plumbing</span>
+                </div>
+                <div>
+                  <h5 class="font-label-md text-label-md font-bold text-[#f8fafc]">Plumbing Emergency</h5>
+                  <span class="font-caption text-caption text-[#94a3b8]">Avg arrival: 30 mins</span>
+                </div>
+              </div>
+              <div onclick="showQuickBookingNotice('Kitchen Deep Clean')" class="p-space-md bg-[#0e172a] border border-[#1e293b] rounded-xl cursor-pointer hover:border-[#38bdf8] transition-colors flex items-center gap-space-sm">
+                <div class="w-10 h-10 rounded-lg bg-[#38bdf8]/10 border border-[#38bdf8]/30 text-[#38bdf8] flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-xl">cleaning_services</span>
+                </div>
+                <div>
+                  <h5 class="font-label-md text-label-md font-bold text-[#f8fafc]">Kitchen Deep Clean</h5>
+                  <span class="font-caption text-caption text-[#94a3b8]">From ₹899</span>
+                </div>
+              </div>
+              <div onclick="showQuickBookingNotice('Carpentry Repair')" class="p-space-md bg-[#0e172a] border border-[#1e293b] rounded-xl cursor-pointer hover:border-[#818cf8] transition-colors flex items-center gap-space-sm">
+                <div class="w-10 h-10 rounded-lg bg-[#818cf8]/10 border border-[#818cf8]/30 text-[#818cf8] flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-xl">carpenter</span>
+                </div>
+                <div>
+                  <h5 class="font-label-md text-label-md font-bold text-[#f8fafc]">Carpentry Repair</h5>
+                  <span class="font-caption text-caption text-[#94a3b8]">Verified Master Guild</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cooperative Help & Community Trust Section -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-space-md mt-space-xl">
+          <div class="bg-[#131e33] border border-[#223354] p-space-md rounded-xl shadow-lg flex items-start gap-space-sm">
+            <div class="w-8 h-8 rounded-full bg-[#0e172a] border border-[#1e293b] text-[#00d68f] flex items-center justify-center shrink-0">
+              <span class="material-symbols-outlined text-base">support</span>
+            </div>
+            <div>
+              <h5 class="font-label-md text-label-md font-bold text-[#f8fafc]">24x7 Customer Desk</h5>
+              <p class="font-caption text-caption text-[#94a3b8] mt-0.5">Need to urgently alter a request? Connect instantly to your HSR cluster coordinator.</p>
+            </div>
+          </div>
+          <div class="bg-[#131e33] border border-[#223354] p-space-md rounded-xl shadow-lg flex items-start gap-space-sm">
+            <div class="w-8 h-8 rounded-full bg-[#0e172a] border border-[#1e293b] text-[#00d68f] flex items-center justify-center shrink-0">
+              <span class="material-symbols-outlined text-base">price_check</span>
+            </div>
+            <div>
+              <h5 class="font-label-md text-label-md font-bold text-[#f8fafc]">No Surprise Estimates</h5>
+              <p class="font-caption text-caption text-[#94a3b8] mt-0.5">Every spare part rate is indexed to transparent local cooperative tables.</p>
+            </div>
+          </div>
+          <div class="bg-[#131e33] border border-[#223354] p-space-md rounded-xl shadow-lg flex items-start gap-space-sm">
+            <div class="w-8 h-8 rounded-full bg-[#0e172a] border border-[#1e293b] text-[#00d68f] flex items-center justify-center shrink-0">
+              <span class="material-symbols-outlined text-base">volunteer_activism</span>
+            </div>
+            <div>
+              <h5 class="font-label-md text-label-md font-bold text-[#f8fafc]">Ethical Labor Standards</h5>
+              <p class="font-caption text-caption text-[#94a3b8] mt-0.5">Worker partners receive health cover, dividend payouts, and dignity-first compensation.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW: EXPLORE SERVICES -->
+      <section id="view-explore-services" class="hidden flex-col w-full pb-space-2xl">
+        <div class="flex items-center justify-between mb-space-lg">
           <div>
-            <label class="block font-label-sm text-text-muted mb-1 uppercase font-bold">Task Title</label>
-            <input name="taskTitle" required class="w-full bg-surface-container-lowest text-text-primary px-3.5 py-2.5 rounded-xl border border-surface-border focus:ring-1 focus:ring-primary focus:outline-none" placeholder="e.g. Scaffolding clamp tension check" />
+            <h1 class="font-headline-xl text-headline-xl text-[#f8fafc] font-bold">Explore Services</h1>
+            <p class="font-body-md text-body-md text-[#94a3b8]">Verified skilled cooperative professionals at standardized, honest pricing.</p>
           </div>
-
-          <div class="grid grid-cols-2 gap-3">
+          <button onclick="navigateTo('active-bookings')" class="px-4 py-2 rounded-lg bg-[#131e33] border border-[#223354] text-[#00d68f] font-semibold text-sm">
+            &larr; Back to Active Bookings
+          </button>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-space-lg">
+          <div class="bg-[#131e33] border border-[#223354] p-space-lg rounded-xl flex flex-col justify-between hover:border-[#00d68f] transition-all">
             <div>
-              <label class="block font-label-sm text-text-muted mb-1 uppercase font-bold">Project Site</label>
-              <select name="taskProject" class="w-full bg-surface-container-lowest text-text-primary px-3 py-2.5 rounded-xl border border-surface-border focus:ring-1 focus:ring-primary focus:outline-none">
-                <option value="Rohini Sector-9 Community Hall">Rohini Sec-9 Hall</option>
-                <option value="Mayur Vihar School Retrofit">Mayur Vihar School</option>
-                <option value="Dwarka DDA Flats Electrical">Dwarka DDA Flats</option>
-                <option value="Janakpuri Community Dispensary">Janakpuri Dispensary</option>
-                <option value="Pitampura Cooperative Block">Pitampura Housing</option>
-              </select>
+              <span class="material-symbols-outlined text-3xl text-[#00d68f] mb-2">ac_unit</span>
+              <h3 class="font-headline-sm font-bold text-[#f8fafc]">Air Conditioner Care</h3>
+              <p class="font-body-sm text-[#94a3b8] mt-1">Deep jet cleaning, gas check, PCB diagnosis, split/window servicing.</p>
             </div>
-            <div>
-              <label class="block font-label-sm text-text-muted mb-1 uppercase font-bold">Priority</label>
-              <select name="taskPriority" class="w-full bg-surface-container-lowest text-text-primary px-3 py-2.5 rounded-xl border border-surface-border focus:ring-1 focus:ring-primary focus:outline-none">
-                <option value="urgent">Urgent</option>
-                <option value="high" selected>High</option>
-                <option value="medium">Medium</option>
-                <option value="low">Low</option>
-              </select>
+            <div class="mt-4 pt-3 border-t border-[#1e293b] flex items-center justify-between">
+              <span class="text-sm font-bold text-[#00d68f]">From ₹499</span>
+              <button onclick="showQuickBookingNotice('AC Care')" class="px-3 py-1.5 rounded-lg bg-[#00d68f] text-[#062d1d] font-bold text-xs">Book Now</button>
             </div>
           </div>
-
-          <div class="grid grid-cols-2 gap-3">
+          <div class="bg-[#131e33] border border-[#223354] p-space-lg rounded-xl flex flex-col justify-between hover:border-[#38bdf8] transition-all">
             <div>
-              <label class="block font-label-sm text-text-muted mb-1 uppercase font-bold">Trade Category</label>
-              <select name="taskTrade" class="w-full bg-surface-container-lowest text-text-primary px-3 py-2.5 rounded-xl border border-surface-border focus:ring-1 focus:ring-primary focus:outline-none">
-                <option value="Masonry & Concreting">Masonry & Concreting</option>
-                <option value="Electrical Wireman">Electrical & Wiring</option>
-                <option value="Commercial Painting">Commercial Painting</option>
-                <option value="Sanitary & Mains">Sanitary & Plumbing</option>
-                <option value="Carpentry & Formwork">Carpentry & Formwork</option>
-              </select>
+              <span class="material-symbols-outlined text-3xl text-[#38bdf8] mb-2">bolt</span>
+              <h3 class="font-headline-sm font-bold text-[#f8fafc]">Electrical &amp; Wiring</h3>
+              <p class="font-body-sm text-[#94a3b8] mt-1">Licensed wiremen for short-circuit detection, appliance installation, earthing.</p>
             </div>
-            <div>
-              <label class="block font-label-sm text-text-muted mb-1 uppercase font-bold">Assignee Worker</label>
-              <select name="taskAssignee" class="w-full bg-surface-container-lowest text-text-primary px-3 py-2.5 rounded-xl border border-surface-border focus:ring-1 focus:ring-primary focus:outline-none">
-                <option value="Harish Chandra">Harish Chandra (Lead Mason)</option>
-                <option value="Sunil Sharma">Sunil Sharma (Lead Carpenter)</option>
-                <option value="Vikram Singh">Vikram Singh (Senior Wireman)</option>
-                <option value="Mohammad Irfan">Mohammad Irfan (Lead Plumber)</option>
-                <option value="Sunil Meena">Sunil Meena (Painter)</option>
-                <option value="Unassigned">Unassigned (Open Bench)</option>
-              </select>
+            <div class="mt-4 pt-3 border-t border-[#1e293b] flex items-center justify-between">
+              <span class="text-sm font-bold text-[#38bdf8]">From ₹349</span>
+              <button onclick="showQuickBookingNotice('Electrical Service')" class="px-3 py-1.5 rounded-lg bg-[#38bdf8] text-[#0a2030] font-bold text-xs">Book Now</button>
             </div>
           </div>
+          <div class="bg-[#131e33] border border-[#223354] p-space-lg rounded-xl flex flex-col justify-between hover:border-[#818cf8] transition-all">
+            <div>
+              <span class="material-symbols-outlined text-3xl text-[#818cf8] mb-2">plumbing</span>
+              <h3 class="font-headline-sm font-bold text-[#f8fafc]">Plumbing &amp; Sanitary</h3>
+              <p class="font-body-sm text-[#94a3b8] mt-1">Motor pumps, pipe leakage, concealed plumbing repairs, tap replacements.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-[#1e293b] flex items-center justify-between">
+              <span class="text-sm font-bold text-[#818cf8]">From ₹299</span>
+              <button onclick="showQuickBookingNotice('Plumbing Service')" class="px-3 py-1.5 rounded-lg bg-[#818cf8] text-[#121636] font-bold text-xs">Book Now</button>
+            </div>
+          </div>
+        </div>
+      </section>
 
+      <!-- VIEW: PREVIOUS BOOKINGS -->
+      <section id="view-previous-bookings" class="hidden flex-col w-full pb-space-2xl">
+        <div class="flex items-center justify-between mb-space-lg">
           <div>
-            <label class="block font-label-sm text-text-muted mb-1 uppercase font-bold">Target Due Window</label>
-            <input name="taskDueDate" class="w-full bg-surface-container-lowest text-text-primary px-3.5 py-2.5 rounded-xl border border-surface-border focus:ring-1 focus:ring-primary focus:outline-none" placeholder="e.g. Today 05:00 PM or 25 Feb" />
+            <h1 class="font-headline-xl text-headline-xl text-[#f8fafc] font-bold">Previous Bookings</h1>
+            <p class="font-body-md text-body-md text-[#94a3b8]">Review past jobs, service warranty certificates, and rebook your trusted workers.</p>
+          </div>
+          <button onclick="navigateTo('active-bookings')" class="px-4 py-2 rounded-lg bg-[#131e33] border border-[#223354] text-[#00d68f] font-semibold text-sm">
+            &larr; Back to Active Bookings
+          </button>
+        </div>
+        <div class="bg-[#131e33] border border-[#223354] rounded-xl overflow-hidden shadow-xl">
+          <div class="p-space-md border-b border-[#1e293b] flex items-center justify-between bg-[#0e172a]">
+            <span class="font-label-md font-bold text-[#f8fafc]">Completed Work Orders (Last 6 Months)</span>
+            <span class="text-xs text-[#94a3b8]">2 Completed Orders</span>
+          </div>
+          <div class="divide-y divide-[#1e293b]">
+            <div class="p-space-lg flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="font-label-lg font-bold text-[#f8fafc]">#SS-BK-87219</span>
+                  <span class="px-2 py-0.5 rounded bg-[#00d68f]/20 text-[#00d68f] text-xs font-bold">Completed &amp; Rated 5★</span>
+                </div>
+                <h4 class="font-headline-sm text-[#cbd5e1] mt-1">Water Purifier RO Membrane Service &amp; Filter Replace</h4>
+                <p class="text-caption text-[#94a3b8]">Served by Mahesh Gowda • 12 Sep 2026 • 30-Day Guarantee Active</p>
+              </div>
+              <div class="flex items-center gap-2">
+                <button onclick="downloadInvoiceReceipt('87219')" class="px-3 py-1.5 rounded-lg bg-[#0e172a] border border-[#1e293b] text-xs text-[#cbd5e1] hover:text-[#f8fafc]">View Receipt</button>
+                <button onclick="showQuickBookingNotice('Water Purifier Service')" class="px-3 py-1.5 rounded-lg bg-[#00d68f] text-[#062d1d] font-bold text-xs">Rebook Mahesh</button>
+              </div>
+            </div>
+            <div class="p-space-lg flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="font-label-lg font-bold text-[#f8fafc]">#SS-BK-85410</span>
+                  <span class="px-2 py-0.5 rounded bg-[#00d68f]/20 text-[#00d68f] text-xs font-bold">Completed &amp; Rated 5★</span>
+                </div>
+                <h4 class="font-headline-sm text-[#cbd5e1] mt-1">Balcony Safety Netting &amp; Pigeon Mesh Installation</h4>
+                <p class="text-caption text-[#94a3b8]">Served by Ramesh Kumar • 28 Jul 2026</p>
+              </div>
+              <div class="flex items-center gap-2">
+                <button onclick="downloadInvoiceReceipt('85410')" class="px-3 py-1.5 rounded-lg bg-[#0e172a] border border-[#1e293b] text-xs text-[#cbd5e1] hover:text-[#f8fafc]">View Receipt</button>
+                <button onclick="showQuickBookingNotice('Safety Net Installation')" class="px-3 py-1.5 rounded-lg bg-[#00d68f] text-[#062d1d] font-bold text-xs">Book Again</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW: FIND WORKERS -->
+      <section id="view-find-workers" class="hidden flex-col w-full pb-space-2xl">
+        <div class="flex items-center justify-between mb-space-lg">
+          <div>
+            <h1 class="font-headline-xl text-headline-xl text-[#f8fafc] font-bold">Find Verified Workers</h1>
+            <p class="font-body-md text-body-md text-[#94a3b8]">Directly browse verified worker-owners in the HSR Sector 2 cooperative guild.</p>
+          </div>
+          <button onclick="navigateTo('active-bookings')" class="px-4 py-2 rounded-lg bg-[#131e33] border border-[#223354] text-[#00d68f] font-semibold text-sm">
+            &larr; Back to Active Bookings
+          </button>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-space-lg">
+          <div class="bg-[#131e33] border border-[#223354] p-space-lg rounded-xl flex flex-col justify-between">
+            <div class="flex items-center gap-space-md mb-3">
+              <img class="w-14 h-14 rounded-full object-cover ring-2 ring-[#00d68f]" alt="Suresh Kumar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAB0H9vWcriqeMcKzt1qoWGvRHrVQeaNWqp85Mjpko5CqrqejR-CbXRqHYsTTPZ9k9o6UFhQeCogBsy6-FS7gGudNb1fy8ZW-_I3Pj5n0kfGR6ugWuivSIQZlGV4-YKu2kVgvjz4Qswd1Q_yiKimWon1Ko1VVnE5C6NLX3tM0gVgBV3nt9iDg5HeIEuacJe0sbDmKMIFbiH3LQXS6cKMaoUtyob-4I8zwuST2AtN37nPhwC9xAexmPwJA"/>
+              <div>
+                <h4 class="font-bold text-[#f8fafc]">Suresh Kumar</h4>
+                <p class="text-xs text-[#00d68f]">Master HVAC Specialist</p>
+                <div class="flex items-center gap-1 text-xs text-amber-400 mt-1">★ 4.9 (380 jobs)</div>
+              </div>
+            </div>
+            <p class="text-caption text-[#94a3b8]">Currently on job #SS-BK-89421. Available today after 4:30 PM.</p>
+            <button onclick="openChatModal('Suresh Kumar', 'AC Master Technician', '#SS-BK-89421')" class="mt-4 w-full py-2 bg-[#0e172a] border border-[#223354] rounded-lg text-xs font-bold text-[#00d68f] hover:bg-[#131e33]">
+              Send Direct Message
+            </button>
           </div>
 
-          <div class="pt-4 border-t border-surface-border flex items-center justify-end gap-3">
-            <button type="button" onclick="closeTaskModal()" class="px-4 py-2.5 rounded-xl bg-surface-container hover:bg-surface-container-high text-text-soft font-label-md font-semibold">
-              Cancel
-            </button>
-            <button type="submit" class="px-5 py-2.5 rounded-xl bg-primary-container text-on-primary-container hover:bg-primary font-label-md font-bold transition-all shadow-md">
-              Dispatch to Site Crew
+          <div class="bg-[#131e33] border border-[#223354] p-space-lg rounded-xl flex flex-col justify-between">
+            <div class="flex items-center gap-space-md mb-3">
+              <img class="w-14 h-14 rounded-full object-cover ring-2 ring-[#38bdf8]" alt="Rajesh Verma" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCX0u36qk0GB4rSet3-Cet9S47QqOfUcD9AzO9ew_IdmVo46VKhbW71WalCFP-WrKVmyUaJDb55b4wCl9A9geY0FJsAlatEd7JUjcSeyAhjAHBo3LJtUNUEj_V9Wd5QsdEH7lIcP0xQe8jaAXpKg5Wob1rJWqmVLdll2p2ZpEWOnidIb1zUGQkN4mdIB8GnqbPupUFqi_1u8rFapoz-Y1oNNNNiyarX-iuX1MLhD77O3lcViRbnX-SKTw"/>
+              <div>
+                <h4 class="font-bold text-[#f8fafc]">Rajesh Verma</h4>
+                <p class="text-xs text-[#38bdf8]">Licensed Master Electrician</p>
+                <div class="flex items-center gap-1 text-xs text-amber-400 mt-1">★ 4.95 (620 jobs)</div>
+              </div>
+            </div>
+            <p class="text-caption text-[#94a3b8]">Assigned for tomorrow 10:00 AM. 12+ years experience in electrical wiring.</p>
+            <button onclick="openChatModal('Rajesh Verma', 'Licensed Master Electrician', '#SS-BK-89310')" class="mt-4 w-full py-2 bg-[#0e172a] border border-[#223354] rounded-lg text-xs font-bold text-[#38bdf8] hover:bg-[#131e33]">
+              Send Direct Message
             </button>
           </div>
-        </form>
-      </div>
-    </div>
+        </div>
+      </section>
+
+      <!-- VIEW: CUSTOMER SUPPORT -->
+      <section id="view-customer-support" class="hidden flex-col w-full pb-space-2xl">
+        <div class="flex items-center justify-between mb-space-lg">
+          <div>
+            <h1 class="font-headline-xl text-headline-xl text-[#f8fafc] font-bold">Customer Support Desk</h1>
+            <p class="font-body-md text-body-md text-[#94a3b8]">Direct line to your local HSR Sector 2 Cooperative Cluster Coordinator.</p>
+          </div>
+          <button onclick="navigateTo('active-bookings')" class="px-4 py-2 rounded-lg bg-[#131e33] border border-[#223354] text-[#00d68f] font-semibold text-sm">
+            &larr; Back to Active Bookings
+          </button>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-space-lg">
+          <div class="bg-[#131e33] border border-[#223354] p-space-lg rounded-xl">
+            <h3 class="font-headline-sm font-bold text-[#f8fafc] mb-2 flex items-center gap-2">
+              <span class="material-symbols-outlined text-[#00d68f]">forum</span>
+              Active Support Ticket #TIC-2941
+            </h3>
+            <p class="text-sm text-[#cbd5e1] mb-4">
+              <strong>Query:</strong> AC Extension Cord request confirmation for #SS-BK-89421.
+            </p>
+            <div class="p-3 bg-[#0e172a] rounded-lg border border-[#1e293b] mb-4 text-xs text-[#94a3b8]">
+              <strong class="text-[#00d68f]">Coordinator Ananya (HSR Hub):</strong> "Noted! We have conveyed to Suresh Kumar to bring a 15-amp heavy duty extension cord with him. No extra charge."
+            </div>
+            <div class="flex items-center gap-2">
+              <input id="supportReplyInput" type="text" placeholder="Reply to coordinator..." class="flex-1 bg-[#0c1322] border border-[#1e2b45] rounded-lg px-3 py-2 text-xs text-[#f8fafc] focus:outline-none focus:ring-1 focus:ring-[#00d68f]"/>
+              <button onclick="sendSupportReply()" class="px-4 py-2 bg-[#00d68f] text-[#062d1d] font-bold text-xs rounded-lg">Send</button>
+            </div>
+          </div>
+
+          <div class="bg-[#131e33] border border-[#223354] p-space-lg rounded-xl flex flex-col justify-between">
+            <div>
+              <h3 class="font-headline-sm font-bold text-[#f8fafc] mb-2">Emergency Cooperative Helpline</h3>
+              <p class="text-sm text-[#94a3b8]">For immediate assistance during an ongoing dispatch, you can call our priority coordinator line.</p>
+              <div class="mt-4 p-3 bg-[#0e172a] rounded-lg border border-[#1e293b]">
+                <div class="flex items-center justify-between text-xs">
+                  <span class="text-[#cbd5e1]">Direct Coordinator Desk:</span>
+                  <strong class="text-[#00d68f] text-sm">+91 80-2800-SAHKAR</strong>
+                </div>
+                <div class="flex items-center justify-between text-xs mt-2">
+                  <span class="text-[#cbd5e1]">Average Answer Time:</span>
+                  <span class="text-[#00d68f]">&lt; 15 seconds</span>
+                </div>
+              </div>
+            </div>
+            <button onclick="openMaskedCallModal('HSR Cluster Coordinator', '+91 80-2800-SAHKAR')" class="mt-4 w-full py-2.5 bg-[#00d68f] text-[#062d1d] font-bold text-xs rounded-lg flex items-center justify-center gap-1.5">
+              <span class="material-symbols-outlined text-sm">phone</span>
+              <span>Call Coordinator Desk</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW: MY PROFILE -->
+      <section id="view-my-profile" class="hidden flex-col w-full pb-space-2xl">
+        <div class="flex items-center justify-between mb-space-lg">
+          <div>
+            <h1 class="font-headline-xl text-headline-xl text-[#f8fafc] font-bold">Customer Profile</h1>
+            <p class="font-body-md text-body-md text-[#94a3b8]">Manage your verified household address, cooperative shield tier, and preferences.</p>
+          </div>
+          <button onclick="navigateTo('active-bookings')" class="px-4 py-2 rounded-lg bg-[#131e33] border border-[#223354] text-[#00d68f] font-semibold text-sm">
+            &larr; Back to Active Bookings
+          </button>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-space-lg">
+          <div class="bg-[#131e33] border border-[#223354] p-space-lg rounded-xl flex flex-col items-center text-center">
+            <img class="w-24 h-24 rounded-full object-cover ring-4 ring-[#00d68f] mb-3" alt="Rahul Sharma" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBM_86DGv5wSOBpjHIKyl0W_1ID4WdKomFgKGGvWs3NBbADOn-fOij6wDQIo-KQAdbZzZVsiFkpOxBY7CeXh7v_N00e6tUK1quwTfO1lh9nmQtxtHz0Ny330En3O8NcZBt2a2wqp3uNbn01CIuq9K9bj-q8u8V2tjQBHYkxYAYUSAIFeoRopDaW14EWa-9ubjsbcTfzAT_QG0jkYek0KbytdylXO5pqGwG-l-UyCkcVSGhnOhYcsEBPmA"/>
+            <h3 class="font-headline-sm font-bold text-[#f8fafc]">Rahul Sharma</h3>
+            <span class="px-2 py-0.5 rounded-full bg-[#00d68f]/20 text-[#00d68f] text-xs font-semibold mt-1">Verified Patron Member</span>
+            <p class="text-caption text-[#94a3b8] mt-2">Member since Oct 2023 • 14 Services Completed</p>
+          </div>
+
+          <div class="md:col-span-2 bg-[#131e33] border border-[#223354] p-space-lg rounded-xl">
+            <h4 class="font-label-lg font-bold text-[#f8fafc] mb-3">Saved Service Addresses</h4>
+            <div class="p-3 bg-[#0e172a] border border-[#1e293b] rounded-lg mb-3 flex items-start justify-between">
+              <div>
+                <div class="flex items-center gap-2">
+                  <strong class="text-sm text-[#f8fafc]">Home (Default)</strong>
+                  <span class="px-2 py-0.2 bg-[#00d68f]/10 text-[#00d68f] text-[10px] font-bold rounded">Primary</span>
+                </div>
+                <p class="text-xs text-[#cbd5e1] mt-1">Flat 402, Green Glen Orchid Apts, 14th Main, HSR Sector 2, Bengaluru - 560102</p>
+              </div>
+              <button onclick="showToast('Address editing demo modal')" class="text-xs text-[#00d68f] hover:underline">Edit</button>
+            </div>
+            <div class="p-3 bg-[#0e172a] border border-[#1e293b] rounded-lg flex items-start justify-between">
+              <div>
+                <strong class="text-sm text-[#f8fafc]">Office / Studio</strong>
+                <p class="text-xs text-[#cbd5e1] mt-1">3rd Floor, TechHub Plaza, 27th Main, Sector 1, HSR Layout, Bengaluru - 560102</p>
+              </div>
+              <button onclick="showToast('Address editing demo modal')" class="text-xs text-[#00d68f] hover:underline">Edit</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW: SETTINGS -->
+      <section id="view-settings" class="hidden flex-col w-full pb-space-2xl">
+        <div class="flex items-center justify-between mb-space-lg">
+          <div>
+            <h1 class="font-headline-xl text-headline-xl text-[#f8fafc] font-bold">Preferences &amp; Settings</h1>
+            <p class="font-body-md text-body-md text-[#94a3b8]">Configure notification triggers, privacy settings, and language preference.</p>
+          </div>
+          <button onclick="navigateTo('active-bookings')" class="px-4 py-2 rounded-lg bg-[#131e33] border border-[#223354] text-[#00d68f] font-semibold text-sm">
+            &larr; Back to Active Bookings
+          </button>
+        </div>
+        <div class="bg-[#131e33] border border-[#223354] p-space-lg rounded-xl divide-y divide-[#1e293b]">
+          <div class="py-3 flex items-center justify-between">
+            <div>
+              <h5 class="text-sm font-bold text-[#f8fafc]">Live SMS &amp; WhatsApp Arrival Alerts</h5>
+              <p class="text-xs text-[#94a3b8]">Receive real-time distance and dispatch notifications on mobile.</p>
+            </div>
+            <input type="checkbox" checked class="rounded text-[#00d68f] focus:ring-0 bg-[#0e172a] border-[#223354] h-5 w-5"/>
+          </div>
+          <div class="py-3 flex items-center justify-between">
+            <div>
+              <h5 class="text-sm font-bold text-[#f8fafc]">Masked Number Privacy</h5>
+              <p class="text-xs text-[#94a3b8]">Never reveal your actual mobile number to technicians; always connect via masked cooperative relay.</p>
+            </div>
+            <input type="checkbox" checked class="rounded text-[#00d68f] focus:ring-0 bg-[#0e172a] border-[#223354] h-5 w-5"/>
+          </div>
+          <div class="py-3 flex items-center justify-between">
+            <div>
+              <h5 class="text-sm font-bold text-[#f8fafc]">Language Preference</h5>
+              <p class="text-xs text-[#94a3b8]">Dashboard and notification language.</p>
+            </div>
+            <select class="bg-[#0e172a] border border-[#223354] text-xs text-[#f8fafc] rounded-lg px-3 py-1.5">
+              <option>English</option>
+              <option>हिन्दी (Hindi)</option>
+              <option>ಕನ್ನಡ (Kannada)</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW: TEAM AND PROJECT BOOKING -->
+      <section id="view-team-and-project-booking" class="hidden flex-col w-full pb-space-2xl">
+        <div class="flex items-center justify-between mb-space-lg">
+          <div>
+            <h1 class="font-headline-xl text-headline-xl text-[#f8fafc] font-bold">Team &amp; Turnkey Projects</h1>
+            <p class="font-body-md text-body-md text-[#94a3b8]">Book multi-trade cooperative teams for complete home renovation, painting, or office setups.</p>
+          </div>
+          <button onclick="navigateTo('active-bookings')" class="px-4 py-2 rounded-lg bg-[#131e33] border border-[#223354] text-[#00d68f] font-semibold text-sm">
+            &larr; Back to Active Bookings
+          </button>
+        </div>
+        <div class="bg-[#131e33] border border-[#223354] p-space-xl rounded-xl text-center flex flex-col items-center">
+          <div class="w-16 h-16 rounded-full bg-[#00d68f]/10 text-[#00d68f] flex items-center justify-center mb-4">
+            <span class="material-symbols-outlined text-3xl">groups</span>
+          </div>
+          <h3 class="font-headline-md font-bold text-[#f8fafc]">Cooperative Turnkey Team Builder</h3>
+          <p class="font-body-md text-[#94a3b8] max-w-xl mt-2 mb-6">
+            Assemble a dedicated guild crew: 1 Master Electrician, 2 Painters, 1 Carpenter, supervised by a Cooperative Guild Foreman with milestone-based escrow payments.
+          </p>
+          <button onclick="showToast('Cooperative project manager assigned in demo mode!')" class="px-6 py-3 rounded-xl bg-[#00d68f] text-[#062d1d] font-bold text-sm shadow-[0_0_15px_rgba(0,214,143,0.3)]">
+            Request Project Scope Consultation
+          </button>
+        </div>
+      </section>
+
+    </main>
   </div>
 
-  <!-- MODAL 2: Project Inspection Modal -->
-  <div id="project-inspect-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
-    <div class="absolute inset-0 bg-black/75 backdrop-blur-sm" onclick="closeProjectInspectModal()"></div>
-    <div class="relative w-full max-w-xl bg-surface-container-low rounded-2xl border border-surface-border shadow-2xl p-6 z-10">
-      <div class="flex items-center justify-between border-b border-surface-border pb-3 mb-4">
-        <h3 class="font-headline-sm text-text-primary font-bold">Site Project Inspection Workspace</h3>
-        <button onclick="closeProjectInspectModal()" class="p-1 rounded-lg text-text-muted hover:text-text-primary">
-          <span class="material-symbols-outlined text-[20px]">close</span>
+  <!-- ==================== MODALS & DRAWERS ==================== -->
+
+  <!-- MODAL: TRACK ARRIVAL / LIVE MAP (HIGH FIDELITY SIMULATION) -->
+  <div id="trackArrivalModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4">
+    <div class="bg-[#0e172a] border border-[#223354] rounded-2xl w-full max-w-4xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+      <!-- Modal Header -->
+      <div class="p-space-lg bg-[#131e33] border-b border-[#1e293b] flex items-center justify-between">
+        <div class="flex items-center gap-space-sm">
+          <div class="w-3 h-3 rounded-full bg-[#00d68f] animate-pulse"></div>
+          <div>
+            <h3 class="font-headline-sm font-bold text-[#f8fafc]">Live Dispatch Radar: Suresh Kumar</h3>
+            <p class="text-caption text-[#94a3b8]">Work Order #SS-BK-89421 • Cooperative Priority Relay</p>
+          </div>
+        </div>
+        <button onclick="closeModal('trackArrivalModal')" class="p-1 rounded-lg text-[#94a3b8] hover:text-[#f8fafc] hover:bg-[#1e293b]">
+          <span class="material-symbols-outlined text-xl">close</span>
         </button>
       </div>
-      <div id="project-inspect-content"></div>
-      <div class="pt-4 mt-4 border-t border-surface-border flex justify-end gap-2">
-        <button onclick="closeProjectInspectModal()" class="px-4 py-2 rounded-xl bg-surface-container-high text-text-soft font-label-md font-semibold">Close</button>
-        <button onclick="showToast('Inspection sign-off recorded on society ledger'); closeProjectInspectModal();" class="px-4 py-2 rounded-xl bg-primary-container text-on-primary-container font-label-md font-bold">Audit Sign-off</button>
+
+      <!-- Map Display & Simulation Screen -->
+      <div class="relative w-full h-80 bg-[#070b14] overflow-hidden flex items-center justify-center">
+        <!-- SVG Grid Simulated Street Map of HSR Layout -->
+        <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#16233d" stroke-width="0.8"/>
+            </pattern>
+            <linearGradient id="routeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#00d68f"/>
+              <stop offset="100%" stop-color="#38bdf8"/>
+            </linearGradient>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#grid)" />
+          
+          <!-- Road networks -->
+          <path d="M 50 150 Q 200 120 400 170 T 750 140" fill="none" stroke="#1f3256" stroke-width="12" stroke-linecap="round"/>
+          <path d="M 250 30 Q 300 200 350 320" fill="none" stroke="#1f3256" stroke-width="10" stroke-linecap="round"/>
+          <path d="M 120 280 L 680 70" fill="none" stroke="#17243d" stroke-width="8"/>
+
+          <!-- Actual Active Route Path -->
+          <path id="svgRoutePath" d="M 180 140 Q 300 110 430 160 T 650 135" fill="none" stroke="url(#routeGradient)" stroke-width="5" stroke-dasharray="8,6" class="animate-pulse"/>
+
+          <!-- Destination Pin (Customer Flat 402) -->
+          <g transform="translate(650, 135)">
+            <circle r="18" fill="#38bdf8" opacity="0.2" class="radar-pulse"/>
+            <circle r="8" fill="#38bdf8"/>
+            <text x="12" y="5" fill="#f8fafc" font-size="11" font-weight="bold">Flat 402 (You)</text>
+          </g>
+
+          <!-- Technician Animated Moving Marker -->
+          <g id="svgTechMarker" transform="translate(420, 155)">
+            <circle r="22" fill="#00d68f" opacity="0.3" class="radar-pulse"/>
+            <circle r="10" fill="#00d68f" stroke="#062d1d" stroke-width="2"/>
+            <text x="-40" y="-18" fill="#00d68f" font-size="11" font-weight="bold">Suresh (3.2 km)</text>
+          </g>
+        </svg>
+
+        <!-- Overlay Floating Card -->
+        <div class="absolute bottom-4 left-4 right-4 bg-[#0e172a]/95 border border-[#223354] rounded-xl p-3 backdrop-blur-md flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-[#00d68f]/20 border border-[#00d68f] text-[#00d68f] flex items-center justify-center">
+              <span class="material-symbols-outlined text-lg">directions_bike</span>
+            </div>
+            <div>
+              <span class="text-xs text-[#94a3b8] block">Live Status:</span>
+              <strong id="modalEtaDisplay" class="text-sm text-[#00d68f] font-bold">Traveling via 19th Main Road • ETA ~25 mins</strong>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="openMaskedCallModal('Suresh Kumar', '+91 80-4567-XXXX (Ext 402)')" class="px-3 py-1.5 rounded-lg bg-[#131e33] border border-[#223354] text-xs font-semibold text-[#f8fafc] hover:border-[#00d68f] flex items-center gap-1">
+              <span class="material-symbols-outlined text-xs text-[#00d68f]">call</span> Call
+            </button>
+            <button onclick="openChatModal('Suresh Kumar', 'AC Master Technician', '#SS-BK-89421')" class="px-3 py-1.5 rounded-lg bg-[#00d68f] text-[#062d1d] text-xs font-bold flex items-center gap-1">
+              <span class="material-symbols-outlined text-xs">chat</span> Chat
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Timeline Steps in Modal -->
+      <div class="p-space-lg flex flex-col gap-3 overflow-y-auto">
+        <h4 class="font-label-md font-bold text-[#f8fafc]">Dispatch Milestones</h4>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-2 text-xs">
+          <div class="p-2.5 rounded-lg bg-[#131e33] border border-[#00d68f]/40">
+            <span class="text-[#00d68f] font-bold block">✓ 09:15 AM</span>
+            <span class="text-[#cbd5e1]">Escrow Locked &amp; Matched</span>
+          </div>
+          <div class="p-2.5 rounded-lg bg-[#131e33] border border-[#00d68f]/40">
+            <span class="text-[#00d68f] font-bold block">✓ 02:00 PM</span>
+            <span class="text-[#cbd5e1]">Tools Sanitized &amp; Loaded</span>
+          </div>
+          <div class="p-2.5 rounded-lg bg-[#131e33] border border-[#00d68f]">
+            <span class="text-[#00d68f] font-bold block">● In Progress</span>
+            <span class="text-[#f8fafc] font-semibold">En Route (3.2 km)</span>
+          </div>
+          <div class="p-2.5 rounded-lg bg-[#0c1322] border border-[#1e293b] opacity-60">
+            <span class="text-[#94a3b8] font-bold block">Pending</span>
+            <span class="text-[#94a3b8]">OTP Verification (4821)</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- MODAL 3: Worker Dossier Modal -->
-  <div id="worker-dossier-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
-    <div class="absolute inset-0 bg-black/75 backdrop-blur-sm" onclick="closeWorkerDossierModal()"></div>
-    <div class="relative w-full max-w-lg bg-surface-container-low rounded-2xl border border-surface-border shadow-2xl p-6 z-10">
-      <div class="flex items-center justify-between border-b border-surface-border pb-3 mb-4">
-        <h3 class="font-headline-sm text-text-primary font-bold">Cooperative Worker Dossier</h3>
-        <button onclick="closeWorkerDossierModal()" class="p-1 rounded-lg text-text-muted hover:text-text-primary">
-          <span class="material-symbols-outlined text-[20px]">close</span>
+  <!-- MODAL: FULL BOOKING DETAILS (ITEMIZED ESCROW BREAKDOWN) -->
+  <div id="bookingDetailsModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4">
+    <div class="bg-[#0e172a] border border-[#223354] rounded-2xl w-full max-w-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+      <div class="p-space-lg bg-[#131e33] border-b border-[#1e293b] flex items-center justify-between">
+        <div>
+          <h3 id="modalBookingId" class="font-headline-sm font-bold text-[#f8fafc]">Booking Details #SS-BK-89421</h3>
+          <p class="text-caption text-[#94a3b8]">Cooperative Transparent Ledger &amp; Escrow Guarantee</p>
+        </div>
+        <button onclick="closeModal('bookingDetailsModal')" class="p-1 rounded-lg text-[#94a3b8] hover:text-[#f8fafc] hover:bg-[#1e293b]">
+          <span class="material-symbols-outlined text-xl">close</span>
         </button>
       </div>
-      <div id="worker-dossier-content"></div>
-      <div class="pt-4 mt-4 border-t border-surface-border flex justify-end">
-        <button onclick="closeWorkerDossierModal()" class="px-4 py-2 rounded-xl bg-primary-container text-on-primary-container font-label-md font-bold">Done</button>
+
+      <div class="p-space-lg overflow-y-auto flex flex-col gap-space-md">
+        <!-- Service Title and Provider -->
+        <div class="p-space-md bg-[#131e33] rounded-xl border border-[#223354]">
+          <span class="text-caption text-[#00d68f] font-bold uppercase tracking-wider block">Service Item</span>
+          <h4 id="modalServiceTitle" class="font-headline-sm font-bold text-[#f8fafc] mt-0.5">AC Deep Jet Cleaning &amp; Filter Sterilization (1.5 Ton Split AC)</h4>
+          <p class="text-xs text-[#94a3b8] mt-1">High-pressure coil wash, antifungal blower sanitization, electrical safety test.</p>
+        </div>
+
+        <!-- 92% Cooperative Transparency Ledger -->
+        <div class="p-space-md bg-[#0c1322] rounded-xl border border-[#1e2b45]">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-bold text-[#f8fafc] flex items-center gap-1">
+              <span class="material-symbols-outlined text-sm text-[#00d68f]">handshake</span>
+              Cooperative 92/8 Wage Transparency
+            </span>
+            <span class="text-xs text-[#00d68f] font-bold">Zero Platform Exploitation</span>
+          </div>
+          <div class="space-y-1.5 text-xs">
+            <div class="flex justify-between text-[#cbd5e1]">
+              <span>Direct Compensation to Worker-Owner (92%):</span>
+              <strong id="modalWorkerShare" class="text-[#00d68f]">₹643.08</strong>
+            </div>
+            <div class="flex justify-between text-[#cbd5e1]">
+              <span>Cooperative Collective Fund &amp; Insurance Shield (8%):</span>
+              <strong id="modalShieldShare" class="text-[#38bdf8]">₹55.92</strong>
+            </div>
+            <div class="pt-2 border-t border-[#1e293b] flex justify-between text-sm font-bold text-[#f8fafc]">
+              <span>Total Escrow Amount:</span>
+              <span id="modalTotalEscrow" class="text-[#00d68f]">₹699.00</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Completion OTP and instructions -->
+        <div class="p-space-md bg-[#131e33] border border-[#223354] rounded-xl flex items-center justify-between">
+          <div>
+            <span class="text-xs text-[#94a3b8] block">Your Completion OTP:</span>
+            <strong class="text-xl text-[#00d68f] font-mono tracking-widest">4821</strong>
+          </div>
+          <p class="text-xs text-[#cbd5e1] max-w-xs text-right">
+            Never share this OTP before work is completely finished. Releasing the OTP triggers escrow payout to the worker.
+          </p>
+        </div>
+      </div>
+
+      <div class="p-space-md bg-[#131e33] border-t border-[#1e293b] flex justify-end gap-2">
+        <button onclick="downloadInvoiceReceipt('89421')" class="px-4 py-2 rounded-lg bg-[#0e172a] border border-[#223354] text-xs font-semibold text-[#00d68f] hover:bg-[#1e293b]">
+          Download Official Invoice
+        </button>
+        <button onclick="closeModal('bookingDetailsModal')" class="px-4 py-2 rounded-lg bg-[#00d68f] text-[#062d1d] text-xs font-bold">
+          Close Details
+        </button>
       </div>
     </div>
   </div>
 
-  <!-- FLOATING TOAST CONTAINER -->
-  <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
+  <!-- MODAL: RESCHEDULING SELECTOR -->
+  <div id="rescheduleModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4">
+    <div class="bg-[#0e172a] border border-[#223354] rounded-2xl w-full max-w-md shadow-2xl overflow-hidden flex flex-col">
+      <div class="p-space-lg bg-[#131e33] border-b border-[#1e293b] flex items-center justify-between">
+        <div>
+          <h3 class="font-headline-sm font-bold text-[#f8fafc]">Request Rescheduling</h3>
+          <p id="rescheduleServiceTitle" class="text-caption text-[#94a3b8]">Order #SS-BK-89421</p>
+        </div>
+        <button onclick="closeModal('rescheduleModal')" class="p-1 rounded-lg text-[#94a3b8] hover:text-[#f8fafc]">
+          <span class="material-symbols-outlined text-xl">close</span>
+        </button>
+      </div>
 
-  <!-- Scripts -->
-  <script src="app.js"></script>
+      <div class="p-space-lg flex flex-col gap-4 text-xs">
+        <div>
+          <label class="block font-bold text-[#f8fafc] mb-1.5">Select Preferred Date</label>
+          <div class="grid grid-cols-3 gap-2">
+            <button onclick="selectDate(this, 'Tomorrow, 25 Oct')" class="reschedule-date-btn p-2 rounded-lg bg-[#131e33] border border-[#00d68f] text-[#00d68f] font-bold text-center">
+              Tomorrow<br/><span class="text-[10px] text-[#94a3b8]">25 Oct</span>
+            </button>
+            <button onclick="selectDate(this, 'Sunday, 26 Oct')" class="reschedule-date-btn p-2 rounded-lg bg-[#0e172a] border border-[#1e293b] text-[#cbd5e1] text-center hover:bg-[#131e33]">
+              Sunday<br/><span class="text-[10px] text-[#94a3b8]">26 Oct</span>
+            </button>
+            <button onclick="selectDate(this, 'Monday, 27 Oct')" class="reschedule-date-btn p-2 rounded-lg bg-[#0e172a] border border-[#1e293b] text-[#cbd5e1] text-center hover:bg-[#131e33]">
+              Monday<br/><span class="text-[10px] text-[#94a3b8]">27 Oct</span>
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-[#f8fafc] mb-1.5">Select Time Slot</label>
+          <select id="rescheduleSlotSelect" class="w-full bg-[#0c1322] border border-[#1e2b45] rounded-lg p-2.5 text-xs text-[#f8fafc] focus:outline-none focus:ring-1 focus:ring-[#00d68f]">
+            <option>10:00 AM - 11:30 AM (Morning)</option>
+            <option>02:00 PM - 03:30 PM (Afternoon)</option>
+            <option>05:00 PM - 06:30 PM (Evening)</option>
+          </select>
+        </div>
+
+        <div class="p-2.5 bg-[#0c1322] border border-[#1e2b45] rounded-lg flex items-center gap-2 text-[#cbd5e1]">
+          <span class="material-symbols-outlined text-[#00d68f] text-base">check_circle</span>
+          <span>Zero penalty: Free rescheduling under Cooperative Shield.</span>
+        </div>
+      </div>
+
+      <div class="p-space-md bg-[#131e33] border-t border-[#1e293b] flex justify-end gap-2">
+        <button onclick="closeModal('rescheduleModal')" class="px-4 py-2 rounded-lg text-xs text-[#94a3b8] hover:text-[#f8fafc]">Cancel</button>
+        <button onclick="confirmReschedule()" class="px-4 py-2 rounded-lg bg-[#00d68f] text-[#062d1d] font-bold text-xs">Confirm New Slot</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: CANCELLATION DIALOG -->
+  <div id="cancelModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4">
+    <div class="bg-[#0e172a] border border-[#223354] rounded-2xl w-full max-w-md shadow-2xl overflow-hidden flex flex-col">
+      <div class="p-space-lg bg-[#3d1116] border-b border-[#ff6b6b]/30 flex items-center justify-between">
+        <div class="flex items-center gap-2 text-[#ff6b6b]">
+          <span class="material-symbols-outlined text-xl">warning</span>
+          <h3 class="font-headline-sm font-bold text-[#f8fafc]">Cancel Booking?</h3>
+        </div>
+        <button onclick="closeModal('cancelModal')" class="p-1 rounded-lg text-[#94a3b8] hover:text-[#f8fafc]">
+          <span class="material-symbols-outlined text-xl">close</span>
+        </button>
+      </div>
+
+      <div class="p-space-lg flex flex-col gap-3 text-xs">
+        <p class="text-[#cbd5e1]">
+          Are you sure you want to cancel booking <strong id="cancelBookingRef" class="text-[#f8fafc]">#SS-BK-89421</strong>?
+        </p>
+        <div class="p-3 bg-[#131e33] border border-[#223354] rounded-lg">
+          <span class="text-[#00d68f] font-bold block mb-1">100% Instant Escrow Refund</span>
+          <p class="text-caption text-[#94a3b8]">
+            Your full locked payment of <span id="cancelRefundAmount" class="font-bold text-[#f8fafc]">₹699</span> will be credited back instantly to your original payment method.
+          </p>
+        </div>
+
+        <div>
+          <label class="block font-bold text-[#f8fafc] mb-1">Reason for cancellation (optional):</label>
+          <select class="w-full bg-[#0c1322] border border-[#1e2b45] rounded-lg p-2 text-xs text-[#cbd5e1]">
+            <option>Need to book on a different date</option>
+            <option>Issue resolved independently</option>
+            <option>Booked by accident</option>
+            <option>Other reason</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="p-space-md bg-[#131e33] border-t border-[#1e293b] flex justify-end gap-2">
+        <button onclick="closeModal('cancelModal')" class="px-4 py-2 rounded-lg text-xs text-[#94a3b8] hover:text-[#f8fafc]">Keep Booking</button>
+        <button onclick="confirmCancellation()" class="px-4 py-2 rounded-lg bg-[#ff6b6b] text-[#3d1116] font-bold text-xs hover:bg-[#ff5252]">Confirm Cancellation</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: LIVE CHAT DRAWER -->
+  <div id="chatModal" class="hidden fixed inset-0 z-50 flex items-center justify-end bg-black/70 backdrop-blur-sm">
+    <div class="bg-[#0e172a] border-l border-[#223354] h-full w-full max-w-md shadow-2xl flex flex-col">
+      <!-- Chat Header -->
+      <div class="p-space-md bg-[#131e33] border-b border-[#1e293b] flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="relative">
+            <div class="w-10 h-10 rounded-full bg-[#00d68f]/20 border border-[#00d68f] flex items-center justify-center text-[#00d68f] font-bold">
+              SK
+            </div>
+            <span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-[#00d68f] border-2 border-[#0e172a]"></span>
+          </div>
+          <div>
+            <h4 id="chatWorkerName" class="font-label-lg font-bold text-[#f8fafc]">Suresh Kumar</h4>
+            <span id="chatWorkerRole" class="text-caption text-[#00d68f]">AC Master Technician</span>
+          </div>
+        </div>
+        <button onclick="closeModal('chatModal')" class="p-1 rounded-lg text-[#94a3b8] hover:text-[#f8fafc]">
+          <span class="material-symbols-outlined text-xl">close</span>
+        </button>
+      </div>
+
+      <!-- Messages Stream -->
+      <div id="chatMessagesContainer" class="flex-1 p-space-md overflow-y-auto flex flex-col gap-3 text-xs">
+        <div class="text-center my-1">
+          <span class="px-2 py-0.5 rounded bg-[#131e33] text-[10px] text-[#94a3b8]">Today • Service Order #SS-BK-89421</span>
+        </div>
+        <div class="self-start max-w-[80%] bg-[#131e33] border border-[#223354] rounded-xl p-3 text-[#cbd5e1]">
+          <p>Namaste Rahul-ji! I have loaded the high-pressure jet wash machine and anti-fungal blower spray from the HSR hub. En route on 19th Main Road.</p>
+          <span class="text-[9px] text-[#94a3b8] block mt-1">02:06 PM • Suresh</span>
+        </div>
+      </div>
+
+      <!-- Quick Message Chips -->
+      <div class="px-space-md py-1.5 bg-[#0c1322] border-t border-[#1e293b] flex items-center gap-1.5 overflow-x-auto">
+        <button onclick="sendQuickChat('Please call when at apartment gate')" class="whitespace-nowrap px-2 py-1 rounded-full bg-[#131e33] border border-[#223354] text-[10px] text-[#cbd5e1] hover:text-[#00d68f]">
+          Call at gate
+        </button>
+        <button onclick="sendQuickChat('Parking slot #402 is open in basement')" class="whitespace-nowrap px-2 py-1 rounded-full bg-[#131e33] border border-[#223354] text-[10px] text-[#cbd5e1] hover:text-[#00d68f]">
+          Parking #402 open
+        </button>
+        <button onclick="sendQuickChat('Have you brought an extension cord?')" class="whitespace-nowrap px-2 py-1 rounded-full bg-[#131e33] border border-[#223354] text-[10px] text-[#cbd5e1] hover:text-[#00d68f]">
+          Extension cord?
+        </button>
+      </div>
+
+      <!-- Chat Input -->
+      <div class="p-space-md bg-[#131e33] border-t border-[#1e293b] flex items-center gap-2">
+        <input id="chatInputText" onkeydown="if(event.key==='Enter') sendChatMessage()" type="text" placeholder="Type a message to technician..." class="flex-1 bg-[#0c1322] border border-[#1e2b45] rounded-lg px-3 py-2 text-xs text-[#f8fafc] focus:outline-none focus:ring-1 focus:ring-[#00d68f]"/>
+        <button onclick="sendChatMessage()" class="p-2 rounded-lg bg-[#00d68f] text-[#062d1d] hover:bg-[#05df96]">
+          <span class="material-symbols-outlined text-base">send</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: MASKED PHONE CALL -->
+  <div id="maskedCallModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4">
+    <div class="bg-[#0e172a] border border-[#223354] rounded-2xl w-full max-w-sm shadow-2xl p-space-xl flex flex-col items-center text-center">
+      <div class="w-16 h-16 rounded-full bg-[#00d68f]/20 border border-[#00d68f] text-[#00d68f] flex items-center justify-center mb-space-md animate-pulse">
+        <span class="material-symbols-outlined text-3xl">call</span>
+      </div>
+      <h3 class="font-headline-sm font-bold text-[#f8fafc]">Cooperative Masked Relay</h3>
+      <p class="text-xs text-[#94a3b8] mt-1 mb-4">Connecting your phone to <strong id="maskedRecipientName" class="text-[#f8fafc]">Suresh Kumar</strong> securely without revealing personal numbers.</p>
+      
+      <div class="p-3 w-full bg-[#131e33] border border-[#223354] rounded-lg mb-4 text-xs font-mono text-[#00d68f]">
+        Virtual Relay: <span id="maskedRelayNumber">+91 80-4567-XXXX</span>
+      </div>
+
+      <div class="flex items-center gap-2 w-full">
+        <button onclick="closeModal('maskedCallModal')" class="flex-1 py-2 rounded-lg bg-[#1e293b] text-xs font-semibold text-[#cbd5e1] hover:bg-[#25334d]">
+          Dismiss
+        </button>
+        <button onclick="showToast('Simulating call connection to worker phone...'); closeModal('maskedCallModal');" class="flex-1 py-2 rounded-lg bg-[#00d68f] text-xs font-bold text-[#062d1d]">
+          Dial Relay
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- DRAWER: NOTIFICATIONS -->
+  <div id="notificationsDrawer" class="hidden fixed inset-0 z-50 flex items-center justify-end bg-black/60 backdrop-blur-sm">
+    <div class="bg-[#0e172a] border-l border-[#223354] h-full w-full max-w-sm shadow-2xl flex flex-col">
+      <div class="p-space-md bg-[#131e33] border-b border-[#1e293b] flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-[#00d68f]">notifications</span>
+          <h4 class="font-label-lg font-bold text-[#f8fafc]">Customer Notifications</h4>
+        </div>
+        <button onclick="closeModal('notificationsDrawer')" class="p-1 rounded-lg text-[#94a3b8] hover:text-[#f8fafc]">
+          <span class="material-symbols-outlined text-xl">close</span>
+        </button>
+      </div>
+
+      <div class="p-space-md flex-1 overflow-y-auto space-y-2 text-xs" id="notifList">
+        <div class="p-3 rounded-lg bg-[#131e33] border border-[#223354]">
+          <div class="flex items-center justify-between text-[#00d68f] font-bold mb-1">
+            <span>Worker Dispatched</span>
+            <span class="text-[10px] text-[#94a3b8]">5m ago</span>
+          </div>
+          <p class="text-[#cbd5e1]">Suresh Kumar is en route with verified toolkit for #SS-BK-89421.</p>
+        </div>
+        <div class="p-3 rounded-lg bg-[#131e33] border border-[#223354]">
+          <div class="flex items-center justify-between text-[#38bdf8] font-bold mb-1">
+            <span>Booking Confirmed</span>
+            <span class="text-[10px] text-[#94a3b8]">1h ago</span>
+          </div>
+          <p class="text-[#cbd5e1]">Rajesh Verma confirmed tomorrow's electrical inspection at 10:00 AM.</p>
+        </div>
+        <div class="p-3 rounded-lg bg-[#131e33] border border-[#223354]">
+          <div class="flex items-center justify-between text-[#818cf8] font-bold mb-1">
+            <span>Coop Patronage Dividend</span>
+            <span class="text-[10px] text-[#94a3b8]">Yesterday</span>
+          </div>
+          <p class="text-[#cbd5e1]">₹140 patronage rebate credited to your cooperative household wallet.</p>
+        </div>
+      </div>
+
+      <div class="p-space-md bg-[#131e33] border-t border-[#1e293b]">
+        <button onclick="clearNotifications()" class="w-full py-2 rounded-lg bg-[#0e172a] border border-[#223354] text-xs font-semibold text-[#94a3b8] hover:text-[#00d68f]">
+          Mark All As Read
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: CHARTER & TRANSPARENCY -->
+  <div id="charterModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4">
+    <div class="bg-[#0e172a] border border-[#223354] rounded-2xl w-full max-w-lg shadow-2xl overflow-hidden flex flex-col max-h-[85vh]">
+      <div class="p-space-lg bg-[#131e33] border-b border-[#1e293b] flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-[#00d68f]">handshake</span>
+          <h3 class="font-headline-sm font-bold text-[#f8fafc]">SahkarSathi Cooperative Charter</h3>
+        </div>
+        <button onclick="closeModal('charterModal')" class="p-1 rounded-lg text-[#94a3b8] hover:text-[#f8fafc]">
+          <span class="material-symbols-outlined text-xl">close</span>
+        </button>
+      </div>
+      <div class="p-space-lg overflow-y-auto space-y-3 text-xs text-[#cbd5e1]">
+        <p><strong class="text-[#f8fafc]">1. 92% Wage Equity:</strong> 92% of every service fee directly compensates the worker-owner, unlike private aggregator platforms taking 30–45% cuts.</p>
+        <p><strong class="text-[#f8fafc]">2. Completion PIN Escrow:</strong> Customer money remains safely in bank escrow until you inspect the finished job and provide the 4-digit PIN.</p>
+        <p><strong class="text-[#f8fafc]">3. ₹25,000 Shield Guarantee:</strong> Any accidental damages or rework requirements are completely covered by our member cooperative reserve fund.</p>
+        <p><strong class="text-[#f8fafc]">4. Police &amp; Skill Vetted:</strong> Every worker holds government verified tradesperson accreditation and localized police clearance certification.</p>
+      </div>
+      <div class="p-space-md bg-[#131e33] border-t border-[#1e293b] text-right">
+        <button onclick="closeModal('charterModal')" class="px-4 py-2 rounded-lg bg-[#00d68f] text-[#062d1d] font-bold text-xs">
+          Understood &amp; Agreed
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: INVOICE PRINT / RECEIPT VIEW -->
+  <div id="invoiceModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4">
+    <div class="bg-[#0e172a] border border-[#223354] rounded-2xl w-full max-w-xl shadow-2xl p-space-xl flex flex-col text-xs text-[#cbd5e1]">
+      <div class="flex justify-between items-start border-b border-[#1e293b] pb-4 mb-4">
+        <div>
+          <h2 class="font-headline-md font-bold text-[#f8fafc]">SahkarSathi Cooperative Society</h2>
+          <p class="text-[#94a3b8] text-[11px]">HSR Cluster Hub #2, Sector 2, Bengaluru 560102</p>
+          <p class="text-[#94a3b8] text-[11px]">GSTIN: 29AAACS9402M1Z8 • SAC Code: 9987</p>
+        </div>
+        <div class="text-right">
+          <span class="px-2 py-1 rounded bg-[#00d68f]/20 text-[#00d68f] font-bold text-[10px] uppercase">Tax Invoice</span>
+          <p id="invOrderRef" class="font-bold text-[#f8fafc] mt-1">#SS-BK-89421</p>
+          <p class="text-[#94a3b8] text-[10px]">Date: 24 Oct 2026</p>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <strong class="text-[#f8fafc]">Billed To:</strong>
+        <p>Rahul Sharma (Verified Patron)</p>
+        <p>Flat 402, Green Glen Orchid Apts, HSR Sector 2, Bengaluru</p>
+      </div>
+
+      <table class="w-full text-left border-collapse mb-4">
+        <thead>
+          <tr class="border-b border-[#223354] text-[#94a3b8]">
+            <th class="py-1">Description</th>
+            <th class="py-1 text-right">Amount</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-[#1e293b]">
+          <tr>
+            <td id="invServiceName" class="py-2 text-[#f8fafc]">AC Deep Jet Cleaning &amp; Filter Sterilization</td>
+            <td id="invBasePrice" class="py-2 text-right">₹592.37</td>
+          </tr>
+          <tr>
+            <td class="py-2">Worker Health &amp; Damage Protection Fund</td>
+            <td class="py-2 text-right">₹38.00</td>
+          </tr>
+          <tr>
+            <td class="py-2">GST (CGST 9% + SGST 9%)</td>
+            <td class="py-2 text-right">₹68.63</td>
+          </tr>
+          <tr class="font-bold text-[#00d68f] text-sm">
+            <td class="py-2 pt-3">Total Paid via Escrow</td>
+            <td id="invTotalPaid" class="py-2 pt-3 text-right">₹699.00</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="p-3 bg-[#131e33] rounded-lg border border-[#223354] mb-4 text-[11px]">
+        <strong class="text-[#00d68f]">92% Direct Worker Payout:</strong> ₹643.08 has been reserved for release to Suresh Kumar upon PIN authorization.
+      </div>
+
+      <div class="flex justify-end gap-2">
+        <button onclick="window.print()" class="px-4 py-2 rounded-lg bg-[#00d68f] text-[#062d1d] font-bold text-xs flex items-center gap-1">
+          <span class="material-symbols-outlined text-sm">print</span> Print / Save PDF
+        </button>
+        <button onclick="closeModal('invoiceModal')" class="px-4 py-2 rounded-lg bg-[#1e293b] text-xs text-[#cbd5e1]">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div id="toastNotification" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 bg-[#131e33] border border-[#00d68f] text-[#f8fafc] px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3">
+    <span class="material-symbols-outlined text-[#00d68f]">info</span>
+    <span id="toastMessage" class="text-xs font-semibold">Action completed successfully.</span>
+  </div>
+
+  <!-- ==================== LOGIC / INTERACTION SCRIPT ==================== -->
   <script>
-    function toggleMobileSidebar() {
-      const sidebar = document.getElementById("main-sidebar");
-      const backdrop = document.getElementById("mobile-sidebar-backdrop");
-      if (sidebar && backdrop) {
-        sidebar.classList.toggle("-translate-x-full");
-        backdrop.classList.toggle("hidden");
+    // Global simulation state
+    let simStep = 3;
+    let simDistanceKm = 3.2;
+    let simEtaMins = 25;
+    let selectedRescheduleDate = 'Tomorrow, 25 Oct';
+
+    // Switch between Active view and Empty state demo view
+    function switchView(mode) {
+      const bookings = document.getElementById('bookingsContainer');
+      const emptyState = document.getElementById('emptyStateContainer');
+      const activeBtn = document.getElementById('viewActiveBtn');
+      const emptyBtn = document.getElementById('viewEmptyBtn');
+      const filterZero = document.getElementById('filterZeroContainer');
+
+      filterZero.classList.add('hidden');
+      filterZero.classList.remove('flex');
+
+      if (mode === 'active') {
+        bookings.classList.remove('hidden');
+        bookings.classList.add('flex');
+        emptyState.classList.add('hidden');
+        emptyState.classList.remove('flex');
+
+        activeBtn.className = "px-space-md py-1 rounded-md font-label-sm text-label-sm font-bold bg-[#00d68f] text-[#062d1d] shadow-[0_0_12px_rgba(0,214,143,0.3)] transition-all";
+        emptyBtn.className = "px-space-md py-1 rounded-md font-label-sm text-label-sm font-semibold text-[#94a3b8] hover:text-[#f8fafc] transition-all";
+        showToast("Switched to Active Orders view (2 Bookings)");
+      } else {
+        bookings.classList.add('hidden');
+        bookings.classList.remove('flex');
+        emptyState.classList.remove('hidden');
+        emptyState.classList.add('flex');
+
+        emptyBtn.className = "px-space-md py-1 rounded-md font-label-sm text-label-sm font-bold bg-[#00d68f] text-[#062d1d] shadow-[0_0_12px_rgba(0,214,143,0.3)] transition-all";
+        activeBtn.className = "px-space-md py-1 rounded-md font-label-sm text-label-sm font-semibold text-[#94a3b8] hover:text-[#f8fafc] transition-all";
+        showToast("Switched to Empty State preview");
       }
     }
 
-    function handleGlobalSearch(query) {
-      if (!query || query.trim() === "") return;
-      const q = query.toLowerCase();
-      // If matches a project
-      const matchProj = state.data.projects.find(p => p.title.toLowerCase().includes(q) || p.id.toLowerCase().includes(q));
-      if (matchProj) {
-        state.filters.projectSearch = query;
-        navigateTo('running-projects');
-        return;
+    // Filter cards by status tab
+    function filterStatus(status, btnElement) {
+      // Update tab styles
+      document.querySelectorAll('.filter-tab').forEach(tab => {
+        tab.className = "filter-tab px-space-md py-2 rounded-lg font-label-md text-label-md text-[#cbd5e1] hover:text-[#f8fafc] hover:bg-[#131e33] whitespace-nowrap flex items-center gap-1.5 transition-all";
+      });
+      if (btnElement) {
+        btnElement.className = "filter-tab px-space-md py-2 rounded-lg font-label-md text-label-md font-bold bg-[#00d68f] text-[#062d1d] shadow-[0_0_12px_rgba(0,214,143,0.3)] whitespace-nowrap flex items-center gap-1.5 transition-all";
       }
-      // If matches a worker
-      const matchWorker = state.data.workers.find(w => w.name.toLowerCase().includes(q) || w.tradeLabel.toLowerCase().includes(q));
-      if (matchWorker) {
-        state.filters.workerSearch = query;
-        navigateTo('worker-management');
-        return;
+
+      const cards = document.querySelectorAll('.booking-card');
+      const filterZero = document.getElementById('filterZeroContainer');
+      const bookingsContainer = document.getElementById('bookingsContainer');
+      const emptyContainer = document.getElementById('emptyStateContainer');
+
+      emptyContainer.classList.add('hidden');
+      emptyContainer.classList.remove('flex');
+      bookingsContainer.classList.remove('hidden');
+      bookingsContainer.classList.add('flex');
+
+      let visibleCount = 0;
+      cards.forEach(card => {
+        if (status === 'all' || card.getAttribute('data-status') === status) {
+          card.classList.remove('hidden');
+          visibleCount++;
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+
+      if (visibleCount === 0) {
+        filterZero.classList.remove('hidden');
+        filterZero.classList.add('flex');
+      } else {
+        filterZero.classList.add('hidden');
+        filterZero.classList.remove('flex');
       }
     }
+
+    // Filter cards by search bar
+    function filterBySearch(query) {
+      const q = query.trim().toLowerCase();
+      const cards = document.querySelectorAll('.booking-card');
+      let matches = 0;
+
+      cards.forEach(card => {
+        const keywords = (card.getAttribute('data-keywords') || '') + ' ' + card.innerText.toLowerCase();
+        if (!q || keywords.includes(q)) {
+          card.classList.remove('hidden');
+          matches++;
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+
+      const filterZero = document.getElementById('filterZeroContainer');
+      if (matches === 0) {
+        filterZero.classList.remove('hidden');
+        filterZero.classList.add('flex');
+      } else {
+        filterZero.classList.add('hidden');
+        filterZero.classList.remove('flex');
+      }
+    }
+
+    // Navigation switching between views
+    function navigateTo(path) {
+      // Highlight sidebar
+      document.querySelectorAll('.nav-item').forEach(item => {
+        if (item.getAttribute('data-path') === path) {
+          item.className = "nav-item flex items-center justify-between px-space-md py-2.5 rounded-lg transition-all bg-[#00d68f] text-[#062d1d] font-bold shadow-[0_0_15px_rgba(0,214,143,0.3)]";
+        } else {
+          item.className = "nav-item flex items-center justify-between px-space-md py-2.5 rounded-lg text-[#94a3b8] hover:bg-[#131e33] hover:text-[#f8fafc] transition-colors";
+        }
+      });
+
+      // Hide all views
+      const views = [
+        'view-active-bookings',
+        'view-explore-services',
+        'view-previous-bookings',
+        'view-find-workers',
+        'view-customer-support',
+        'view-my-profile',
+        'view-settings',
+        'view-team-and-project-booking'
+      ];
+      views.forEach(v => {
+        const el = document.getElementById(v);
+        if (el) el.classList.add('hidden');
+      });
+
+      const target = document.getElementById(`view-${path}`);
+      if (target) {
+        target.classList.remove('hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        document.getElementById('view-active-bookings').classList.remove('hidden');
+      }
+    }
+
+    // Location Dropdown
+    function toggleLocationDropdown() {
+      const dd = document.getElementById('locationDropdown');
+      dd.classList.toggle('hidden');
+    }
+    function setLocation(loc) {
+      document.getElementById('currentLocationText').innerText = loc;
+      document.getElementById('locationDropdown').classList.add('hidden');
+      showToast(`Active Hub switched to ${loc}`);
+    }
+
+    // Simulation advance
+    function advanceSimulation() {
+      if (simStep === 3) {
+        simStep = 4;
+        simDistanceKm = 0.8;
+        simEtaMins = 6;
+        document.getElementById('card1EtaNotice').innerText = "Estimated Arrival in ~6 minutes (Near Building Gate)";
+        document.getElementById('statEtaBadge').innerText = "ETA ~6 mins";
+        document.getElementById('trackerProgressNote').innerHTML = `<span class="material-symbols-outlined text-base text-[#00d68f]">directions_bike</span> Suresh is 0.8 km away at 14th Main Cross`;
+        document.getElementById('trackerStepText').innerText = "Step 4 of 5";
+        document.getElementById('trackerProgressBar').style.width = "85%";
+        document.getElementById('step3Label').className = "text-[#00d68f] font-semibold";
+        document.getElementById('step4Label').className = "text-[#00d68f] font-semibold animate-pulse";
+        document.getElementById('simStatusText').innerText = "Arriving at Gate (~6m)";
+        
+        // update modal marker position if open
+        const marker = document.getElementById('svgTechMarker');
+        if (marker) marker.setAttribute('transform', 'translate(590, 142)');
+        const modalEta = document.getElementById('modalEtaDisplay');
+        if (modalEta) modalEta.innerText = "Approaching Gate on 14th Main • ETA ~6 mins";
+
+        showToast("Simulation advanced: Suresh is 0.8 km away! (Step 4/5)");
+      } else if (simStep === 4) {
+        simStep = 5;
+        document.getElementById('card1EtaNotice').innerText = "Suresh has arrived at your door! Enter OTP 4821 upon finish.";
+        document.getElementById('statEtaBadge').innerText = "Arrived / At Door";
+        document.getElementById('card1StatusBadge').innerHTML = `<span class="w-2 h-2 rounded-full bg-[#00d68f]"></span> In Service at Flat 402`;
+        document.getElementById('trackerProgressNote').innerHTML = `<span class="material-symbols-outlined text-base text-[#00d68f]">home</span> Service In Progress with Suresh Kumar`;
+        document.getElementById('trackerStepText').innerText = "Step 5 of 5";
+        document.getElementById('trackerProgressBar').style.width = "100%";
+        document.getElementById('step4Label').className = "text-[#00d68f] font-semibold";
+        document.getElementById('step5Label').className = "text-[#00d68f] font-bold";
+        document.getElementById('simStatusText').innerText = "Service In Progress";
+
+        const marker = document.getElementById('svgTechMarker');
+        if (marker) marker.setAttribute('transform', 'translate(645, 135)');
+        const modalEta = document.getElementById('modalEtaDisplay');
+        if (modalEta) modalEta.innerText = "Arrived at Flat 402 • Disinfectant wash underway";
+
+        showToast("Simulation: Technician arrived at Flat 402!");
+      } else {
+        // Reset
+        simStep = 3;
+        simDistanceKm = 3.2;
+        simEtaMins = 25;
+        document.getElementById('card1EtaNotice').innerText = "Estimated Arrival in ~25 minutes";
+        document.getElementById('statEtaBadge').innerText = "ETA ~25 mins";
+        document.getElementById('card1StatusBadge').innerHTML = `<span class="w-2 h-2 rounded-full bg-[#00d68f] animate-pulse shadow-[0_0_8px_#00d68f]"></span> Worker Assigned & En Route`;
+        document.getElementById('trackerProgressNote').innerHTML = `<span class="material-symbols-outlined text-base text-[#00d68f]">directions_bike</span> Suresh is 3.2 km away on 19th Main Road`;
+        document.getElementById('trackerStepText').innerText = "Step 3 of 5";
+        document.getElementById('trackerProgressBar').style.width = "60%";
+        document.getElementById('step4Label').className = "";
+        document.getElementById('step5Label').className = "";
+        document.getElementById('simStatusText').innerText = "Live Simulation Active";
+
+        const marker = document.getElementById('svgTechMarker');
+        if (marker) marker.setAttribute('transform', 'translate(420, 155)');
+        const modalEta = document.getElementById('modalEtaDisplay');
+        if (modalEta) modalEta.innerText = "Traveling via 19th Main Road • ETA ~25 mins";
+
+        showToast("Simulation reset to Step 3 (En Route)");
+      }
+    }
+
+    // 30-Second Auto Simulation Ticker
+    setInterval(() => {
+      if (simStep === 3 && simEtaMins > 10) {
+        simEtaMins--;
+        simDistanceKm = (simDistanceKm - 0.2).toFixed(1);
+        if (simDistanceKm < 1.0) simDistanceKm = 1.0;
+        document.getElementById('card1EtaNotice').innerText = `Estimated Arrival in ~${simEtaMins} minutes`;
+        document.getElementById('statEtaBadge').innerText = `ETA ~${simEtaMins} mins`;
+        document.getElementById('trackerProgressNote').innerHTML = `<span class="material-symbols-outlined text-base text-[#00d68f]">directions_bike</span> Suresh is ${simDistanceKm} km away on 19th Main Road`;
+      }
+    }, 30000);
+
+    // Modal Triggers
+    function openTrackArrivalModal(bookingId) {
+      document.getElementById('trackArrivalModal').classList.remove('hidden');
+    }
+    function openBookingDetailsModal(bookingId) {
+      if (bookingId === '89421') {
+        document.getElementById('modalBookingId').innerText = 'Booking Details #SS-BK-89421';
+        document.getElementById('modalServiceTitle').innerText = 'AC Deep Jet Cleaning & Filter Sterilization (1.5 Ton Split AC)';
+        document.getElementById('modalWorkerShare').innerText = '₹643.08';
+        document.getElementById('modalShieldShare').innerText = '₹55.92';
+        document.getElementById('modalTotalEscrow').innerText = '₹699.00';
+      } else {
+        document.getElementById('modalBookingId').innerText = 'Booking Details #SS-BK-89310';
+        document.getElementById('modalServiceTitle').innerText = 'Electrical Short Circuit & Main MCB Tripping Inspection';
+        document.getElementById('modalWorkerShare').innerText = '₹413.08';
+        document.getElementById('modalShieldShare').innerText = '₹35.92';
+        document.getElementById('modalTotalEscrow').innerText = '₹449.00';
+      }
+      document.getElementById('bookingDetailsModal').classList.remove('hidden');
+    }
+    function openRescheduleModal(bookingId, serviceTitle) {
+      document.getElementById('rescheduleServiceTitle').innerText = `Order #${bookingId} • ${serviceTitle}`;
+      document.getElementById('rescheduleModal').classList.remove('hidden');
+    }
+    function openCancelModal(bookingId, amount) {
+      document.getElementById('cancelBookingRef').innerText = `#SS-BK-${bookingId}`;
+      document.getElementById('cancelRefundAmount').innerText = amount;
+      document.getElementById('cancelModal').classList.remove('hidden');
+    }
+    function openChatModal(name, role, order) {
+      document.getElementById('chatWorkerName').innerText = name;
+      document.getElementById('chatWorkerRole').innerText = role;
+      document.getElementById('chatModal').classList.remove('hidden');
+    }
+    function openMaskedCallModal(name, phone) {
+      document.getElementById('maskedRecipientName').innerText = name;
+      document.getElementById('maskedRelayNumber').innerText = phone;
+      document.getElementById('maskedCallModal').classList.remove('hidden');
+    }
+    function openCharterModal() {
+      document.getElementById('charterModal').classList.remove('hidden');
+    }
+    function toggleNotificationsDrawer() {
+      document.getElementById('notificationsDrawer').classList.toggle('hidden');
+    }
+    function closeModal(id) {
+      document.getElementById(id).classList.add('hidden');
+    }
+
+    // Reschedule flow
+    function selectDate(btn, dateText) {
+      document.querySelectorAll('.reschedule-date-btn').forEach(b => {
+        b.className = "reschedule-date-btn p-2 rounded-lg bg-[#0e172a] border border-[#1e293b] text-[#cbd5e1] text-center hover:bg-[#131e33]";
+      });
+      btn.className = "reschedule-date-btn p-2 rounded-lg bg-[#131e33] border border-[#00d68f] text-[#00d68f] font-bold text-center";
+      selectedRescheduleDate = dateText;
+    }
+    function confirmReschedule() {
+      const slot = document.getElementById('rescheduleSlotSelect').value;
+      closeModal('rescheduleModal');
+      document.getElementById('card2SlotText').innerText = selectedRescheduleDate;
+      document.getElementById('card2TimeText').innerText = slot;
+      showToast(`Rescheduled to ${selectedRescheduleDate} (${slot})`);
+    }
+
+    // Cancellation flow
+    function confirmCancellation() {
+      closeModal('cancelModal');
+      const card = document.getElementById('bookingCard-89421');
+      if (card) {
+        card.style.opacity = '0.5';
+        card.style.pointerEvents = 'none';
+        showToast("Booking #SS-BK-89421 cancelled. ₹699 refunded to Escrow source.");
+      }
+    }
+
+    // Chat logic
+    function sendChatMessage() {
+      const input = document.getElementById('chatInputText');
+      const text = input.value.trim();
+      if (!text) return;
+
+      appendUserChat(text);
+      input.value = '';
+
+      setTimeout(() => {
+        appendWorkerChat("Roger that, Rahul-ji! Noted with thanks.");
+      }, 900);
+    }
+    function sendQuickChat(text) {
+      appendUserChat(text);
+      setTimeout(() => {
+        appendWorkerChat("Acknowledged! Arriving safely.");
+      }, 800);
+    }
+    function appendUserChat(text) {
+      const container = document.getElementById('chatMessagesContainer');
+      const div = document.createElement('div');
+      div.className = "self-end max-w-[80%] bg-[#00d68f] text-[#062d1d] font-semibold rounded-xl p-3 shadow-md";
+      div.innerHTML = `<p>${text}</p><span class="text-[9px] text-[#062d1d]/70 block mt-1 text-right">Just now • You</span>`;
+      container.appendChild(div);
+      container.scrollTop = container.scrollHeight;
+    }
+    function appendWorkerChat(text) {
+      const container = document.getElementById('chatMessagesContainer');
+      const div = document.createElement('div');
+      div.className = "self-start max-w-[80%] bg-[#131e33] border border-[#223354] rounded-xl p-3 text-[#cbd5e1]";
+      div.innerHTML = `<p>${text}</p><span class="text-[9px] text-[#94a3b8] block mt-1">Just now • Technician</span>`;
+      container.appendChild(div);
+      container.scrollTop = container.scrollHeight;
+    }
+
+    // Download Invoice Receipt
+    function downloadInvoiceReceipt(orderId) {
+      document.getElementById('invOrderRef').innerText = `#SS-BK-${orderId}`;
+      if (orderId === '89310') {
+        document.getElementById('invServiceName').innerText = 'Electrical Short Circuit & Main MCB Diagnostic';
+        document.getElementById('invBasePrice').innerText = '₹380.51';
+        document.getElementById('invTotalPaid').innerText = '₹449.00';
+      } else {
+        document.getElementById('invServiceName').innerText = 'AC Deep Jet Cleaning & Filter Sterilization';
+        document.getElementById('invBasePrice').innerText = '₹592.37';
+        document.getElementById('invTotalPaid').innerText = '₹699.00';
+      }
+      document.getElementById('invoiceModal').classList.remove('hidden');
+    }
+
+    // Quick Notice for booking cards
+    function showQuickBookingNotice(service) {
+      showToast(`Booking initiated for "${service}". Selecting nearest cooperative provider...`);
+    }
+
+    // Support Reply
+    function sendSupportReply() {
+      const inp = document.getElementById('supportReplyInput');
+      if (!inp.value.trim()) return;
+      showToast("Message forwarded to HSR Cluster Coordinator Ananya.");
+      inp.value = '';
+    }
+
+    // Notifications clear
+    function clearNotifications() {
+      document.getElementById('notifList').innerHTML = `<p class="text-center text-[#94a3b8] py-8">No unread notifications.</p>`;
+      document.getElementById('topNotifBadge').style.display = 'none';
+      document.getElementById('sidebarNotifBadge').style.display = 'none';
+      showToast("All notifications marked as read.");
+    }
+
+    // Logout demo
+    function handleLogout() {
+      showToast("Demo logout: Session preserved in Demo Mode.");
+    }
+
+    // Toast UI
+    function showToast(msg) {
+      const toast = document.getElementById('toastNotification');
+      const text = document.getElementById('toastMessage');
+      text.innerText = msg;
+      toast.classList.remove('translate-y-24', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+      setTimeout(() => {
+        toast.classList.add('translate-y-24', 'opacity-0');
+        toast.classList.remove('translate-y-0', 'opacity-100');
+      }, 3500);
+    }
+
+    // Global keyboard shortcut '/' to focus search
+    window.addEventListener('keydown', (e) => {
+      if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
+        e.preventDefault();
+        document.getElementById('searchInput').focus();
+      }
+      if (e.key === 'Escape') {
+        document.querySelectorAll('[id$="Modal"], [id$="Drawer"]').forEach(el => el.classList.add('hidden'));
+        document.getElementById('locationDropdown').classList.add('hidden');
+      }
+    });
   </script>
 </body>
 </html>
