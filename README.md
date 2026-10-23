@@ -1,7 +1,7 @@
-# SahkarSathi (सहकारसाथी)
+# SahkarSathi 
 
-> **"Every Worker Matters. Every Home Counts."**  
-> *हर कामगार मायने रखता है। हर घर मायने रखता है।*
+> **"Every Worker Matters. Every Home Counts."** 
+> 
 
 SahkarSathi is an open cooperative gig-services platform connecting verified skilled craftspeople and multi-trade teams with households and contractors at transparent, surge-free rates.
 
