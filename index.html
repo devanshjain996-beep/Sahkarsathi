@@ -1,57 +1,457 @@
 <!DOCTYPE html>
-<html lang="en" class="dark scroll-smooth">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    
-    <!-- Primary Meta Tags -->
-    <title>SahkarSathi | Every Worker Matters. Every Home Counts.</title>
-    <meta name="title" content="SahkarSathi | Every Worker Matters. Every Home Counts." />
-    <meta
-      name="description"
-      content="SahkarSathi is India's cooperative gig-services platform connecting verified skilled workers and multi-trade teams with homes and contractors at transparent, surge-free rates."
-    />
-    <meta name="keywords" content="cooperative gig services, verified workers, skilled labor, home repair, contractors, team hiring, digital worker id, e-Shram, India" />
-    <meta name="theme-color" content="#0B1020" />
+<html class="dark" lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>SakharSathi • Supervisor Operations Command Center</title>
+  
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface": "#0c1323",
+            "surface-dim": "#0c1323",
+            "surface-bright": "#32394b",
+            "surface-container-lowest": "#070e1e",
+            "surface-container-low": "#151b2c",
+            "surface-container": "#191f30",
+            "surface-container-high": "#232a3b",
+            "surface-container-highest": "#2e3446",
+            "surface-border": "#243047",
+            "on-surface": "#dce2f9",
+            "on-surface-variant": "#bbcac1",
+            "primary": "#56f1bb",
+            "on-primary": "#003827",
+            "primary-container": "#2dd4a0",
+            "on-primary-container": "#00563e",
+            "primary-fixed": "#63fcc5",
+            "primary-fixed-dim": "#3edfaa",
+            "secondary": "#77daa1",
+            "on-secondary": "#003920",
+            "secondary-container": "#037d4d",
+            "on-secondary-container": "#bdffd4",
+            "secondary-fixed": "#93f7bc",
+            "tertiary": "#cfd7f1",
+            "on-tertiary": "#283044",
+            "tertiary-container": "#b4bbd5",
+            "text-primary": "#F8FAFC",
+            "text-muted": "#94A3B8",
+            "text-soft": "#CBD5E1",
+            "status-completed": "#059669",
+            "status-progress": "#0284C7",
+            "status-pending": "#F59E0B",
+            "status-blocked": "#EF4444",
+            "status-info": "#6366F1",
+            "error": "#ffb4ab",
+            "error-container": "#93000a",
+            "outline": "#85948c",
+            "outline-variant": "#3c4a43"
+          },
+          borderRadius: {
+            "DEFAULT": "0.5rem",
+            "lg": "1rem",
+            "xl": "1.5rem",
+            "2xl": "1.75rem",
+            "full": "9999px"
+          },
+          spacing: {
+            "space-xs": "0.25rem",
+            "space-sm": "0.5rem",
+            "space-md": "0.75rem",
+            "space-lg": "1.25rem",
+            "space-xl": "2rem"
+          },
+          fontFamily: {
+            "sans": ["Outfit", "sans-serif"],
+            "mono": ["JetBrains Mono", "monospace"]
+          }
+        }
+      }
+    };
+  </script>
+  
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body class="bg-surface font-sans text-on-surface antialiased min-h-screen">
 
-    <!-- Open Graph / Facebook / WhatsApp / LinkedIn -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://sahkarsathi.coop/" />
-    <meta property="og:site_name" content="SahkarSathi" />
-    <meta property="og:title" content="SahkarSathi | Every Worker Matters. Every Home Counts." />
-    <meta
-      property="og:description"
-      content="Book trusted, cooperative-verified professionals for your home, or bring together a complete team for repair and construction projects. Fair work sharing, transparent payments."
-    />
-    <meta property="og:image" content="https://sahkarsathi.coop/og-image.png" />
+  <!-- Mobile Menu Backdrop & Drawer -->
+  <div id="mobile-sidebar-backdrop" class="fixed inset-0 bg-black/60 z-50 hidden lg:hidden transition-opacity" onclick="toggleMobileSidebar()"></div>
 
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://sahkarsathi.coop/" />
-    <meta property="twitter:title" content="SahkarSathi | Every Worker Matters. Every Home Counts." />
-    <meta
-      property="twitter:description"
-      content="Book trusted, cooperative-verified professionals for your home, or bring together a complete team for repair and construction projects. Fair work sharing, transparent payments."
-    />
-    <meta property="twitter:image" content="https://sahkarsathi.coop/og-image.png" />
-
-    <!-- Fonts: Inter & Plus Jakarta Sans -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Poppins:wght@500;600;700&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-  <body class="bg-bg text-text min-h-screen selection:bg-primary/20 selection:text-primary-hover antialiased">
-    <noscript>
-      <div style="padding: 2rem; background: #121A30; color: #E8ECF6; text-align: center; font-family: sans-serif;">
-        <h2>JavaScript is required to run SahkarSathi</h2>
-        <p>Please enable JavaScript in your browser to experience our cooperative platform for verified workers and home services.</p>
+  <!-- FIXED LEFT SIDEBAR -->
+  <aside id="main-sidebar" class="fixed left-0 top-0 h-full w-72 bg-surface-container-low z-50 flex flex-col justify-between shadow-[0_1px_12px_rgba(0,0,0,0.5)] border-r border-surface-border transition-transform duration-300 lg:translate-x-0 -translate-x-full">
+    <div class="flex flex-col h-full overflow-hidden">
+      <!-- App Header & Logo -->
+      <div class="p-space-lg flex items-center gap-space-md bg-surface-container-lowest border-b border-surface-border">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-primary-container to-secondary flex items-center justify-center text-on-primary shadow-lg shadow-primary-container/20 shrink-0">
+          <span class="material-symbols-outlined text-[24px] font-bold">handshake</span>
+        </div>
+        <div class="flex flex-col min-w-0">
+          <div class="flex items-center gap-1.5">
+            <span class="font-headline-sm text-text-primary tracking-tight font-extrabold truncate">SakharSathi</span>
+            <span class="px-1.5 py-0.2 rounded bg-primary/20 text-primary font-mono text-[10px] font-bold">v2.4</span>
+          </div>
+          <span id="sidebar-subheading" class="text-[11px] text-primary tracking-normal truncate uppercase font-semibold">Supervisor Portal</span>
+        </div>
       </div>
-    </noscript>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+
+      <!-- Unit Badge -->
+      <div class="px-space-md py-space-sm">
+        <div class="bg-surface-container-high px-space-md py-2 rounded-xl flex items-center justify-between border border-surface-border">
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-primary animate-pulse"></span>
+            <span class="font-label-sm text-label-sm text-text-muted">Co-op Unit</span>
+          </div>
+          <span class="font-label-sm text-label-sm text-primary font-mono font-bold">#DL-204</span>
+        </div>
+      </div>
+
+      <!-- Navigation Links -->
+      <nav class="flex-1 px-space-md py-space-xs overflow-y-auto space-y-1">
+        <a href="#overview" onclick="navigateTo('overview')" data-path="overview" class="flex items-center justify-between px-space-md py-2.5 rounded-xl transition-colors bg-primary-container text-on-primary-container font-headline-sm font-bold shadow-sm">
+          <div class="flex items-center gap-space-md min-w-0">
+            <span class="material-symbols-outlined text-[20px]">space_dashboard</span>
+            <span id="nav-text-overview" class="font-label-lg text-label-lg truncate">Overview</span>
+          </div>
+        </a>
+
+        <a href="#running-projects" onclick="navigateTo('running-projects')" data-path="running-projects" class="flex items-center justify-between px-space-md py-2.5 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-medium">
+          <div class="flex items-center gap-space-md min-w-0">
+            <span class="material-symbols-outlined text-[20px]">construction</span>
+            <span id="nav-text-running-projects" class="font-label-lg text-label-lg truncate">Running Projects</span>
+          </div>
+          <span class="bg-surface-container-highest text-primary font-label-sm text-label-sm px-2 py-0.5 rounded-full font-bold">8</span>
+        </a>
+
+        <a href="#task-allocation" onclick="navigateTo('task-allocation')" data-path="task-allocation" class="flex items-center justify-between px-space-md py-2.5 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-medium">
+          <div class="flex items-center gap-space-md min-w-0">
+            <span class="material-symbols-outlined text-[20px]">assignment_turned_in</span>
+            <span id="nav-text-task-allocation" class="font-label-lg text-label-lg truncate">Task Allocation</span>
+          </div>
+          <span class="bg-surface-container-highest text-text-soft font-label-sm text-label-sm px-2 py-0.5 rounded-full font-mono">27</span>
+        </a>
+
+        <a href="#worker-management" onclick="navigateTo('worker-management')" data-path="worker-management" class="flex items-center justify-between px-space-md py-2.5 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-medium">
+          <div class="flex items-center gap-space-md min-w-0">
+            <span class="material-symbols-outlined text-[20px]">badge</span>
+            <span id="nav-text-worker-management" class="font-label-lg text-label-lg truncate">Worker Directory</span>
+          </div>
+          <span class="bg-surface-container-highest text-secondary font-label-sm text-label-sm px-2 py-0.5 rounded-full font-bold">42</span>
+        </a>
+
+        <a href="#attendance" onclick="navigateTo('attendance')" data-path="attendance" class="flex items-center justify-between px-space-md py-2.5 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-medium">
+          <div class="flex items-center gap-space-md min-w-0">
+            <span class="material-symbols-outlined text-[20px]">how_to_reg</span>
+            <span id="nav-text-attendance" class="font-label-lg text-label-lg truncate">Attendance</span>
+          </div>
+          <span class="bg-status-completed/20 text-secondary font-label-sm text-label-sm px-2 py-0.5 rounded-full font-bold">38 Pres</span>
+        </a>
+
+        <a href="#issues-complaints" onclick="navigateTo('issues-complaints')" data-path="issues-complaints" class="flex items-center justify-between px-space-md py-2.5 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-medium">
+          <div class="flex items-center gap-space-md min-w-0">
+            <span class="material-symbols-outlined text-[20px]">report_problem</span>
+            <span id="nav-text-issues-complaints" class="font-label-lg text-label-lg truncate">Issues & Blockers</span>
+          </div>
+          <span class="bg-error-container text-error font-label-sm text-label-sm px-2 py-0.5 rounded-full font-bold">2 Critical</span>
+        </a>
+      </nav>
+
+      <!-- Sidebar Footer -->
+      <div class="p-space-md bg-surface-container-lowest flex flex-col gap-space-sm border-t border-surface-border">
+        <div class="bg-surface-container-low p-space-sm rounded-xl flex flex-col gap-1 border border-surface-border">
+          <div class="flex items-center justify-between">
+            <span class="font-label-sm text-label-sm text-text-muted truncate">Delhi Labour Co-op</span>
+            <span class="font-label-sm text-label-sm text-secondary font-bold">#DL-204</span>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-status-completed"></span>
+            <span class="text-[11px] text-text-muted">Biometric Gateway Active</span>
+          </div>
+        </div>
+        <button onclick="showToast('Secure session maintained with cooperative server')" class="flex items-center justify-center gap-space-sm px-space-md py-2 rounded-xl bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest hover:text-on-surface transition-colors font-semibold">
+          <span class="material-symbols-outlined text-[18px]">verified_user</span>
+          <span class="font-label-md text-label-md">Verified Node</span>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN VIEWPORT (Offset by Sidebar) -->
+  <div class="lg:pl-72 flex flex-col min-h-screen">
+    
+    <!-- FIXED TOP HEADER -->
+    <header class="fixed top-0 left-0 lg:left-72 right-0 h-20 bg-surface/90 backdrop-blur-xl z-40 px-space-lg flex items-center justify-between gap-space-md border-b border-surface-border shadow-md">
+      <!-- Left: Mobile Menu Trigger & Title -->
+      <div class="flex items-center gap-3">
+        <button onclick="toggleMobileSidebar()" class="lg:hidden p-2 rounded-xl bg-surface-container-low text-text-soft hover:text-text-primary hover:bg-surface-container-high transition-colors">
+          <span class="material-symbols-outlined text-[24px]">menu</span>
+        </button>
+        <div class="flex flex-col">
+          <span class="font-headline-sm text-headline-sm text-text-primary tracking-tight font-extrabold">Supervisor Command Center</span>
+          <div class="flex items-center gap-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+            <span class="font-label-sm text-label-sm text-text-muted">North Delhi Labour Cooperative • Sector 11 Base</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Center: Global Search -->
+      <div class="hidden xl:flex items-center bg-surface-container-low px-space-md py-2 rounded-xl flex-1 max-w-md justify-between gap-space-sm border border-surface-border">
+        <div class="flex items-center gap-2 flex-1">
+          <span class="material-symbols-outlined text-text-muted text-[20px]">search</span>
+          <input 
+            id="global-search-input"
+            oninput="handleGlobalSearch(this.value)"
+            class="bg-transparent text-text-primary font-body-sm text-body-sm placeholder-text-muted focus:outline-none w-full" 
+            placeholder="Search projects, site crew, tokens (Ctrl+K)..." 
+            type="text"
+          />
+        </div>
+        <span class="bg-surface-container-highest text-text-muted px-2 py-0.5 rounded font-mono text-[11px] font-bold">⌘K</span>
+      </div>
+
+      <!-- Right: Language, Notifications, Action & Profile -->
+      <div class="flex items-center gap-3">
+        <!-- Language Switcher -->
+        <div class="flex items-center bg-surface-container-low p-1 rounded-xl border border-surface-border">
+          <button id="lang-en-btn" onclick="state.setLang('en')" class="px-2.5 py-1 font-label-sm text-label-sm rounded-lg bg-primary-container text-on-primary-container font-bold" type="button">EN</button>
+          <button id="lang-hi-btn" onclick="state.setLang('hi')" class="px-2.5 py-1 font-label-sm text-label-sm rounded-lg text-text-muted hover:text-text-primary transition-colors font-bold" type="button">हिन्दी</button>
+        </div>
+
+        <!-- Notification Bell & Dropdown -->
+        <div class="relative">
+          <button onclick="toggleNotifications()" class="relative flex items-center justify-center p-2.5 rounded-xl bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface border border-surface-border transition-colors">
+            <span class="material-symbols-outlined text-[20px]">notifications</span>
+            <span class="absolute -top-1 -right-1 bg-status-blocked text-white text-[10px] font-bold px-1.5 py-0.2 rounded-full leading-tight">5</span>
+          </button>
+
+          <!-- Popover Menu -->
+          <div id="notifications-popover" class="hidden absolute right-0 mt-3 w-80 sm:w-96 rounded-2xl bg-surface-container-low border border-surface-border shadow-2xl p-4 z-50 space-y-3">
+            <div class="flex items-center justify-between border-b border-surface-border pb-2">
+              <span class="font-headline-sm text-text-primary font-bold">Telemetry Alerts (5)</span>
+              <button onclick="showToast('All notifications marked as read'); toggleNotifications();" class="text-label-sm text-primary hover:underline font-semibold">Mark read</button>
+            </div>
+            <div class="space-y-2.5 max-h-80 overflow-y-auto">
+              <div class="p-2.5 rounded-xl bg-surface-container border border-error/30 flex items-start gap-2.5">
+                <span class="material-symbols-outlined text-status-blocked text-[18px] shrink-0 mt-0.5">warning</span>
+                <div>
+                  <div class="text-label-md text-text-primary font-bold">Material Deficit Alert</div>
+                  <div class="text-body-sm text-text-muted">Rohini Sector-9 Hall reported 40-bag cement shortfall.</div>
+                  <span class="text-[10px] text-text-muted">15m ago</span>
+                </div>
+              </div>
+              <div class="p-2.5 rounded-xl bg-surface-container border border-surface-border flex items-start gap-2.5">
+                <span class="material-symbols-outlined text-secondary text-[18px] shrink-0 mt-0.5">verified</span>
+                <div>
+                  <div class="text-label-md text-text-primary font-bold">Milestone Verified</div>
+                  <div class="text-body-sm text-text-muted">Ramesh Kumar completed Concreting Stage 2 photo upload.</div>
+                  <span class="text-[10px] text-text-muted">45m ago</span>
+                </div>
+              </div>
+              <div class="p-2.5 rounded-xl bg-surface-container border border-surface-border flex items-start gap-2.5">
+                <span class="material-symbols-outlined text-primary text-[18px] shrink-0 mt-0.5">fingerprint</span>
+                <div>
+                  <div class="text-label-md text-text-primary font-bold">Aadhaar Biometric Sync</div>
+                  <div class="text-body-sm text-text-muted">38 workers punched in before 08:15 AM cut-off.</div>
+                  <span class="text-[10px] text-text-muted">1h ago</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Create Task Quick Action -->
+        <button onclick="openTaskModal()" class="hidden sm:flex items-center gap-1.5 bg-primary-container text-on-primary-container hover:bg-primary px-space-md py-2 rounded-xl font-label-md text-label-md transition-all shadow-md font-bold">
+          <span class="material-symbols-outlined text-[18px]">add_task</span>
+          <span>+ New Task</span>
+        </button>
+
+        <!-- Supervisor Profile Chip -->
+        <div class="flex items-center gap-2.5 pl-1 border-l border-surface-border">
+          <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-primary to-secondary flex items-center justify-center text-on-primary font-bold shadow-md">
+            <span>RV</span>
+          </div>
+          <div class="hidden md:flex flex-col text-left">
+            <span class="font-label-md text-label-md text-text-primary leading-tight font-bold">Rajesh Varma</span>
+            <span class="font-label-sm text-label-sm text-text-muted leading-tight">Senior Supervisor</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN VIEW CONTAINER -->
+    <main class="relative pt-24 px-space-md md:px-space-lg pb-16 flex-1 w-full max-w-[1720px] mx-auto">
+      <div id="view-overview" class="space-y-8"></div>
+      <div id="view-running-projects" class="hidden space-y-8"></div>
+      <div id="view-task-allocation" class="hidden space-y-8"></div>
+      <div id="view-worker-management" class="hidden space-y-8"></div>
+      <div id="view-attendance" class="hidden space-y-8"></div>
+      <div id="view-issues-complaints" class="hidden space-y-8"></div>
+    </main>
+  </div>
+
+  <!-- MODAL 1: Create New Task Modal (Slide-Over Drawer) -->
+  <div id="task-modal" class="fixed inset-0 z-50 hidden">
+    <div class="absolute inset-0 bg-black/70 backdrop-blur-sm transition-opacity" onclick="closeTaskModal()"></div>
+    <div class="absolute right-0 top-0 bottom-0 w-full max-w-lg bg-surface-container-low border-l border-surface-border shadow-2xl p-space-lg overflow-y-auto flex flex-col justify-between">
+      <div>
+        <div class="flex items-center justify-between border-b border-surface-border pb-space-sm mb-space-md">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary text-[22px]">add_task</span>
+            <h2 class="font-headline-sm text-headline-sm text-text-primary font-bold">Dispatch New Work Ticket</h2>
+          </div>
+          <button onclick="closeTaskModal()" class="p-1.5 rounded-lg hover:bg-surface-container-high text-text-muted hover:text-text-primary">
+            <span class="material-symbols-outlined text-[20px]">close</span>
+          </button>
+        </div>
+
+        <form id="new-task-form" onsubmit="submitNewTask(event)" class="space-y-4">
+          <div>
+            <label class="block font-label-sm text-text-muted mb-1 uppercase font-bold">Task Title</label>
+            <input name="taskTitle" required class="w-full bg-surface-container-lowest text-text-primary px-3.5 py-2.5 rounded-xl border border-surface-border focus:ring-1 focus:ring-primary focus:outline-none" placeholder="e.g. Scaffolding clamp tension check" />
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block font-label-sm text-text-muted mb-1 uppercase font-bold">Project Site</label>
+              <select name="taskProject" class="w-full bg-surface-container-lowest text-text-primary px-3 py-2.5 rounded-xl border border-surface-border focus:ring-1 focus:ring-primary focus:outline-none">
+                <option value="Rohini Sector-9 Community Hall">Rohini Sec-9 Hall</option>
+                <option value="Mayur Vihar School Retrofit">Mayur Vihar School</option>
+                <option value="Dwarka DDA Flats Electrical">Dwarka DDA Flats</option>
+                <option value="Janakpuri Community Dispensary">Janakpuri Dispensary</option>
+                <option value="Pitampura Cooperative Block">Pitampura Housing</option>
+              </select>
+            </div>
+            <div>
+              <label class="block font-label-sm text-text-muted mb-1 uppercase font-bold">Priority</label>
+              <select name="taskPriority" class="w-full bg-surface-container-lowest text-text-primary px-3 py-2.5 rounded-xl border border-surface-border focus:ring-1 focus:ring-primary focus:outline-none">
+                <option value="urgent">Urgent</option>
+                <option value="high" selected>High</option>
+                <option value="medium">Medium</option>
+                <option value="low">Low</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block font-label-sm text-text-muted mb-1 uppercase font-bold">Trade Category</label>
+              <select name="taskTrade" class="w-full bg-surface-container-lowest text-text-primary px-3 py-2.5 rounded-xl border border-surface-border focus:ring-1 focus:ring-primary focus:outline-none">
+                <option value="Masonry & Concreting">Masonry & Concreting</option>
+                <option value="Electrical Wireman">Electrical & Wiring</option>
+                <option value="Commercial Painting">Commercial Painting</option>
+                <option value="Sanitary & Mains">Sanitary & Plumbing</option>
+                <option value="Carpentry & Formwork">Carpentry & Formwork</option>
+              </select>
+            </div>
+            <div>
+              <label class="block font-label-sm text-text-muted mb-1 uppercase font-bold">Assignee Worker</label>
+              <select name="taskAssignee" class="w-full bg-surface-container-lowest text-text-primary px-3 py-2.5 rounded-xl border border-surface-border focus:ring-1 focus:ring-primary focus:outline-none">
+                <option value="Harish Chandra">Harish Chandra (Lead Mason)</option>
+                <option value="Sunil Sharma">Sunil Sharma (Lead Carpenter)</option>
+                <option value="Vikram Singh">Vikram Singh (Senior Wireman)</option>
+                <option value="Mohammad Irfan">Mohammad Irfan (Lead Plumber)</option>
+                <option value="Sunil Meena">Sunil Meena (Painter)</option>
+                <option value="Unassigned">Unassigned (Open Bench)</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="block font-label-sm text-text-muted mb-1 uppercase font-bold">Target Due Window</label>
+            <input name="taskDueDate" class="w-full bg-surface-container-lowest text-text-primary px-3.5 py-2.5 rounded-xl border border-surface-border focus:ring-1 focus:ring-primary focus:outline-none" placeholder="e.g. Today 05:00 PM or 25 Feb" />
+          </div>
+
+          <div class="pt-4 border-t border-surface-border flex items-center justify-end gap-3">
+            <button type="button" onclick="closeTaskModal()" class="px-4 py-2.5 rounded-xl bg-surface-container hover:bg-surface-container-high text-text-soft font-label-md font-semibold">
+              Cancel
+            </button>
+            <button type="submit" class="px-5 py-2.5 rounded-xl bg-primary-container text-on-primary-container hover:bg-primary font-label-md font-bold transition-all shadow-md">
+              Dispatch to Site Crew
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 2: Project Inspection Modal -->
+  <div id="project-inspect-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+    <div class="absolute inset-0 bg-black/75 backdrop-blur-sm" onclick="closeProjectInspectModal()"></div>
+    <div class="relative w-full max-w-xl bg-surface-container-low rounded-2xl border border-surface-border shadow-2xl p-6 z-10">
+      <div class="flex items-center justify-between border-b border-surface-border pb-3 mb-4">
+        <h3 class="font-headline-sm text-text-primary font-bold">Site Project Inspection Workspace</h3>
+        <button onclick="closeProjectInspectModal()" class="p-1 rounded-lg text-text-muted hover:text-text-primary">
+          <span class="material-symbols-outlined text-[20px]">close</span>
+        </button>
+      </div>
+      <div id="project-inspect-content"></div>
+      <div class="pt-4 mt-4 border-t border-surface-border flex justify-end gap-2">
+        <button onclick="closeProjectInspectModal()" class="px-4 py-2 rounded-xl bg-surface-container-high text-text-soft font-label-md font-semibold">Close</button>
+        <button onclick="showToast('Inspection sign-off recorded on society ledger'); closeProjectInspectModal();" class="px-4 py-2 rounded-xl bg-primary-container text-on-primary-container font-label-md font-bold">Audit Sign-off</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 3: Worker Dossier Modal -->
+  <div id="worker-dossier-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+    <div class="absolute inset-0 bg-black/75 backdrop-blur-sm" onclick="closeWorkerDossierModal()"></div>
+    <div class="relative w-full max-w-lg bg-surface-container-low rounded-2xl border border-surface-border shadow-2xl p-6 z-10">
+      <div class="flex items-center justify-between border-b border-surface-border pb-3 mb-4">
+        <h3 class="font-headline-sm text-text-primary font-bold">Cooperative Worker Dossier</h3>
+        <button onclick="closeWorkerDossierModal()" class="p-1 rounded-lg text-text-muted hover:text-text-primary">
+          <span class="material-symbols-outlined text-[20px]">close</span>
+        </button>
+      </div>
+      <div id="worker-dossier-content"></div>
+      <div class="pt-4 mt-4 border-t border-surface-border flex justify-end">
+        <button onclick="closeWorkerDossierModal()" class="px-4 py-2 rounded-xl bg-primary-container text-on-primary-container font-label-md font-bold">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FLOATING TOAST CONTAINER -->
+  <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- Scripts -->
+  <script src="app.js"></script>
+  <script>
+    function toggleMobileSidebar() {
+      const sidebar = document.getElementById("main-sidebar");
+      const backdrop = document.getElementById("mobile-sidebar-backdrop");
+      if (sidebar && backdrop) {
+        sidebar.classList.toggle("-translate-x-full");
+        backdrop.classList.toggle("hidden");
+      }
+    }
+
+    function handleGlobalSearch(query) {
+      if (!query || query.trim() === "") return;
+      const q = query.toLowerCase();
+      // If matches a project
+      const matchProj = state.data.projects.find(p => p.title.toLowerCase().includes(q) || p.id.toLowerCase().includes(q));
+      if (matchProj) {
+        state.filters.projectSearch = query;
+        navigateTo('running-projects');
+        return;
+      }
+      // If matches a worker
+      const matchWorker = state.data.workers.find(w => w.name.toLowerCase().includes(q) || w.tradeLabel.toLowerCase().includes(q));
+      if (matchWorker) {
+        state.filters.workerSearch = query;
+        navigateTo('worker-management');
+        return;
+      }
+    }
+  </script>
+</body>
 </html>

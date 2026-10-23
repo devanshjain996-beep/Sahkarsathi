@@ -1,0 +1,101 @@
+/*
+  SAKHARSATHI (SahkariGig) Stylesheet
+  Cooperative Operational Interface Design Tokens
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+:root {
+  --surface: #0c1323;
+  --surface-container-lowest: #070e1e;
+  --surface-container-low: #151b2c;
+  --surface-container: #191f30;
+  --surface-container-high: #232a3b;
+  --surface-container-highest: #2e3446;
+  --surface-border: #243047;
+  --primary: #56f1bb;
+  --primary-container: #2dd4a0;
+  --on-primary: #003827;
+  --on-primary-container: #00563e;
+  --secondary: #77daa1;
+  --status-completed: #059669;
+  --status-progress: #0284C7;
+  --status-pending: #F59E0B;
+  --status-blocked: #EF4444;
+}
+
+body {
+  font-family: 'Outfit', sans-serif;
+  background-color: var(--surface);
+  color: #dce2f9;
+  overflow-x: hidden;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #070e1e;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #232a3b;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #2dd4a0;
+}
+
+/* Tabular Numbers for Data & Telemetry */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Glowing Border Accent on Focus */
+.glow-accent {
+  box-shadow: 0 0 0 1px #2dd4a0, 0 0 16px -2px rgba(45, 212, 160, 0.25);
+}
+
+/* Smooth Transitions */
+.transition-card {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
+}
+
+.transition-card:hover {
+  transform: translateY(-2px);
+}
+
+/* Print Media Styles */
+@media print {
+  aside, header, #toast-container, button, .no-print {
+    display: none !important;
+  }
+
+  .pl-72 {
+    padding-left: 0 !important;
+  }
+
+  main {
+    padding-top: 0 !important;
+  }
+
+  body {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  th, td {
+    border: 1px solid #cccccc;
+    padding: 8px;
+    color: #000000 !important;
+  }
+}
