@@ -1,7 +1,7 @@
-# SahkarSathi (सहकारसाथी)
+# SahkarSathi 
 
 > **"Every Worker Matters. Every Home Counts."**  
-> *हर कामगार मायने रखता है। हर घर मायने रखता है।*
+> 
 
 SahkarSathi is an open cooperative gig-services platform connecting verified skilled craftspeople and multi-trade teams with households and contractors at transparent, surge-free rates.
 
@@ -18,7 +18,7 @@ Built for the **Smart India Hackathon 2026**.
   - *Team / Bulk Hiring*: Supervisor-led multi-trade crews (mason, carpenter, painter, plumber, electrician) coordinated under one master supervisor.
 - **Verified Worker Digital ID**: 4-tier verification including Aadhaar eKYC, police record clearance, cooperative trade evaluation, and e-Shram linkage.
 - **Milestone Escrow Protection**: Project funds held securely and released upon joint supervisor inspection and client satisfaction.
-- **Bilingual & Accessible**: Full English and Hindi (हिंदी) support with WCAG AA compliance and `prefers-reduced-motion` handling.
+- **Bilingual & Accessible**: Full English and Hindi  support with WCAG AA compliance and `prefers-reduced-motion` handling.
 - **AI Assistant**: Interactive cooperative assistant for quick inquiries, rate checks, and verification lookups.
 
 ---
