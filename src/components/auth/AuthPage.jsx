@@ -54,6 +54,8 @@ export default function AuthPage({ defaultMode = "signin" }) {
   const [otpSent, setOtpSent] = useState(false);
   const [otpCode, setOtpCode] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Sync mode with query params if any
   useEffect(() => {
@@ -446,7 +448,13 @@ export default function AuthPage({ defaultMode = "signin" }) {
             </div>
 
             {/* Error Message */}
-            {errorMsg && (
+            {successMsg && (
+                <div className="p-3 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs flex items-start gap-2 animate-fade-in">
+                  <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-400 mt-0.5" />
+                  <span>{successMsg}</span>
+                </div>
+              )}
+              {errorMsg && (
               <div className="mb-4 p-3 rounded-xl bg-danger/10 border border-danger/30 text-xs text-rose-300 flex items-center gap-2">
                 <AlertCircle className="w-4 h-4 text-danger shrink-0" />
                 <span>{errorMsg}</span>

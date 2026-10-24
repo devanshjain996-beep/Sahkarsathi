@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
+import { fetchOpenProjects, applyToProject, fetchWorkerApplications } from "../../../services/supabaseService";
 import Logo from "../../common/Logo";
 import {
   IdCard,
@@ -35,6 +36,52 @@ export default function WorkerDashboard() {
   const [lang, setLang] = useState("EN");
   const [showOfficerModal, setShowOfficerModal] = useState(false);
   const [showIdCardModal, setShowIdCardModal] = useState(false);
+
+  // Live Supabase Opportunities State
+  const [liveProjects, setLiveProjects] = useState([]);
+  const [workerApps, setWorkerApps] = useState([]);
+  const [loadingOps, setLoadingOps] = useState(false);
+  const [applyingId, setApplyingId] = useState(null);
+  const [applyFeedback, setApplyFeedback] = useState("");
+
+  const loadOpportunities = async () => {
+    setLoadingOps(true);
+    const [projRes, appRes] = await Promise.all([
+      fetchOpenProjects(),
+      user?.id ? fetchWorkerApplications(user.id) : Promise.resolve({ success: true, applications: [] }),
+    ]);
+
+    if (projRes.success) {
+      setLiveProjects(projRes.projects);
+    }
+    if (appRes.success) {
+      setWorkerApps(appRes.applications);
+    }
+    setLoadingOps(false);
+  };
+
+  React.useEffect(() => {
+    loadOpportunities();
+  }, [user?.id]);
+
+  const handleApply = async (projectId) => {
+    if (!user?.id) return;
+    setApplyingId(projectId);
+    setApplyFeedback("");
+
+    const res = await applyToProject({
+      projectId,
+      workerId: user.id,
+    });
+
+    if (res.success) {
+      setApplyFeedback("Application submitted! The project supervisor will review your profile.");
+      await loadOpportunities();
+    } else {
+      setApplyFeedback(res.error || "Failed to submit proposal.");
+    }
+    setApplyingId(null);
+  };
 
   const steps = [
     {
@@ -467,7 +514,7 @@ export default function WorkerDashboard() {
                     Live Dispatch Radar & Job Opportunities
                   </h3>
                 </div>
-                <span className="text-xs text-primary font-semibold">2 Matched Nearby</span>
+                <span className="text-xs text-primary font-semibold">{liveProjects.length} Active in Cluster</span>
               </div>
 
               <div className="space-y-3">

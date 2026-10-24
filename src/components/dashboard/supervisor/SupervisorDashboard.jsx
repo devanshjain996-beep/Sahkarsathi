@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
+import { fetchSupervisorProjects, fetchAllApplications, acceptApplication, rejectApplication, fetchSupervisorTeams, createTeam, addWorkerToTeam, removeWorkerFromTeam } from "../../../services/supabaseService";
 import Logo from "../../common/Logo";
 import {
   Building2,
@@ -38,6 +39,103 @@ export default function SupervisorDashboard() {
   const [selectedSite, setSelectedSite] = useState("All Active Sites");
   const [statusFilter, setStatusFilter] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
+
+  // Live Supabase Applications & Projects State
+  const [liveApplications, setLiveApplications] = useState([]);
+  const [liveProjects, setLiveProjects] = useState([]);
+  const [loadingSupabase, setLoadingSupabase] = useState(false);
+  const [actionId, setActionId] = useState(null);
+  const [actionMsg, setActionMsg] = useState("");
+
+  // Live Teams State
+  const [liveTeams, setLiveTeams] = useState([]);
+  const [showTeamModal, setShowTeamModal] = useState(false);
+  const [newTeamName, setNewTeamName] = useState("");
+  const [isCreatingTeam, setIsCreatingTeam] = useState(false);
+
+  const loadTeams = async () => {
+    if (!user?.id) return;
+    const res = await fetchSupervisorTeams(user.id);
+    if (res.success) {
+      setLiveTeams(res.teams);
+    }
+  };
+
+  const handleCreateTeam = async (e) => {
+    e.preventDefault();
+    if (!newTeamName.trim() || !user?.id) return;
+    setIsCreatingTeam(true);
+
+    const res = await createTeam({
+      supervisorId: user.id,
+      name: newTeamName,
+    });
+
+    if (res.success) {
+      setActionMsg(`Team "${newTeamName}" created successfully in Supabase.`);
+      setNewTeamName("");
+      setShowTeamModal(false);
+      await loadTeams();
+    } else {
+      setActionMsg(`Error creating team: ${res.error}`);
+    }
+    setIsCreatingTeam(false);
+  };
+
+  const loadSupervisorData = async () => {
+    setLoadingSupabase(true);
+    const [projRes, appRes] = await Promise.all([
+      fetchSupervisorProjects(user?.id),
+      fetchAllApplications(),
+    ]);
+
+    if (projRes.success) {
+      setLiveProjects(projRes.projects);
+    }
+    if (appRes.success) {
+      setLiveApplications(appRes.applications);
+    }
+    await loadTeams();
+    setLoadingSupabase(false);
+  };
+
+  React.useEffect(() => {
+    loadSupervisorData();
+  }, [user?.id]);
+
+  const handleAcceptApp = async (applicationId, projectId, workerId) => {
+    setActionId(applicationId);
+    setActionMsg("");
+
+    const res = await acceptApplication({
+      applicationId,
+      projectId,
+      workerId,
+      supervisorId: user?.id,
+    });
+
+    if (res.success) {
+      setActionMsg("Worker proposal accepted! Project status updated to 'In Progress' and worker assigned.");
+      await loadSupervisorData();
+    } else {
+      setActionMsg(`Error accepting: ${res.error}`);
+    }
+    setActionId(null);
+  };
+
+  const handleRejectApp = async (applicationId) => {
+    setActionId(applicationId);
+    setActionMsg("");
+
+    const res = await rejectApplication({ applicationId });
+    if (res.success) {
+      setActionMsg("Proposal rejected.");
+      await loadSupervisorData();
+    } else {
+      setActionMsg(`Error: ${res.error}`);
+    }
+    setActionId(null);
+  };
 
   const transactions = [
     {
@@ -486,6 +584,135 @@ export default function SupervisorDashboard() {
                     <option value="Pending">Pending</option>
                   </select>
                 </div>
+              </div>
+
+              
+              {/* Live Worker Applications & Project Assignments Section */}
+              <div className="rounded-2xl bg-[#090f21] border border-primary/30 p-5 space-y-4">
+                <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-[#1b2b4f]">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-8 h-8 rounded-lg bg-primary/20 text-primary flex items-center justify-center font-bold">
+                      <Users2 className="w-4 h-4" />
+                    </div>
+                    <div className="flex flex-wrap items-center justify-between gap-3 w-full">
+                        <div>
+                          <h4 className="text-sm font-bold text-white font-heading">
+                            Worker Proposals & Project Assignments ({liveApplications.length})
+                          </h4>
+                          <p className="text-[11px] text-slate-400">
+                            Review incoming applications from accredited workers and assign them to active projects.
+                          </p>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={() => setShowTeamModal(true)}
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary/20 text-primary border border-primary/40 text-xs font-bold hover:bg-primary/30 transition-colors"
+                          >
+                            <Plus className="w-3.5 h-3.5" />
+                            <span>+ Create Team Crew</span>
+                          </button>
+                        </div>
+                      </div>
+                  </div>
+
+                  <button
+                    onClick={loadSupervisorData}
+                    className="text-xs text-primary font-bold hover:underline"
+                  >
+                    Refresh Supabase
+                  </button>
+                </div>
+
+                {actionMsg && (
+                  <div
+                    className={`p-3 rounded-xl text-xs flex items-center gap-2 ${
+                      actionMsg.includes("Error")
+                        ? "bg-danger/20 text-danger border border-danger/30"
+                        : "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30"
+                    }`}
+                  >
+                    <CheckCircle className="w-4 h-4 shrink-0" />
+                    <span>{actionMsg}</span>
+                  </div>
+                )}
+
+                {loadingSupabase ? (
+                  <div className="p-6 text-center text-xs text-slate-400">
+                    Retrieving applications and projects from Supabase...
+                  </div>
+                ) : liveApplications.length === 0 ? (
+                  <div className="p-6 rounded-xl bg-[#070b16] border border-[#17233f] text-center space-y-1">
+                    <span className="text-xs font-bold text-slate-300 block">
+                      No active worker applications pending review.
+                    </span>
+                    <span className="text-[11px] text-slate-500">
+                      When workers apply to open projects, their proposals will appear here for one-click assignment.
+                    </span>
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    {liveApplications.map((app) => (
+                      <div
+                        key={app.id}
+                        className="p-4 rounded-xl bg-[#0c142b] border border-[#1b2b4f] flex flex-col md:flex-row md:items-center justify-between gap-4 hover:border-primary/40 transition-colors"
+                      >
+                        <div className="space-y-1">
+                          <div className="flex items-center gap-2">
+                            <span className="px-2 py-0.5 rounded bg-sky-500/15 text-sky-400 text-[10px] font-mono font-bold">
+                              APP-{app.id.slice(0, 6).toUpperCase()}
+                            </span>
+                            <span className="text-xs font-bold text-white">
+                              {app.project?.title || "Cooperative Project"}
+                            </span>
+                          </div>
+                          <div className="flex flex-wrap items-center gap-3 text-xs text-slate-400">
+                            <span>
+                              Applicant: <strong className="text-white font-mono">{app.worker?.worker_code || "Worker"}</strong>
+                            </span>
+                            <span>•</span>
+                            <span>Rating: <strong className="text-amber-400">★ {app.worker?.rating || "5.0"}</strong></span>
+                            <span>•</span>
+                            <span>Location: {app.project?.location || "Delhi Cluster"}</span>
+                            <span>•</span>
+                            <span className="text-primary font-bold">
+                              Budget: ₹{Number(app.project?.budget || 0).toLocaleString("en-IN")}
+                            </span>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-2 shrink-0 self-end md:self-center">
+                          {app.status === "accepted" ? (
+                            <span className="px-3 py-1.5 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-xs font-bold flex items-center gap-1.5">
+                              <CheckCircle className="w-3.5 h-3.5 text-emerald-400" />
+                              <span>Worker Assigned & Active</span>
+                            </span>
+                          ) : app.status === "rejected" ? (
+                            <span className="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-400 text-xs font-bold">
+                              Declined
+                            </span>
+                          ) : (
+                            <div className="flex items-center gap-2">
+                              <button
+                                onClick={() => handleRejectApp(app.id)}
+                                disabled={actionId === app.id}
+                                className="px-3 py-1.5 rounded-lg bg-[#141d36] hover:bg-danger/20 hover:text-danger text-slate-400 text-xs font-bold border border-[#1e2f54] transition-colors"
+                              >
+                                Decline
+                              </button>
+                              <button
+                                onClick={() => handleAcceptApp(app.id, app.project_id, app.worker_id)}
+                                disabled={actionId === app.id}
+                                className="px-4 py-1.5 rounded-lg bg-primary text-[#051c11] text-xs font-bold shadow-glow-primary hover:bg-primary-hover transition-colors disabled:opacity-50"
+                              >
+                                {actionId === app.id ? "Assigning..." : "Accept & Assign Worker"}
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
 
               {/* Transactions Table */}

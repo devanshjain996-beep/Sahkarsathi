@@ -1,8 +1,15 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
+import { supabase } from "../lib/supabase";
+import {
+  signInUser,
+  signUpUser,
+  signOutUser,
+  getCurrentUserProfile,
+} from "../services/supabaseService";
 
 export const DEMO_USERS = {
   customer: {
-    id: "usr_cust_01",
+    id: "11111111-1111-1111-1111-111111111111",
     name: "Rahul Sharma",
     email: "customer@sahkar.in",
     ssoId: "SSO-RAHUL-01",
@@ -16,7 +23,7 @@ export const DEMO_USERS = {
     dashboardPath: "/customer/dashboard",
   },
   worker: {
-    id: "usr_work_02",
+    id: "22222222-2222-2222-2222-222222222222",
     name: "Ramesh Kumar",
     trade: "Electrician Grade-1",
     workerCode: "SK-4482",
@@ -33,7 +40,7 @@ export const DEMO_USERS = {
     dashboardPath: "/worker/dashboard",
   },
   supervisor: {
-    id: "usr_sup_03",
+    id: "33333333-3333-3333-3333-333333333333",
     name: "Rohit Sharma",
     title: "Senior Project Supervisor",
     society: "Shramik Kalyan Co-op Society #4102",
@@ -60,8 +67,49 @@ export function AuthProvider({ children }) {
     }
   });
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
+  // Initialize and synchronize with Supabase Auth session
+  useEffect(() => {
+    let mounted = true;
+
+    async function initializeAuth() {
+      try {
+        const supabaseProfile = await getCurrentUserProfile();
+        if (mounted && supabaseProfile) {
+          setUser(supabaseProfile);
+        }
+      } catch (err) {
+        console.warn("Error restoring Supabase auth state:", err);
+      } finally {
+        if (mounted) setIsLoading(false);
+      }
+    }
+
+    initializeAuth();
+
+    // Listen to Supabase Auth State changes
+    const { data: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (event === "SIGNED_IN" && session?.user) {
+        const profile = await getCurrentUserProfile();
+        if (mounted && profile) {
+          setUser(profile);
+        }
+      } else if (event === "SIGNED_OUT") {
+        if (mounted) {
+          setUser(null);
+          localStorage.removeItem("sahkarsathi_user");
+        }
+      }
+    });
+
+    return () => {
+      mounted = false;
+      authListener?.subscription?.unsubscribe();
+    };
+  }, []);
+
+  // Sync user state with localStorage
   useEffect(() => {
     try {
       if (user) {
@@ -74,11 +122,27 @@ export function AuthProvider({ children }) {
     }
   }, [user]);
 
-  const login = (role = "customer", credentials = {}) => {
+  /**
+   * Universal Login: Supports both Supabase Auth and Demo SSO accounts
+   */
+  const login = async (role = "customer", credentials = {}) => {
     setIsLoading(true);
+
+    // If an email and password were provided, attempt real Supabase Auth
+    if (credentials.email && credentials.password && credentials.email.includes("@")) {
+      const result = await signInUser(credentials.email, credentials.password);
+      if (result.success) {
+        setUser(result.user);
+        setIsLoading(false);
+        return result;
+      } else {
+        setIsLoading(false);
+        return { success: false, error: result.error };
+      }
+    }
+
+    // Demo persona fallback for seamless hackathon walkthroughs
     const demoProfile = DEMO_USERS[role] || DEMO_USERS.customer;
-    
-    // Simulate verification
     const authenticatedUser = {
       ...demoProfile,
       lastLogin: new Date().toISOString(),
@@ -88,11 +152,36 @@ export function AuthProvider({ children }) {
 
     setUser(authenticatedUser);
     setIsLoading(false);
-    return authenticatedUser;
+    return { success: true, user: authenticatedUser };
   };
 
-  const signup = (role = "customer", registrationData = {}) => {
+  /**
+   * Universal Signup: Registers user in Supabase Auth & creates profiles/role rows
+   */
+  const signup = async (role = "customer", registrationData = {}) => {
     setIsLoading(true);
+
+    if (registrationData.email && registrationData.password) {
+      const result = await signUpUser({
+        email: registrationData.email,
+        password: registrationData.password,
+        fullName: registrationData.name || (role === "customer" ? "Rahul Sharma" : role === "worker" ? "Ramesh Kumar" : "Rohit Sharma"),
+        role: role,
+        phone: registrationData.phone || "+91 98765 43210",
+        roleData: registrationData,
+      });
+
+      if (result.success) {
+        setUser(result.user);
+        setIsLoading(false);
+        return result;
+      } else {
+        setIsLoading(false);
+        return { success: false, error: result.error };
+      }
+    }
+
+    // Fallback demo signup
     const base = DEMO_USERS[role] || DEMO_USERS.customer;
     const newUser = {
       ...base,
@@ -108,11 +197,15 @@ export function AuthProvider({ children }) {
 
     setUser(newUser);
     setIsLoading(false);
-    return newUser;
+    return { success: true, user: newUser };
   };
 
-  const logout = () => {
+  const logout = async () => {
+    setIsLoading(true);
+    await signOutUser();
     setUser(null);
+    localStorage.removeItem("sahkarsathi_user");
+    setIsLoading(false);
   };
 
   const switchRole = (newRole) => {

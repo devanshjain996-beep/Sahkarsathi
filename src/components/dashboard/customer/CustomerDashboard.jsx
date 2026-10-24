@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
+import { createProject, fetchCustomerProjects } from "../../../services/supabaseService";
 import Logo from "../../common/Logo";
 import {
   QrCode,
@@ -36,6 +37,63 @@ export default function CustomerDashboard() {
   const [selectedBooking, setSelectedBooking] = useState(null);
   const [utrInput, setUtrInput] = useState("");
   const [paidSuccess, setPaidSuccess] = useState(false);
+
+  // Live Supabase Projects State
+  const [liveProjects, setLiveProjects] = useState([]);
+  const [loadingProjects, setLoadingProjects] = useState(false);
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [isPostingProject, setIsPostingProject] = useState(false);
+  const [projectFeedback, setProjectFeedback] = useState("");
+
+  const [projTitle, setProjTitle] = useState("");
+  const [projTrade, setProjTrade] = useState("Electrical Works");
+  const [projLocation, setProjLocation] = useState(user?.address || "Flat 402, Shanti Vihar, Rohini Sector-9, New Delhi");
+  const [projBudget, setProjBudget] = useState("3500");
+  const [projDesc, setProjDesc] = useState("");
+
+  const loadProjects = async () => {
+    if (!user?.id) return;
+    setLoadingProjects(true);
+    const res = await fetchCustomerProjects(user.id);
+    if (res.success) {
+      setLiveProjects(res.projects);
+    }
+    setLoadingProjects(false);
+  };
+
+  React.useEffect(() => {
+    loadProjects();
+  }, [user?.id]);
+
+  const handleCreateProject = async (e) => {
+    e.preventDefault();
+    if (!projTitle.trim()) return;
+    setIsPostingProject(true);
+    setProjectFeedback("");
+
+    const res = await createProject({
+      customerId: user.id,
+      title: projTitle,
+      description: projDesc || `Comprehensive ${projTrade} service and safety inspection required.`,
+      location: projLocation,
+      budget: projBudget,
+      requiredSkills: [projTrade],
+    });
+
+    if (res.success) {
+      setProjectFeedback("Project successfully posted! Workers in your cluster can now review and apply.");
+      setProjTitle("");
+      setProjDesc("");
+      setTimeout(() => {
+        setShowCreateModal(false);
+        setProjectFeedback("");
+        loadProjects();
+      }, 1500);
+    } else {
+      setProjectFeedback(`Error: ${res.error}`);
+    }
+    setIsPostingProject(false);
+  };
 
   const bookings = [
     {
@@ -465,6 +523,140 @@ export default function CustomerDashboard() {
           </div>
         </div>
       </main>
+
+
+      {/* Create Cooperative Project Modal */}
+      {showCreateModal && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md"
+        >
+          <div className="w-full max-w-lg rounded-2xl bg-[#0c142b] border border-primary/40 p-6 shadow-2xl space-y-4 animate-in fade-in zoom-in-95">
+            <div className="flex items-center justify-between pb-3 border-b border-[#1b2b4f]">
+              <div className="flex items-center gap-2">
+                <Plus className="w-5 h-5 text-primary" />
+                <h3 className="text-base font-bold text-white font-heading">
+                  Post New Cooperative Project
+                </h3>
+              </div>
+              <button
+                onClick={() => setShowCreateModal(false)}
+                className="text-slate-400 hover:text-white"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {projectFeedback && (
+              <div
+                className={`p-3 rounded-xl text-xs flex items-center gap-2 ${
+                  projectFeedback.includes("Error")
+                    ? "bg-danger/20 text-danger border border-danger/30"
+                    : "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30"
+                }`}
+              >
+                <CheckCircle2 className="w-4 h-4 shrink-0" />
+                <span>{projectFeedback}</span>
+              </div>
+            )}
+
+            <form onSubmit={handleCreateProject} className="space-y-3.5">
+              <div>
+                <label className="block text-xs font-bold text-slate-300 mb-1">
+                  Project Title *
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={projTitle}
+                  onChange={(e) => setProjTitle(e.target.value)}
+                  placeholder="e.g. Master Bedroom Concealed Wiring & Inverter Installation"
+                  className="w-full bg-[#080e1e] border border-[#1b2b4f] rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-primary"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-bold text-slate-300 mb-1">
+                    Trade Requirement
+                  </label>
+                  <select
+                    value={projTrade}
+                    onChange={(e) => setProjTrade(e.target.value)}
+                    className="w-full bg-[#080e1e] border border-[#1b2b4f] rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-primary"
+                  >
+                    <option value="Electrical Works">Electrical Works</option>
+                    <option value="Plumbing Works">Plumbing Works</option>
+                    <option value="Painting & Waterproofing">Painting & Waterproofing</option>
+                    <option value="Carpentry & Framing">Carpentry & Framing</option>
+                    <option value="Masonry & Tile Fitting">Masonry & Tile Fitting</option>
+                    <option value="Solar Panel Repair">Solar Panel Repair</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-300 mb-1">
+                    Estimated Budget (₹) *
+                  </label>
+                  <input
+                    type="number"
+                    required
+                    min="100"
+                    value={projBudget}
+                    onChange={(e) => setProjBudget(e.target.value)}
+                    className="w-full bg-[#080e1e] border border-[#1b2b4f] rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-primary"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-300 mb-1">
+                  Location / Site Address *
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={projLocation}
+                  onChange={(e) => setProjLocation(e.target.value)}
+                  placeholder="Street, Sector, City"
+                  className="w-full bg-[#080e1e] border border-[#1b2b4f] rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-primary"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-300 mb-1">
+                  Scope & Details
+                </label>
+                <textarea
+                  rows="3"
+                  value={projDesc}
+                  onChange={(e) => setProjDesc(e.target.value)}
+                  placeholder="Describe material requirements, timeline, or site access details..."
+                  className="w-full bg-[#080e1e] border border-[#1b2b4f] rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-primary"
+                />
+              </div>
+
+              <div className="flex items-center justify-end gap-2.5 pt-2 border-t border-[#1b2b4f]">
+                <button
+                  type="button"
+                  onClick={() => setShowCreateModal(false)}
+                  className="px-4 py-2 rounded-xl text-xs font-bold text-slate-400 hover:text-white"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={isPostingProject}
+                  className="px-5 py-2 rounded-xl bg-primary text-[#051c11] text-xs font-bold shadow-glow-primary hover:bg-primary-hover transition-colors disabled:opacity-50"
+                >
+                  {isPostingProject ? "Creating in Supabase..." : "Post Project to Cooperative"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
 
       {/* UPI QR Payment Modal (Interactive Flow for Step 2 of Image 1) */}
       {showQrModal && selectedBooking && (
