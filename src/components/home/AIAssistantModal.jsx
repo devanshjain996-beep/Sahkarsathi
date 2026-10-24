@@ -12,16 +12,17 @@ import {
 } from "lucide-react";
 import { useT } from "../../i18n/useT";
 import { BRAND } from "../../config/brand";
+import { generateSahayakResponse } from "../../services/sahayakBot";
 
 export default function AIAssistantModal({ onNavigate }) {
-  const { t } = useT();
+  const { t, lang } = useT();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
     {
       sender: "bot",
       text: t(
         "assistant.welcome",
-        "Namaste! I am the SahkarSathi Assistant. How can I help you support workers or book services today?"
+        "Namaste! I am Sahayak, your SahkarSathi Assistant. How can I help you support workers or book services today?"
       ),
       time: "Just now",
     },
@@ -80,39 +81,33 @@ export default function AIAssistantModal({ onNavigate }) {
     setMessages((prev) => [...prev, userMsg]);
     setInputValue("");
 
-    // Simulate smart cooperative response
+    // Generate response using Sahayak engine
     setTimeout(() => {
-      let reply = cannedReplies[query];
+      let replyText = cannedReplies[query];
       let actionRoute = null;
 
-      if (!reply) {
-        if (/electric/i.test(query)) {
-          reply = cannedReplies["Book electrician"];
-          actionRoute = "/book";
-        } else if (/team|crew|project|construct/i.test(query)) {
-          reply = cannedReplies["Book team / crew"];
-          actionRoute = "/projects";
-        } else if (/price|rate|cost/i.test(query)) {
-          reply = cannedReplies["Check price rates"];
-          actionRoute = "/services";
-        } else if (/verif|qr|id|police/i.test(query)) {
-          reply = cannedReplies["Verify worker ID / QR"];
-          actionRoute = "/verify";
-        } else {
-          reply = `Thank you for asking about "${query}". At ${BRAND.name}, all services are operated directly by verified cooperative craftspeople with 100% upfront pricing.`;
-        }
+      if (replyText) {
+        if (/electric/i.test(query)) actionRoute = "/book";
+        else if (/team|क्रू/i.test(query)) actionRoute = "/projects";
+        else if (/price|दरें/i.test(query)) actionRoute = "/services";
+        else if (/qr|id|सत्यापित/i.test(query)) actionRoute = "/verify";
+        else if (/how|कैसे/i.test(query)) actionRoute = "/services";
+      } else {
+        const response = generateSahayakResponse(query, lang);
+        replyText = response.text;
+        actionRoute = response.actionRoute;
       }
 
       setMessages((prev) => [
         ...prev,
         {
           sender: "bot",
-          text: reply,
+          text: replyText,
           time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
           actionRoute,
         },
       ]);
-    }, 450);
+    }, 400);
   };
 
   return (
